@@ -266,7 +266,7 @@ span {
 
 ::: playground#ts TS 案例
 
-@file index.ts
+@file input.ts
 
 ```ts
 const msg = "hello world";

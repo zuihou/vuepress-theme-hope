@@ -370,7 +370,7 @@ span {
 
 ::: playground#ts TS demo
 
-@file index.ts
+@file input.ts
 
 ```ts
 const msg = "hello world";

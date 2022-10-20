@@ -145,7 +145,7 @@ Vue 预设默认使用官方交互演示，并不像 [Vue 交互演示](./vue-pl
 
 ::: playground#ts TS 案例 1
 
-@file index.ts
+@file input.ts
 
 ```ts
 const msg = "你好世界";
@@ -162,7 +162,7 @@ speak(msg);
 ````md
 ::: playground#ts TS 案例 1
 
-@file index.ts
+@file input.ts
 
 ```ts
 const msg = "你好世界";
@@ -179,7 +179,7 @@ speak(msg);
 
 ::: playground#ts TS 案例 2
 
-@file index.ts
+@file input.ts
 
 ```ts
 const msg = "你好世界";
@@ -204,7 +204,7 @@ speak(msg);
 ````md
 ::: playground#ts TS 案例 2
 
-@file index.ts
+@file input.ts
 
 ```ts
 const msg = "你好世界";

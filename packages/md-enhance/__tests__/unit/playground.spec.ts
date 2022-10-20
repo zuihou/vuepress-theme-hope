@@ -151,7 +151,7 @@ const msg = ref('Hello World!')
       const result1 = defaultMarkdownIt.render(`
 ::: playground#ts TS demo 1
 
-@file index.ts
+@file input.ts
 
 \`\`\`ts
 const msg = "hello world";
@@ -167,7 +167,7 @@ speak(msg);
       const result2 = defaultMarkdownIt.render(`
 ::: playground#ts TS demo 2
 
-@file index.ts
+@file input.ts
 
 \`\`\`ts
 const msg = "hello world";

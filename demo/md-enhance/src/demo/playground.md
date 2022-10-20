@@ -8,7 +8,7 @@ title: Playground
 
 ::: playground#ts TS demo 1
 
-@file index.ts
+@file input.ts
 
 ```ts
 const msg = "hello world";
@@ -22,14 +22,20 @@ speak(msg);
 
 ::: playground#ts TS demo 2
 
-@file index.ts
+@file input.ts
 
 ```ts
-const msg = "hello world";
+import { msg } from "./msg.ts";
 
 const speak = (msg: string) => console.log(msg);
 
 speak(msg);
+```
+
+@file msg.ts
+
+```ts
+export const msg = "hello world";
 ```
 
 @settings

@@ -49,13 +49,31 @@ export const getTSPlaygroundPreset = ({
     settings,
     key,
   }: PlaygroundData): Record<string, string> => {
-    const tsfiles = Object.keys(files).filter((key) => key.endsWith(".ts"));
+    const projectFiles = Object.entries(files)
+      .filter(([key]) => key.match(/\.[jt]sx?$/))
+      .map(([key, info]) => ({
+        filename: key,
+        ...info,
+      }));
 
-    if (tsfiles.length !== 1)
-      console.error("TS playground only support 1 ts file");
+    let inputFile = projectFiles.find(({ filename }) =>
+      filename.match(/^input\.[jt]sx?$/)
+    );
+
+    if (!inputFile) {
+      console.error(
+        "TS files should have an entry named 'input.js/ts/jsx/tsx'"
+      );
+      inputFile = { filename: "input.ts", content: "", ext: "ts" };
+    }
+
+    const content = `${inputFile.content}\n${projectFiles
+      .filter(({ filename }) => filename !== inputFile!.filename)
+      .map(({ filename, content }) => `// @filename: ${filename}\n${content}`)
+      .join("\n")}`;
 
     const link = `${service}${getURL(
-      files[tsfiles[0]].content,
+      content,
       deepAssign(
         {},
         <CompilerOptions>settings || {},

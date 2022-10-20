@@ -1,4 +1,6 @@
 /**
+ * @description Last generated from ts 4.8.4
+ * 
  * This file needs to be updated with typescript major and minor updates
  *
  * Generated from the following code:
@@ -10,6 +12,7 @@ JSON.stringify(
     type: type instanceof Map ? Object.fromEntries(type) : type,
   }))
 )
+
  *
  */
 

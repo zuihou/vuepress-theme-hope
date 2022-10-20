@@ -149,7 +149,7 @@ Only `service`, `dev` and `ssr` option is available in `@setting` directive.
 
 ::: playground#ts TS demo 1
 
-@file index.ts
+@file input.ts
 
 ```ts
 const msg = "hello world";
@@ -166,7 +166,7 @@ speak(msg);
 ````md
 ::: playground#ts TS demo 1
 
-@file index.ts
+@file input.ts
 
 ```ts
 const msg = "hello world";
@@ -183,7 +183,7 @@ speak(msg);
 
 ::: playground#ts TS demo 2
 
-@file index.ts
+@file input.ts
 
 ```ts
 const msg = "hello world";
@@ -208,7 +208,7 @@ speak(msg);
 ````md
 ::: playground#ts TS demo 2
 
-@file index.ts
+@file input.ts
 
 ```ts
 const msg = "hello world";
