@@ -3,8 +3,9 @@
   "compilerOptions": {
     "lib": ["DOM", "ESNext"],
     "rootDir": "./src",
-    "outDir": "./lib"
+    "outDir": "./lib",
+    "module": "CommonJS"
   },
   "include": ["./src", "./src/*.d.ts"],
-  "references": [{ "path": "../../packages/md-enhance/tsconfig.build.json" }]
+  "references": []
 }

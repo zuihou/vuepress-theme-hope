@@ -30,6 +30,7 @@ ignorePatterns:
   - "coverage/**"
   - "docs-shared/lib/**"
   - "packages/*/lib/**"
+  - "tools/*/lib/**"
   - "!.vuepress/**"
 
 rules:

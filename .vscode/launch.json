@@ -18,8 +18,7 @@
       "runtimeExecutable": "${execPath}",
       "args": [
         "--extensionDevelopmentPath=${workspaceFolder}/tools/vscode-extension"
-      ],
-      "preLaunchTask": "npm: build"
+      ]
     }
   ]
 }
