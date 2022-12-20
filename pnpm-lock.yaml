@@ -1385,6 +1385,18 @@ importers:
       '@vuepress/bundler-webpack': 2.0.0-beta.59
       '@vuepress/markdown': 2.0.0-beta.59
 
+  tools/vscode-extension:
+    specifiers:
+      '@types/markdown-it': ^12.2.3
+      '@types/vscode-notebook-renderer': ^1.57.8
+      markdown-it-emoji: ^2.0.2
+      vuepress-plugin-md-enhance: workspace:*
+    devDependencies:
+      '@types/markdown-it': 12.2.3
+      '@types/vscode-notebook-renderer': 1.72.0
+      markdown-it-emoji: 2.0.2
+      vuepress-plugin-md-enhance: link:../../packages/md-enhance
+
 packages:
 
   /@algolia/autocomplete-core/1.7.2:
@@ -3883,6 +3895,10 @@ packages:
 
   /@types/trusted-types/2.0.2:
     resolution: {integrity: sha512-F5DIZ36YVLE+PN+Zwws4kJogq47hNgX3Nx6WyDJ3kcplxyke3XIzB8uK5n/Lpm1HBsbGzd6nmGehL8cPekP+Tg==}
+
+  /@types/vscode-notebook-renderer/1.72.0:
+    resolution: {integrity: sha512-5iTjb39DpLn03ULUwrDR3L2Dy59RV4blSUHy0oLdQuIY11PhgWO4mXIcoFS0VxY1GZQ4IcjSf3ooT2Jrrcahnw==}
+    dev: true
 
   /@types/web-bluetooth/0.0.16:
     resolution: {integrity: sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ==}

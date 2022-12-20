@@ -1,0 +1,35 @@
+{
+  "name": "notebook-extend-markdown-renderer-sample",
+  "displayName": "notebook-extend-markdown-renderer-sample",
+  "description": "Adding vuepress-plugin-md-enhance preview support to JupyterLab",
+  "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.69.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "contributes": {
+    "notebookRenderer": [
+      {
+        "id": "vuepress.markdown-it.enhance-extension",
+        "displayName": "Markdown Enhance Renderer",
+        "entrypoint": {
+          "extends": "vscode.markdown-it-renderer",
+          "path": "./lib/enhance.js"
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "webpack --mode production"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^12.2.3",
+    "@types/vscode-notebook-renderer": "^1.57.8",
+    "markdown-it-emoji": "^2.0.2",
+    "vuepress-plugin-md-enhance": "workspace:*"
+  }
+}
