@@ -11,7 +11,7 @@ on:
 
 jobs:
   test-demos:
-    name: Test demos using ${{ matrix.bundler }} on node ${{ matrix.node }}
+    name: Test demos using ${{ matrix.bundler }} on node ${{ matrix.node }} with ${{ matrix.strategy }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -23,11 +23,25 @@ jobs:
         bundler:
           - vite
           - webpack
+        strategy:
+          - isolated
+          - hoisted
+          - pnp
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           submodules: true
+
+      - name: Add pnpm config
+        run: |-
+          cat>.npmrc<<EOF
+          engine-strict=true
+          node-version=14.18.0
+          node-linker=${{ matrix.strategy }}
+          ${{ matrix.strategy == 'pnp' && 'symlink=false' || '' }}
+          EOF
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
@@ -61,6 +75,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Add pnpm config
+        run: |-
+          cat>.npmrc<<EOF
+          engine-strict=true
+          node-version=14.18.0
+          EOF
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
