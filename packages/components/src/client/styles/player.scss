@@ -1,0 +1,5 @@
+/* Hide media element until shadow root is attached. */
+// stylelint-disable-next-line selector-type-no-unknown
+vds-media:not(:defined) > template[shadowroot] ~ * {
+  visibility: hidden;
+}

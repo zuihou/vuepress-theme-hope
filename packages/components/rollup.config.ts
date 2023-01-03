@@ -77,6 +77,10 @@ export default [
     external: ["@vueuse/core", "vue", /\.scss$/],
     dtsExternal: [/\.scss$/],
   }),
+  ...rollupTypescript("client/components/Player", {
+    external: [/^@vidstack\/player\//, "vue", /\.scss$/],
+    dtsExternal: [/\.scss$/],
+  }),
   ...rollupTypescript("client/components/YouTube", {
     external: ["@vueuse/core", "@vuepress/client", "vue", /\.scss$/],
     dtsExternal: [/\.scss$/],

@@ -960,6 +960,7 @@ importers:
 
   packages/components:
     specifiers:
+      '@vidstack/player': ^1.6.5
       '@vuepress/bundler-vite': 2.0.0-beta.60
       '@vuepress/client': 2.0.0-beta.60
       '@vuepress/core': 2.0.0-beta.60
@@ -967,6 +968,7 @@ importers:
       '@vuepress/utils': 2.0.0-beta.60
       '@vueuse/core': ^9.9.0
       balloon-css: ^1.2.0
+      lit: ^2.5.0
       plyr: ^3.7.3
       vue: ^3.2.45
       vue-router: ^4.1.6
@@ -974,11 +976,13 @@ importers:
       vuepress-plugin-sass-palette: workspace:*
       vuepress-shared: workspace:*
     dependencies:
+      '@vidstack/player': 1.6.5_lit@2.5.0
       '@vuepress/client': 2.0.0-beta.60
       '@vuepress/shared': 2.0.0-beta.60
       '@vuepress/utils': 2.0.0-beta.60
       '@vueuse/core': 9.9.0_vue@3.2.45
       balloon-css: 1.2.0
+      lit: 2.5.0
       plyr: 3.7.3
       vue: 3.2.45
       vue-router: 4.1.6_vue@3.2.45
@@ -3871,6 +3875,10 @@ packages:
     dependencies:
       '@types/node': 18.11.18
 
+  /@types/fscreen/1.0.1:
+    resolution: {integrity: sha512-hV2d0BreihMGtrg+EdAFOIl/O2EL5vhAheHJUztGE/lPFZIN8ZCpGFL8hCbtyi1CfhKjDRCf47sHjP+FwJ4q0Q==}
+    dev: false
+
   /@types/glob/7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
@@ -4159,6 +4167,28 @@ packages:
       '@typescript-eslint/types': 5.48.0
       eslint-visitor-keys: 3.3.0
     dev: true
+
+  /@vidstack/foundation/1.6.5_lit@2.5.0:
+    resolution: {integrity: sha512-coiF1Bv4NZDdu7DjrH3Em7sU2h3KoKw2YSnKsSU+LAbrYiDGnK5ppLdyD1EGeEnmJj78UpMrwKU9zfbGwELB3w==}
+    peerDependencies:
+      lit: ^2.1.1
+    dependencies:
+      '@types/fscreen': 1.0.1
+      just-debounce-it: 3.2.0
+      just-throttle: 4.2.0
+      lit: 2.5.0
+    dev: false
+
+  /@vidstack/player/1.6.5_lit@2.5.0:
+    resolution: {integrity: sha512-yZk0Okkb+pUBW6oAAo79WECDXYWu5Az0PFbeHI9gbsyMIRlfCa0rBQlCPzXCPc/fW93M8vQl52YeJLMzXzeRiw==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      lit: ^2.1.1
+    dependencies:
+      '@vidstack/foundation': 1.6.5_lit@2.5.0
+      '@webcomponents/template-shadowroot': 0.1.0
+      lit: 2.5.0
+    dev: false
 
   /@vitejs/plugin-vue/4.0.0_vite@4.0.3+vue@3.2.45:
     resolution: {integrity: sha512-e0X4jErIxAB5oLtDqbHvHpJe/uWNkdpYV83AOG2xo2tEVSzCzewgJMtREZM30wXnM5ls90hxiOtAuVU6H5JgbA==}
@@ -4776,6 +4806,10 @@ packages:
     dependencies:
       '@webassemblyjs/ast': 1.11.1
       '@xtuc/long': 4.2.2
+
+  /@webcomponents/template-shadowroot/0.1.0:
+    resolution: {integrity: sha512-ry84Vft6xtRBbd4M/ptRodbOLodV5AD15TYhyRghCRgIcJJKmYmJ2v2BaaWxygENwh6Uq3zTfGPmlckKT/GXsQ==}
+    dev: false
 
   /@xtuc/ieee754/1.2.0:
     resolution: {integrity: sha512-DX8nKgqcGwsc0eJSqYt5lwP4DH5FlHnmuWWBRy7X0NcaGR0ZtuyeESgMwTYVEtxmsNGY+qit4QYT/MIYTOTPeA==}
@@ -8536,6 +8570,14 @@ packages:
   /jsonpointer/5.0.1:
     resolution: {integrity: sha512-p/nXbhSEcu3pZRdkW1OfJhpsVtW1gd4Wa1fnQc9YLiTfAjn0312eMKimbdIQzuZl9aa9xUGaRlP9T/CJE/ditQ==}
     engines: {node: '>=0.10.0'}
+
+  /just-debounce-it/3.2.0:
+    resolution: {integrity: sha512-WXzwLL0745uNuedrCsCs3rpmfD6DBaf7uuVwaq98/8dafURfgQaBsSpjiPp5+CW6Vjltwy9cOGI6qE71b3T8iQ==}
+    dev: false
+
+  /just-throttle/4.2.0:
+    resolution: {integrity: sha512-/iAZv1953JcExpvsywaPKjSzfTiCLqeguUTE6+VmK15mOcwxBx7/FHrVvS4WEErMR03TRazH8kcBSHqMagYIYg==}
+    dev: false
 
   /katex/0.16.4:
     resolution: {integrity: sha512-WudRKUj8yyBeVDI4aYMNxhx5Vhh2PjpzQw1GRu/LVGqL4m1AxwD1GcUp0IMbdJaf5zsjtj8ghP0DOQRYhroNkw==}
