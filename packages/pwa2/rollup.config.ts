@@ -12,7 +12,6 @@ export default [
     dtsExternal: ["vuepress-shared"],
   }),
   ...rollupTypescript("client/components/PWAInstall", {
-    resolve: true,
     external: [
       "@vuepress/client",
       "@vueuse/core",
@@ -46,8 +45,13 @@ export default [
     dtsExternal: [/\.scss$/],
   }),
   ...rollupTypescript("client/composables/setup", {
-    resolve: true,
-    external: ["@vuepress/client", "mitt", "vue", /\.scss$/],
+    external: [
+      "@vuepress/client",
+      "mitt",
+      "register-service-worker",
+      "vue",
+      /\.scss$/,
+    ],
     dtsExternal: [/\.scss$/],
     copy: [["client/styles", "client"]],
   }),

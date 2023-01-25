@@ -1,6 +1,6 @@
 ---
 title: 插件选项
-icon: config
+icon: gears
 ---
 
 ## selector
@@ -34,7 +34,7 @@ icon: config
 ## delay
 
 - 类型: `number`
-- 默认值: `500`
+- 默认值: `800`
 
 注册复制按钮的延时，单位 ms。
 

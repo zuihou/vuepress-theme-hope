@@ -6,7 +6,7 @@ title: YouTube
 
 <!-- more -->
 
-## 演示
+## 示例
 
 一个 YouTube 视频:
 
@@ -47,6 +47,13 @@ YouTube 视频 ID
 
 :::
 
+### title
+
+- 类型: `string`
+- 必填: 否
+
+YouTube 视频标题
+
 ### width
 
 - 类型: `string | number`
@@ -61,7 +68,7 @@ YouTube 组件宽度。
 
 YouTube 组件高度
 
-### radio
+### ratio
 
 - 类型: `number`
 - 默认值: `16 / 9`

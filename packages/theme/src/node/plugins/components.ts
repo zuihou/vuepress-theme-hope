@@ -1,3 +1,4 @@
+import { isString } from "@vuepress/shared";
 import { componentsPlugin } from "vuepress-plugin-components";
 
 import type { ComponentOptions } from "vuepress-plugin-components";
@@ -11,9 +12,10 @@ export const getComponentsPlugin = (
   >,
   {
     components = ["Badge", "FontIcon"],
+    componentOptions = {},
     rootComponents = {},
   }: ComponentOptions = {},
-  legacy = false
+  legacy = true
 ): Plugin =>
   componentsPlugin(
     {
@@ -24,17 +26,18 @@ export const getComponentsPlugin = (
       componentOptions: {
         fontIcon: {
           ...(options.iconAssets ? { assets: options.iconAssets } : {}),
+          ...(isString(options.iconPrefix)
+            ? { prefix: options.iconPrefix }
+            : {}),
         },
-        ...(typeof options.iconPrefix === "string"
-          ? { prefix: options.iconPrefix }
-          : {}),
+        ...componentOptions,
       },
       rootComponents: {
-        ...rootComponents,
         backToTop:
           typeof options.backToTop === "number"
             ? options.backToTop
             : options.backToTop !== false,
+        ...rootComponents,
       },
     },
     legacy

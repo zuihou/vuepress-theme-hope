@@ -1,6 +1,6 @@
 ---
 title: Основные опции темы
-icon: config
+icon: circle-info
 order: 2
 category:
   - Конфиг
@@ -60,6 +60,13 @@ tag:
 - Обязательный: Нет
 
 Глобальный автор по умолчанию.
+
+## favicon
+
+- Type: `string`
+- Required: No
+
+Site favicon.
 
 ## navbar
 

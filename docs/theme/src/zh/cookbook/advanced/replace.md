@@ -1,6 +1,7 @@
 ---
 title: 替换主题组件
-icon: customize
+icon: boxes-packing
+order: 3
 category:
   - 高级
 tag:
@@ -82,8 +83,8 @@ export default {
 - `@theme-hope/components/AutoLink` 基础链接
 - `@theme-hope/components/BreadCrumb` 路径导航
 - `@theme-hope/components/CommonWrapper` 基本布局整合
-- `@theme-hope/components/HomeFeatures` 主页特性
-- `@theme-hope/components/HomeHero` 主页 Logo 及介绍
+- `@theme-hope/components/FeaturePanel` 主页特性
+- `@theme-hope/components/HeroInfo` 主页 Logo 及介绍
 - `@theme-hope/components/HomePage` 主页
 - `@theme-hope/components/Icon` 图标
 - `@theme-hope/components/MarkdownContent` Markdown 内容
@@ -150,7 +151,7 @@ Components:
 - `@theme-hope/modules/info/components/AuthorInfo` 作者信息
 - `@theme-hope/modules/info/components/CategoryInfo` 分类信息
 - `@theme-hope/modules/info/components/DateInfo` 写作日期信息
-- `@theme-hope/modules/info/components/OriginalMark` 原创标识
+- `@theme-hope/modules/info/components/OriginalInfo` 原创标识
 - `@theme-hope/modules/info/components/PageInfo` 页面信息
 - `@theme-hope/modules/info/components/PageMeta` 页面元数据 information
 - `@theme-hope/modules/info/components/PageViewInfo` 浏览量信息 information
@@ -285,8 +286,8 @@ import HopeHomePage from "vuepress-theme-hope/components/HomePage.js";
 **主题**:
 
 - `AutoLink`: `default`, `before`, `after`
-- `CommonWrapper`: `default`, `navbarLeftStart`, `navbarLeftEnd`, `navbarCenterStart`, `navbarCenterEnd`, `navbarRightStart`, `navbarRightEnd`, `navScreenTop`, `navScreenBottom`, `sidebar`, `sidebarTop`, `sidebarBottom`
-- `HomeHero`: `heroImage`, `heroInfo`
+- `CommonWrapper`: `default`, `navbarStartBefore`, `navbarStartAfter`, `navbarCenterBefore`, `navbarCenterAfter`, `navbarEndBegin`, `navbarEndAfter`, `navScreenTop`, `navScreenBottom`, `sidebar`, `sidebarTop`, `sidebarBottom`
+- `HeroInfo`: `heroImage`, `heroInfo`
 - `HomePage`: `top`, `center`, `bottom`
 - `NormalPage`: `top`, `contentBefore`, `contentAfter`, `bottom`
 
@@ -294,7 +295,7 @@ import HopeHomePage from "vuepress-theme-hope/components/HomePage.js";
 
 - `DropdownLink`: `title`
 - `NavActions`: `before`, `after`
-- `Navbar`: `leftStart`, `leftEnd`, `centerStart`, `centerEnd`, `rightStart`, `rightEnd`
+- `Navbar`: `startBefore`, `startAfter`, `centerBefore`, `centerAfter`, `endBegin`, `endAfter`
 - `NavbarBrand`: `default`
 - `NavScreen`: `before`, `after`
 - `NavScreenDropdown`: `before`, `after`

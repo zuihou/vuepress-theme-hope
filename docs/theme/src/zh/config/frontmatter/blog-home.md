@@ -1,6 +1,6 @@
 ---
 title: 博客主页 Frontmatter 配置
-icon: config
+icon: blog
 order: 5
 category:
   - 配置

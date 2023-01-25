@@ -3,8 +3,10 @@ import type { HopeLang } from "./types.js";
 
 export const lang2PathConfig = {
   "de-AT": "/de-at/",
+  "de-DE": "/de/",
   "en-US": "/en/",
   "es-ES": "/es/",
+  "fi-FI": "/fi/",
   "fr-FR": "/fr/",
   "ja-JP": "/ja/",
   "ko-KR": "/ko/",

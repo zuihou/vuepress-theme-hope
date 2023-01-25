@@ -1,3 +1,4 @@
+import { isString } from "@vuepress/shared";
 import { usePageFrontmatter } from "@vuepress/client";
 import { computed, defineComponent, h } from "vue";
 
@@ -33,7 +34,7 @@ export default defineComponent({
 
       return footer === false
         ? false
-        : typeof footer === "string"
+        : isString(footer)
         ? footer
         : themeLocale.value.footer || "";
     });
@@ -51,7 +52,9 @@ export default defineComponent({
     return (): VNode | null =>
       enable.value
         ? h("footer", { class: "footer-wrapper" }, [
-            h("div", { class: "footer", innerHTML: content.value }),
+            content.value
+              ? h("div", { class: "footer", innerHTML: content.value })
+              : null,
             copyright.value
               ? h("div", {
                   class: "copyright",

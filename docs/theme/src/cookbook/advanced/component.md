@@ -1,6 +1,7 @@
 ---
 title: Using Components
-icon: plugin
+icon: puzzle-piece
+order: 1
 category:
   - Tutorial
   - Customize

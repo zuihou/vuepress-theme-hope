@@ -1,9 +1,9 @@
-import { existsSync, writeFileSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import inquirer from "inquirer";
 
 import { version } from "./config/index.js";
-import { deepMerge } from "./utils/index.js";
+import { deepAssign } from "./utils/index.js";
 
 import type { CreateI18n } from "./config/index.js";
 
@@ -28,9 +28,9 @@ export const createPackageJson = async (
   const packageJsonPath = resolve(cwd, "package.json");
   const scripts = getScript(source);
   const devDependencies = {
-    "@vuepress/client": "2.0.0-beta.59",
+    "@vuepress/client": "2.0.0-beta.60",
     vue: "^3.2.45",
-    vuepress: "2.0.0-beta.59",
+    vuepress: "2.0.0-beta.60",
     "vuepress-theme-hope": version,
   };
 
@@ -42,7 +42,7 @@ export const createPackageJson = async (
       readFileSync(packageJsonPath, { encoding: "utf-8" })
     );
 
-    deepMerge(packageContent, { scripts, devDependencies });
+    deepAssign(packageContent, { scripts, devDependencies });
 
     writeFileSync(
       packageJsonPath,

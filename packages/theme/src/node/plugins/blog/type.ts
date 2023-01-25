@@ -39,6 +39,8 @@ export const getArticleType = (
     layout: "BlogType",
     frontmatter: (localePath) => ({
       title: themeData.locales[localePath].blogLocales.article,
+      feed: false,
+      sitemap: false,
     }),
   };
 
@@ -78,6 +80,8 @@ export const getStarType = (
     layout: "BlogType",
     frontmatter: (localePath) => ({
       title: themeData.locales[localePath].blogLocales.star,
+      feed: false,
+      sitemap: false,
     }),
   };
 
@@ -108,5 +112,7 @@ export const getTimelineType = (
     layout: "Timeline",
     frontmatter: (localePath) => ({
       title: themeData.locales[localePath].blogLocales.timeline,
+      feed: false,
+      sitemap: false,
     }),
   };

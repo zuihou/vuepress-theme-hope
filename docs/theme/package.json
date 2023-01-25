@@ -1,6 +1,6 @@
 {
   "name": "theme-docs",
-  "version": "2.0.0-beta.145",
+  "version": "2.0.0-beta.168",
   "private": true,
   "description": "Docs for vuepress-theme-hope",
   "license": "MIT",
@@ -20,9 +20,10 @@
   },
   "dependencies": {
     "@types/katex": "0.16.0",
-    "@vuepress/client": "2.0.0-beta.59",
-    "@vuepress/utils": "2.0.0-beta.59",
-    "axios": "1.2.1",
+    "@vuepress/client": "2.0.0-beta.60",
+    "@vuepress/shared": "2.0.0-beta.60",
+    "@vueuse/core": "9.11.1",
+    "axios": "1.2.4",
     "docs-shared": "workspace:*",
     "katex": "0.16.4",
     "sass-loader": "13.2.0",
@@ -30,7 +31,7 @@
     "vuepress-plugin-copy-code2": "workspace:*",
     "vuepress-shared": "workspace:*",
     "vuepress-theme-hope": "workspace:*",
-    "vuepress-vite": "2.0.0-beta.59",
-    "vuepress-webpack": "2.0.0-beta.59"
+    "vuepress-vite": "2.0.0-beta.60",
+    "vuepress-webpack": "2.0.0-beta.60"
   }
 }

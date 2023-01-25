@@ -1,21 +1,23 @@
+import { isArray, isString } from "@vuepress/shared";
 import { hashSync } from "bcrypt-ts/node";
 import { logger } from "../utils.js";
 
 import type { EncryptConfig, EncryptOptions } from "../../shared/index.js";
 
-export const getEncryptConfig = (encrypt: EncryptOptions): EncryptConfig => {
+export const getEncryptConfig = (
+  encrypt: EncryptOptions = {}
+): EncryptConfig => {
   const result: EncryptConfig = {};
 
   if (encrypt.global) result.global = true;
 
   // handle global token
   if (encrypt.admin)
-    if (typeof encrypt.admin === "string")
-      result.admin = [hashSync(encrypt.admin)];
-    else if (Array.isArray(encrypt.admin))
+    if (isString(encrypt.admin)) result.admin = [hashSync(encrypt.admin)];
+    else if (isArray(encrypt.admin))
       result.admin = encrypt.admin
         .map((globalToken) => {
-          if (typeof globalToken === "string") return hashSync(globalToken);
+          if (isString(globalToken)) return hashSync(globalToken);
 
           logger.error(`You config "themeConfig.encrypt.admin", but your config is invalid. 
 
@@ -35,12 +37,12 @@ export const getEncryptConfig = (encrypt: EncryptOptions): EncryptConfig => {
     result.config = Object.fromEntries(
       Object.entries(encrypt.config)
         .map<[string, string[]] | null>(([key, tokens]) => {
-          if (typeof tokens === "string") return [key, [hashSync(tokens)]];
+          if (isString(tokens)) return [key, [hashSync(tokens)]];
 
-          if (Array.isArray(tokens)) {
+          if (isArray(tokens)) {
             const encryptedTokens = tokens
               .map((token) => {
-                if (typeof token === "string") return hashSync(token);
+                if (isString(token)) return hashSync(token);
 
                 logger.error(`You config "themeConfig.encrypt.config", but your config is invalid. 
         

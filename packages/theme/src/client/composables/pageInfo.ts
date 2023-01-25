@@ -13,7 +13,7 @@ import type {
   AuthorInfo,
   BasePageFrontMatter,
   DateInfo,
-} from "vuepress-shared";
+} from "vuepress-shared/client";
 import type { GitData } from "@vuepress/plugin-git";
 import type { ComputedRef } from "vue";
 import type { ReadingTime } from "vuepress-plugin-reading-time2";
@@ -24,8 +24,8 @@ import type {
   PageTag,
 } from "@theme-hope/modules/info/utils/index";
 import type {
-  ThemeNormalPageFrontmatter,
   PageInfo,
+  ThemeNormalPageFrontmatter,
 } from "../../shared/index.js";
 
 declare const ENABLE_BLOG: boolean;

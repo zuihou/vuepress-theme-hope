@@ -1,6 +1,6 @@
 ---
 title: Опции макета темы
-icon: config
+icon: object-group
 order: 4
 category:
   - Конфиг
@@ -45,13 +45,13 @@ tag:
     | "Repo";
 
   interface HopeNavbarLayoutOptions {
-    left: NavbarComponent[];
+    start: NavbarComponent[];
     center: NavbarComponent[];
-    right: NavbarComponent[];
+    end: NavbarComponent[];
   }
   ```
 
-- По умолчанию: `{ left: ["Brand"], center: ["Links"], right: ["Language", "Repo", "Outlook", "Search"] }`
+- По умолчанию: `{ start: ["Brand"], center: ["Links"], end: ["Language", "Repo", "Outlook", "Search"] }`
 
 Настройте макет панели навигации.
 
@@ -354,6 +354,13 @@ tag:
 - По умолчанию: Key of current locale
 
 Домашний путь текущей локали, используемый в качестве ссылки для возврата домой и логотипа панели навигации.
+
+### rtl
+
+- Type: `boolean`
+- Default: `false`
+
+Whether use RTL layout.
 
 ### toc {#toc-heading}
 

@@ -1,15 +1,15 @@
 import { colors } from "@vuepress/utils";
 import { convertOptions } from "./compact/index.js";
 import { checkOutput, ensureHostName, getFeedOptions } from "./options.js";
+import { FeedGenerator } from "./generator/index.js";
 import { injectLinksToHead } from "./injectHead.js";
-import { FeedGenerator } from "./generator.js";
-import { logger } from "./utils.js";
+import { logger } from "./utils/index.js";
 
 import type { PluginFunction, PluginObject } from "@vuepress/core";
 import type { FeedOptions } from "./typings/index.js";
 
 export const feedPlugin =
-  (options: FeedOptions, legacy = false): PluginFunction =>
+  (options: FeedOptions, legacy = true): PluginFunction =>
   (app) => {
     // TODO: Remove this in v2 stable
     if (legacy)

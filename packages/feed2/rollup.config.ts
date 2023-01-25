@@ -5,7 +5,8 @@ export default rollupTypescript("node/index", {
     "@vuepress/shared",
     "@vuepress/utils",
     "vuepress-shared/node",
+    "cheerio",
     "xml-js",
   ],
-  dtsExternal: ["vuepress-shared"],
+  dtsExternal: ["vuepress-shared/node"],
 });

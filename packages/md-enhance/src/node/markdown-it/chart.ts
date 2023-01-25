@@ -1,5 +1,5 @@
+import { container } from "@mdit/plugin-container";
 import { utoa } from "vuepress-shared/node";
-import { container } from "./container.js";
 
 import type { PluginSimple } from "markdown-it";
 
@@ -9,7 +9,7 @@ export const chart: PluginSimple = (md) => {
     openRender: (tokens, index) => {
       const title = tokens[index].info
         .trimStart()
-        // 'chart' length
+        // "chart" length
         .slice(5)
         .trim();
 

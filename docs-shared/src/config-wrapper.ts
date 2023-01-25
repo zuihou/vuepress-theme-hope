@@ -1,28 +1,105 @@
 import { defineUserConfig } from "@vuepress/cli";
 import { docsearchPlugin } from "@vuepress/plugin-docsearch";
 import { getDirname, path } from "@vuepress/utils";
+import { removePWAPlugin } from "vuepress-plugin-remove-pwa";
 import { addViteOptimizeDepsInclude } from "vuepress-shared/node";
+
 import type { UserConfig } from "@vuepress/cli";
+import type { HeadConfig } from "@vuepress/core";
 
 const __dirname = getDirname(import.meta.url);
 
-const BASE = <"/" | `/${string}/`>process.env["BASE"] || "/";
+const IS_GITEE = "GITEE" in process.env;
+const IS_NETLIFY = "NETLIFY" in process.env;
+const IS_GITHUB = !IS_GITEE && !IS_NETLIFY;
+
+export interface ConfigOptions {
+  name: string;
+  base?: string;
+  indexName?: string | false;
+  pwa?: boolean;
+}
 
 export const config = (
   {
-    base = "",
+    name,
+    base = name.replace(/\d+$/, ""),
     indexName,
-  }: {
-    base?: string;
-    indexName: string | false;
-  },
-  { alias = {}, plugins = [], ...config }: UserConfig
-): UserConfig =>
-  defineUserConfig({
-    base: base ? `${BASE}${base}/` : BASE,
+    pwa = false,
+  }: ConfigOptions,
+  { alias = {}, head = [], plugins = [], ...config }: UserConfig
+): UserConfig => {
+  const docsBase = IS_NETLIFY
+    ? "/"
+    : base
+    ? <`/${string}/`>`/v2/${base}/`
+    : "/v2/";
+  const docsearchIndexName =
+    indexName === false ? false : `vuepress-theme-hope-${indexName || name}`;
+
+  return defineUserConfig({
+    base: docsBase,
 
     dest: "./dist",
 
+    head: [
+      ...(pwa === false
+        ? <HeadConfig[]>[
+            [
+              "link",
+              {
+                rel: "icon",
+                href: `${docsBase}assets/icon/chrome-mask-512.png`,
+                type: "image/png",
+                sizes: "512x512",
+              },
+            ],
+            [
+              "link",
+              {
+                rel: "icon",
+                href: `${docsBase}assets/icon/chrome-mask-192.png`,
+                type: "image/png",
+                sizes: "512x512",
+              },
+            ],
+            [
+              "link",
+              {
+                rel: "icon",
+                href: `${docsBase}assets/icon/chrome-512.png`,
+                type: "image/png",
+                sizes: "192x192",
+              },
+            ],
+            [
+              "link",
+              {
+                rel: "icon",
+                href: `${docsBase}assets/icon/chrome-192.png`,
+                type: "image/png",
+                sizes: "192x192",
+              },
+            ],
+            ["meta", { name: "theme-color", content: "#46bd87" }],
+            [
+              "link",
+              {
+                rel: "apple-touch-icon",
+                href: `${docsBase}assets/icon/apple-icon-152.png`,
+              },
+            ],
+            [
+              "meta",
+              {
+                name: "apple-mobile-web-app-status-bar-style",
+                content: "black",
+              },
+            ],
+          ]
+        : []),
+      ...head,
+    ],
     markdown: {
       code: {
         lineNumbers: 10,
@@ -30,12 +107,13 @@ export const config = (
     },
 
     plugins: [
-      ...(indexName
+      ...(docsearchIndexName
         ? [
             docsearchPlugin({
               appId: "VXIEHELDL1",
               apiKey: "595796f71b6ba14326719682c3738c0c",
-              indexName,
+              indexName: docsearchIndexName,
+              indexBase: "/v2/",
               locales: {
                 "/zh/": {
                   placeholder: "搜索文档",
@@ -82,27 +160,38 @@ export const config = (
             }),
           ]
         : []),
+      ...(pwa === false ? [removePWAPlugin()] : []),
 
       ...plugins,
     ],
 
     alias: {
-      "@theme-hope/components/HomeHero": path.resolve(
+      "@NetlifyBadge": path.resolve(__dirname, "./components/NetlifyBadge.js"),
+      "@theme-hope/components/HeroInfo": path.resolve(
         __dirname,
         "./components/HopeHero.js"
+      ),
+      "@theme-hope/components/NotFoundHint": path.resolve(
+        __dirname,
+        "./components/HopeNotFoundHint.js"
       ),
       ...alias,
     },
 
-    extendsBundlerOptions: (config: unknown, app): void => {
-      addViteOptimizeDepsInclude({ app, config }, [
+    define: () => ({ IS_GITEE, IS_GITHUB, IS_NETLIFY }),
+
+    extendsBundlerOptions: (bundlerOptions: unknown, app): void => {
+      addViteOptimizeDepsInclude(bundlerOptions, app, [
         "three",
         "three/examples/jsm/controls/OrbitControls",
         "three/examples/jsm/loaders/STLLoader",
       ]);
     },
 
-    shouldPrefetch: false,
+    ...(pwa ? { shouldPrefetch: false } : {}),
+
+    clientConfigFile: path.resolve(__dirname, "./client.js"),
 
     ...config,
   });
+};

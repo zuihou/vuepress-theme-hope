@@ -32,10 +32,14 @@ export const getCategoryCategory = (
     layout: "BlogCategory",
     frontmatter: (localePath) => ({
       title: themeData.locales[localePath].blogLocales.category,
+      feed: false,
+      sitemap: false,
     }),
     itemPath: options.categoryItem,
     itemFrontmatter: (name, localePath) => ({
       title: `${name} ${themeData.locales[localePath].blogLocales.category}`,
+      feed: false,
+      sitemap: false,
     }),
     itemLayout: "BlogCategory",
   };
@@ -62,10 +66,14 @@ export const getTagCategory = (
     layout: "BlogCategory",
     frontmatter: (localePath) => ({
       title: themeData.locales[localePath].blogLocales.tag,
+      feed: false,
+      sitemap: false,
     }),
     itemPath: options.tagItem,
     itemLayout: "BlogCategory",
     itemFrontmatter: (name, localePath) => ({
       title: `${name} ${themeData.locales[localePath].blogLocales.tag}`,
+      feed: false,
+      sitemap: false,
     }),
   };

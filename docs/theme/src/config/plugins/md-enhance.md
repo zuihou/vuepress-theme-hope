@@ -1,6 +1,6 @@
 ---
 title: MdEnhance Plugin Config
-icon: markdown
+icon: fab fa-markdown
 order: 6
 category:
   - Config
@@ -26,7 +26,7 @@ If you don’t need this feature, please set to `false`.
 
 `vuepress-theme-hope` will set the `container` option to `true` by default.
 
-See the [md-enhance documentation][md-enhance-config] for more details.
+See <ProjectLink name="md-enhance" path="/config.html">Plugin documentation</ProjectLink> for more details.
 
 :::
 
@@ -147,7 +147,7 @@ Whether to enable mark support.
 
 Whether enable figure support.
 
-### imageMark
+### imgMark
 
 - Type: `ImageMarkOptions | boolean`
 - Default: `false`
@@ -163,7 +163,7 @@ interface ImageMarkOptions {
 }
 ```
 
-### imageSize
+### imgSize
 
 - Type: `boolean`
 - Default: `false`
@@ -200,7 +200,7 @@ interface TaskListOptions {
 - Type: `KatexOptions & { mhchem?: boolean } | boolean`
 - Default: `false`
 
-Whether to enable $\TeX$ syntax support through $\KaTeX$. You can pass an object to config $\KaTeX$.
+Whether to enable $\TeX$ syntax support through KaTeX. You can pass an object to config KaTeX.
 
 In particular, you can enable the mhchem extension with `katex.mhchem: true`.
 
@@ -601,7 +601,7 @@ Config which you want to pass to reveal.js.
 ### delay
 
 - Type: `number`
-- Default: `500`
+- Default: `800`
 
 The delay of operating dom, in ms.
 
@@ -656,5 +656,3 @@ If the theme you are using has a switching animation, it is recommended to confi
 - Required: No
 
 Locales config for Markdown Enhance Plugin.
-
-[md-enhance-config]: https://vuepress-theme-hope.github.io/v2/md-enhance/config.html

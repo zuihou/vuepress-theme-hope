@@ -1,6 +1,6 @@
 ---
 title: 样式迁移指南
-icon: style
+icon: wand-magic-sparkles
 category:
   - 迁移
 tag:
@@ -38,7 +38,7 @@ tag:
 
 移动至 `palette.scss`。
 
-- 新增 `$bg-color-secondary`
+- 新增 `$bg-color-secondary`，`$bg-color-tertiary`
 
 - `$accentColor` 重命名为 `$theme-color`
 

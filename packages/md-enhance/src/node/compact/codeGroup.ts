@@ -1,4 +1,4 @@
-import { container } from "../markdown-it/index.js";
+import { container } from "@mdit/plugin-container";
 import { logger } from "../utils.js";
 
 import type { MarkdownEnv } from "@vuepress/markdown";
@@ -12,7 +12,7 @@ export const legacyCodeGroup: PluginSimple = (md) => {
       logger.warn(
         `Deprecated code-group syntax found${
           env.filePathRelative ? `in ${env.filePathRelative}` : ""
-        }`
+        }, you should use code tabs instead. See https://plugin-md-enhance.vuejs.press/guide/code-tabs.html`
       );
 
       return `<CodeGroup>\n`;

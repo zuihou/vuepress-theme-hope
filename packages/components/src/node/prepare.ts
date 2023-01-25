@@ -1,57 +1,9 @@
-import { CLIENT_FOLDER, logger } from "./utils.js";
+import { isArray, isString } from "@vuepress/shared";
+import { AVAILABLE_COMPONENTS, CLIENT_FOLDER } from "./utils.js";
+import { getIconLink, getNoticeOptions } from "./components/index.js";
 
 import type { App } from "@vuepress/core";
-import type { AvailableComponent, ComponentOptions } from "./options.js";
-
-const availableComponents: AvailableComponent[] = [
-  "AudioPlayer",
-  "Badge",
-  "BiliBili",
-  "CodePen",
-  "FontIcon",
-  "PDF",
-  "StackBlitz",
-  "VideoPlayer",
-  "YouTube",
-];
-
-const getIconLink = (
-  iconLink?: string
-): { type: string; content: string } | null => {
-  if (!iconLink) return null;
-
-  if (iconLink === "fontawesome")
-    return {
-      type: "script",
-      content: "https://kit.fontawesome.com/ca37c296c5.js",
-    };
-
-  if (iconLink === "iconfont")
-    return {
-      type: "style",
-      content: `@import url("//at.alicdn.com/t/font_2410206_a0xb9hku9iu.css");`,
-    };
-
-  const actualLink = iconLink.match(/^(?:https?:)?\/\//g)
-    ? iconLink
-    : `//${iconLink}`;
-
-  if (actualLink.endsWith(".css"))
-    return {
-      type: "style",
-      content: `@import url("${iconLink}");`,
-    };
-
-  if (actualLink.endsWith(".js"))
-    return {
-      type: "script",
-      content: iconLink,
-    };
-
-  logger.error(`Can not recognize icon link: "${iconLink}"`);
-
-  return null;
-};
+import type { ComponentOptions } from "./options/index.js";
 
 export const prepareConfigFile = (
   app: App,
@@ -70,37 +22,30 @@ export const prepareConfigFile = (
   let shouldImportUseStyleTag = false;
 
   components.forEach((item) => {
-    if (availableComponents.includes(item)) {
+    if (AVAILABLE_COMPONENTS.includes(item)) {
       configImport += `\
 import ${item} from "${CLIENT_FOLDER}components/${item}.js";
 `;
       enhance += `\
-app.component("${item}", ${item});
+if(!hasGlobalComponent("${item}")) app.component("${item}", ${item});
 `;
     }
 
-    if (item === "FontIcon") {
-      const result = getIconLink(componentOptions.fontIcon?.assets);
-
-      if (result) {
-        const { type, content } = result;
+    if (item === "FontIcon")
+      getIconLink(componentOptions.fontIcon?.assets).forEach((item) => {
+        const { type, content } = item;
 
         if (type === "script") {
           shouldImportUseScriptTag = true;
-          setup += `\
-useScriptTag(\`${content}\`);
-`;
         } else {
           shouldImportUseStyleTag = true;
-          setup += `\
-useStyleTag(\`${content}\`, { id: "icon-assets" });
-`;
         }
-      }
-    }
+
+        setup += content;
+      });
   });
 
-  if (typeof rootComponents.addThis === "string") {
+  if (isString(rootComponents.addThis)) {
     shouldImportUseScriptTag = true;
     setup += `\
 useScriptTag(\`//s7.addthis.com/js/300/addthis_widget.js#pubid=${rootComponents.addThis}\`);
@@ -121,14 +66,16 @@ import BackToTop from "${CLIENT_FOLDER}components/BackToTop.js";
 `;
   }
 
-  if (typeof rootComponents.notice === "object") {
+  if (isArray(rootComponents.notice)) {
     shouldImportH = true;
     configImport += `\
 import Notice from "${CLIENT_FOLDER}components/Notice.js";
 `;
 
     configRootComponents += `\
-() => h(Notice, ${JSON.stringify(rootComponents.notice)}),
+() => h(Notice, { config: ${JSON.stringify(
+      getNoticeOptions(rootComponents.notice)
+    )} }),
 `;
   }
 
@@ -136,6 +83,7 @@ import Notice from "${CLIENT_FOLDER}components/Notice.js";
     `components/config.js`,
     `\
 import { defineClientConfig } from "@vuepress/client";
+import { hasGlobalComponent } from "${CLIENT_FOLDER}shared.js";
 ${
   shouldImportH
     ? `\

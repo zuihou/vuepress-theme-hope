@@ -1,6 +1,6 @@
 ---
 title: 主页 Frontmatter 配置
-icon: config
+icon: home
 order: 4
 category:
   - 配置

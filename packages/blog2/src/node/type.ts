@@ -1,5 +1,6 @@
 import { createPage } from "@vuepress/core";
-import { removeLeadingSlash } from "@vuepress/shared";
+import { isString, removeLeadingSlash } from "@vuepress/shared";
+import { colors } from "@vuepress/utils";
 import { logger } from "./utils.js";
 
 import type { App } from "@vuepress/core";
@@ -48,8 +49,12 @@ export const prepareType = (
         },
         index
       ) => {
-        if (typeof key !== "string" || !key) {
-          logger.error(`Invalid 'key' option ${key} in 'category[${index}]'`);
+        if (!isString(key) || !key) {
+          logger.error(
+            `Invalid ${colors.magenta("key")} option ${colors.cyan(
+              key
+            )} in ${colors.cyan(`type[${index}]`)}`
+          );
 
           return null;
         }
@@ -57,7 +62,8 @@ export const prepareType = (
         const typeMap: TypeMap = {};
         const pageKeys: string[] = [];
 
-        if (app.env.isDebug) logger.info(`Generating ${key} type.\n`);
+        if (app.env.isDebug)
+          logger.info(`Generating ${colors.cyan(key)} type.\n`);
 
         for (const localePath in pageMap) {
           const keys = pageMap[localePath]
@@ -88,7 +94,8 @@ export const prepareType = (
             else if (app.pages[index].key !== page.key) {
               app.pages.splice(index, 1, page);
 
-              if (init) logger.warn(`Overriding existed path ${pagePath}`);
+              if (init)
+                logger.warn(`Overriding existed path ${colors.cyan(pagePath)}`);
             }
 
             pageKeys.push(page.key);

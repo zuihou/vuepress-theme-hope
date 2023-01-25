@@ -1,3 +1,4 @@
+import { isPlainObject } from "@vuepress/shared";
 import { sitemapPlugin } from "vuepress-plugin-sitemap2";
 
 import type { Plugin } from "@vuepress/core";
@@ -6,11 +7,11 @@ import type { SitemapOptions } from "vuepress-plugin-sitemap2";
 export const getSitemapPlugin = (
   options?: Omit<SitemapOptions, "hostname"> | boolean,
   hostname?: string,
-  legacy = false
+  legacy = true
 ): Plugin | null => {
   if (options === false) return null;
 
-  const sitemapOptions = typeof options === "object" ? options : {};
+  const sitemapOptions = isPlainObject(options) ? options : {};
 
   // disable sitemap if `hostname` is not set and no options for sitemap plugin
   if (!Object.keys(sitemapOptions).length && !hostname) return null;

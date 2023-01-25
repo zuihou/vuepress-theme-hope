@@ -1,3 +1,4 @@
+import { isFunction, isPlainObject } from "@vuepress/shared";
 import { colors } from "@vuepress/utils";
 import { convertThemeOptions } from "./theme.js";
 import { deprecatedMsg } from "./utils.js";
@@ -8,9 +9,9 @@ import type { ThemeFunction } from "@vuepress/core";
 import type { UserConfig } from "@vuepress/cli";
 import type {
   NavbarOptions,
-  SidebarOptions,
   SidebarArrayOptions,
   SidebarObjectOptions,
+  SidebarOptions,
   ThemeOptions,
 } from "../../shared/index.js";
 
@@ -118,12 +119,12 @@ export default {
   );
 
   // check themeConfig
-  if ("themeConfig" in config && typeof config["themeConfig"] === "object") {
+  if ("themeConfig" in config && isPlainObject(config["themeConfig"])) {
     config.theme = hopeThemeLegacy(config["themeConfig"] as ThemeOptions);
   }
 
   // check theme
-  if (typeof config.theme !== "function") config.theme = hopeThemeLegacy({});
+  if (!isFunction(config.theme)) config.theme = hopeThemeLegacy({});
 
   return config;
 };

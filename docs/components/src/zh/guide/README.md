@@ -1,6 +1,6 @@
 ---
 title: 指南
-icon: creative
+icon: lightbulb
 index: false
 ---
 
@@ -10,11 +10,13 @@ index: false
 
 这意味着你可以自由选择你喜欢的任何组件，并不捆绑其他组件。
 
-例如，如果你使用 `{ globalComponents: { backToTop: true } }` 调用此插件，则仅注入 `<BackToTop />` 组件。
+例如，如果你使用 `{ rootComponents: { backToTop: true } }` 调用此插件，则仅注入 `<BackToTop />` 组件。
 
 :::
 
-此插件支持 9 个组件:
+此插件支持 13 个组件:
+
+- [ArtPlayer](artplayer.md)
 
 - [AudioPlayer](audioplayer.md)
 
@@ -22,13 +24,19 @@ index: false
 
 - [Badge](badge.md)
 
+- [Catalog](catalog.md)
+
 - [CodePen](codepen.md)
 
 - [FontIcon](fonticon.md)
 
 - [PDF](pdf.md)
 
+- [SiteInfo](siteinfo.md)
+
 - [StackBlitz](stackblitz.md)
+
+- [XiGua](xigua.md)
 
 - [VideoPlayer](videoplayer.md)
 

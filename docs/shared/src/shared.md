@@ -1,5 +1,6 @@
 ---
 title: Shared
+icon: share-nodes
 ---
 
 The following functions are available on both node and client.
@@ -74,15 +75,15 @@ encodeURIComponent(content); // '%0A%7B%0A%20%20%22type%22%3A%20%22bar%22%2C%0A%
 
 ## Utils
 
-### deepMerge
+### deepAssign
 
-Deep merge objects to the first one, useful for merging user options with default options.
+Deep version of `Object.assign`, useful for merging user options with default options.
 
 ```ts
 /**
  * Deep merge objects to the first one
  */
-export const deepMerge: <
+export const deepAssign: <
   T extends IAnyObject,
   U extends IAnyObject = T,
   V extends Partial<T> & Partial<U> = T & U
@@ -96,7 +97,7 @@ export const deepMerge: <
 
 ```ts
 // or vuepress-shared/client
-import { deepMerge } from "vuepress-shared/node";
+import { deepAssign } from "vuepress-shared/node";
 
 const defaultOptions = {
   optionA: {
@@ -116,7 +117,7 @@ const userOptions = {
   optionB: false,
 };
 
-deepMerge(defaultOptions, userOptions);
+deepAssign(defaultOptions, userOptions);
 // {
 //   optionA: {
 //     optionA1: "optionA1",

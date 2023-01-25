@@ -4,6 +4,9 @@
   @include reset.button;
 
   position: fixed !important;
+
+  // NOTE: Compatible with Android Wechat
+  // inset-inline-end: 1rem;
   right: 1rem;
   bottom: 4rem;
   z-index: 100;
@@ -17,8 +20,8 @@
   color: var(--c-brand, #3eaf7c);
   box-shadow: 2px 2px 10px 0 var(--card-shadow);
 
-  transition: background var(--color-transition), color var(--color-transition),
-    box-shadow var(--color-transition);
+  transition: background var(--t-color, 0.3s ease),
+    color var(--t-color, 0.3s ease), box-shadow var(--t-color, 0.3s ease);
 
   @media (max-width: hope-config.$tablet) {
     width: 2.25rem;
@@ -29,6 +32,11 @@
 
   @media print {
     display: none;
+  }
+
+  #{hope-config.$rtl-selector} & {
+    right: unset;
+    left: 1rem;
   }
 
   &:hover {
@@ -45,7 +53,7 @@
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity var(--color-transition);
+  transition: opacity var(--t-color, 0.3s ease);
 }
 
 .fade-enter,

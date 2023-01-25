@@ -1,6 +1,6 @@
 ---
 title: Config
-icon: config
+icon: gears
 ---
 
 You can pass these options to the plugin:
@@ -166,14 +166,14 @@ Whether to enable mark support.
 
 Whether enable figure support.
 
-## imageLazyload
+## imgLazyload
 
 - Type: `boolean`
 - Default: `false`
 
 Whether to lazy load every images in page in native way.
 
-## imageMark
+## imgMark
 
 - Type: `ImageMarkOptions | boolean`
 - Default: `false`
@@ -189,7 +189,7 @@ interface ImageMarkOptions {
 }
 ```
 
-## imageSize
+## imgSize
 
 - Type: `boolean`
 - Default: `false`
@@ -226,7 +226,7 @@ interface TaskListOptions {
 - Type: `KatexOptions & { mhchem?: boolean } | boolean`
 - Default: `false`
 
-Whether to enable $\TeX$ syntax support through $\KaTeX$. You can pass an object to config $\KaTeX$.
+Whether to enable $\TeX$ syntax support through KaTeX. You can pass an object to config KaTeX.
 
 In particular, you can enable the mhchem extension with `katex.mhchem: true`.
 
@@ -290,7 +290,7 @@ Whether to enable flowchart support
 
 ## mermaid
 
-- Type: `boolean`
+- Type: `MermaidConfig | boolean`
 - Default: `false`
 
 Whether to enable [Mermaid](https://mermaid-js.github.io/mermaid/#/) support.
@@ -667,7 +667,7 @@ Config which you want to pass to reveal.js.
 ## delay
 
 - Type: `number`
-- Default: `500`
+- Default: `800`
 
 The delay of operating dom, in ms.
 
@@ -728,7 +728,8 @@ Locales config for Markdown Enhance Plugin.
 - **Simplified Chinese** (zh-CN)
 - **Traditional Chinese** (zh-TW)
 - **English (United States)** (en-US)
-- **German** (de-AT)
+- **German** (de-DE)
+- **German (Australia)** (de-AT)
 - **Russian** (ru-RU)
 - **Ukrainian** (uk-UA)
 - **Vietnamese** (vi-VN)
@@ -740,5 +741,6 @@ Locales config for Markdown Enhance Plugin.
 - **Japanese** (ja-JP)
 - **Turkish** (tr-TR)
 - **Korean** (ko-KR)
+- **Finnish** (fi-FI)
 
 :::

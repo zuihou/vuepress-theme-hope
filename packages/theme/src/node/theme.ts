@@ -8,7 +8,7 @@ import {
   getStatus,
   getThemeData,
 } from "./config/index.js";
-import { getPluginConfig, usePlugin } from "./plugins/index.js";
+import { checkPlugins, getPluginConfig, usePlugin } from "./plugins/index.js";
 import {
   prepareConfigFile,
   prepareSidebarData,
@@ -24,11 +24,12 @@ export const hopeTheme =
   (
     options: ThemeOptions,
     // TODO: Remove this in v2 stable
-    legacy = false
+    legacy = true
   ): ThemeFunction =>
   (app) => {
     const { isDebug } = app.env;
     const {
+      favicon,
       hotReload = isDebug,
       plugins = {},
       hostname,
@@ -42,6 +43,8 @@ export const hopeTheme =
       : options;
 
     if (legacy) checkStyle(app);
+
+    checkPlugins(app, plugins);
 
     const status = getStatus(app, options);
     const themeConfig = getThemeData(app, themeOptions, status);
@@ -65,6 +68,26 @@ export const hopeTheme =
       }),
 
       extendsBundlerOptions,
+
+      onInitialized: (): void => {
+        if (favicon) {
+          const { base, head } = app.options;
+          const faviconLink = favicon.replace(/^\/?/, base);
+
+          // ensure favicon is not injected
+          if (
+            head.every(
+              ([tag, attrs]) =>
+                !(
+                  tag === "link" &&
+                  attrs["rel"] === "icon" &&
+                  attrs["href"] === faviconLink
+                )
+            )
+          )
+            head.push(["link", { rel: "icon", href: faviconLink }]);
+        }
+      },
 
       onPrepared: (): Promise<void> =>
         Promise.all([
@@ -107,6 +130,7 @@ export const hopeTheme =
           hotReload,
           iconAssets,
           iconPrefix,
+          favicon,
         },
         legacy
       ),

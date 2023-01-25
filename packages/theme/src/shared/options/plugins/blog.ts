@@ -4,7 +4,11 @@ export interface BlogPluginOptions
   extends Partial<
     Pick<
       BlogOptions,
-      "excerptFilter" | "excerptLength" | "filter" | "hotReload"
+      | "excerptFilter"
+      | "excerptLength"
+      | "excerptSeparator"
+      | "filter"
+      | "hotReload"
     >
   > {
   /**
@@ -12,7 +16,7 @@ export interface BlogPluginOptions
    *
    * 文章列表的路径
    *
-   * @default '/article/'
+   * @default "/article/"
    */
   article?: string;
 
@@ -21,7 +25,7 @@ export interface BlogPluginOptions
    *
    * 分类地图页的地址
    *
-   * @default '/category/'
+   * @default "/category/"
    */
   category?: string;
 
@@ -34,7 +38,7 @@ export interface BlogPluginOptions
    *
    * 其中 `:name` 会被自动替换为当前分类名称
    *
-   * @default '/category/:name/'
+   * @default "/category/:name/"
    */
   categoryItem?: string;
 
@@ -43,7 +47,7 @@ export interface BlogPluginOptions
    *
    * 标签地图页的地址
    *
-   * @default '/tag/'
+   * @default "/tag/"
    */
   tag?: string;
 
@@ -56,7 +60,7 @@ export interface BlogPluginOptions
    *
    * 其中 `:name` 会被自动替换为当前分类名称
    *
-   * @default '/tag/:name/'
+   * @default "/tag/:name/"
    */
   tagItem?: string;
 
@@ -65,7 +69,7 @@ export interface BlogPluginOptions
    *
    * 星标文章列表的路径
    *
-   * @default '/star/''
+   * @default "/star/""
    */
   star?: string;
 
@@ -74,7 +78,7 @@ export interface BlogPluginOptions
    *
    * 时间线路径
    *
-   * @default '/timeline/'
+   * @default "/timeline/"
    */
   timeline?: string;
 
@@ -90,11 +94,11 @@ export interface BlogPluginOptions
   /**
    * Additional Article Type
    *
-   * @description This is an advanced option, please refer to the [blog2 plugin documentation](https://vuepress-theme-hope.github.io/v2/blog/guide.html#customizing-categories-and-types) for details
+   * @description This is an advanced option, please refer to the [blog2 plugin documentation](https://plugin-blog.vuejs.press/guide.html#customizing-categories-and-types) for details
    *
    * 额外的文章类型
    *
-   * @description 这是一个高级选项，请参考 [blog2 插件文档](https://vuepress-theme-hope.github.io/v2/blog/zh/guide.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%88%AB%E5%92%8C%E7%B1%BB%E5%9E%8B) 了解详情
+   * @description 这是一个高级选项，请参考 [blog2 插件文档](https://plugin-blog.vuejs.press/zh/guide.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%88%AB%E5%92%8C%E7%B1%BB%E5%9E%8B) 了解详情
    *
    * @default []
    */

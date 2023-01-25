@@ -1,14 +1,14 @@
+import { getTitleFromFilename } from "vuepress-shared/node";
 import { getStructure } from "./structure.js";
-import { getTitle } from "./title.js";
 
 import type { Page } from "@vuepress/core";
 import type {
-  ThemeNormalPageFrontmatter,
-  ThemePageData,
   SidebarDirInfo,
   SidebarFileInfo,
   SidebarInfo,
   SidebarSorterFunction,
+  ThemeNormalPageFrontmatter,
+  ThemePageData,
 } from "../../../shared/index.js";
 import type { StructureInfo } from "./structure.js";
 
@@ -146,7 +146,7 @@ const getInfoFromStructure = (
       info.children
     ),
 
-    title: getTitle(info.dirname),
+    title: getTitleFromFilename(info.dirname),
     order: null,
 
     // generate information

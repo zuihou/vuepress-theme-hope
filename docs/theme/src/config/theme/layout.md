@@ -1,6 +1,6 @@
 ---
 title: Theme Layout Options
-icon: config
+icon: object-group
 order: 4
 category:
   - Config
@@ -45,13 +45,13 @@ Whether display icons in navbar.
     | "Repo";
 
   interface HopeNavbarLayoutOptions {
-    left: NavbarComponent[];
+    start: NavbarComponent[];
     center: NavbarComponent[];
-    right: NavbarComponent[];
+    end: NavbarComponent[];
   }
   ```
 
-- Default: `{ left: ["Brand"], center: ["Links"], right: ["Language", "Repo", "Outlook", "Search"] }`
+- Default: `{ start: ["Brand"], center: ["Links"], end: ["Language", "Repo", "Outlook", "Search"] }`
 
 Customize navbar layout.
 
@@ -354,6 +354,13 @@ Whether to display footer by default.
 - Default: Key of current locale
 
 Home path of current locale, used as the link of back-to-home and navbar logo.
+
+### rtl
+
+- Type: `boolean`
+- Default: `false`
+
+Whether use RTL layout.
 
 ### toc {#toc-heading}
 

@@ -34,12 +34,15 @@
 
     // name
     "addthis",
+    "artplayer",
     "bili",
     "bumpp",
     "codepen",
     "commitlint",
     "corepack",
     "danmaku",
+    "damu",
+    "danmuku",
     "demi",
     "dingding",
     "dribbble",
@@ -62,6 +65,7 @@
     "livescript",
     "mailchimp",
     "mathjax",
+    "mdit",
     "npmmirror",
     "nprogress",
     "pandoc",
@@ -127,7 +131,11 @@
   "markdown.validate.enabled": true,
   "search.exclude": {
     "**/node_modules": true,
-    "../.vuepress/assets/lib/**": true
+    "**/.vuepress/public/assets/lib/**": true,
+    "**/.vuepress/.cache/**": true,
+    "**/.vuepress/.temp/**": true,
+    "**/dist/**": true,
+    "packages/*/lib/**": true
   },
   "typescript.tsdk": "node_modules/typescript/lib"
 }

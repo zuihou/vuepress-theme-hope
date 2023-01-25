@@ -3,7 +3,8 @@ import type { VNode } from "vue";
 
 import "../styles/font-icon.scss";
 
-declare const ICON_PREFIX: string;
+declare const FONT_ICON_TYPE: string;
+declare const FONT_ICON_PREFIX: string;
 
 export default defineComponent({
   name: "FontIcon",
@@ -53,7 +54,14 @@ export default defineComponent({
     return (): VNode | null =>
       props.icon
         ? h("span", {
-            class: ["font-icon icon", `${ICON_PREFIX}${props.icon}`],
+            key: props.icon,
+            class: [
+              "font-icon icon",
+              FONT_ICON_TYPE === "fontawesome" ? "fa-fw fa-sm" : "",
+              props.icon.includes(" ")
+                ? props.icon
+                : `${FONT_ICON_PREFIX}${props.icon}`,
+            ],
             style: style.value,
           })
         : null;

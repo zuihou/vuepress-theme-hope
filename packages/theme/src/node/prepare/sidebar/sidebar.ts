@@ -1,4 +1,9 @@
-import { ensureEndingSlash, removeLeadingSlash } from "@vuepress/shared";
+import {
+  ensureEndingSlash,
+  isArray,
+  isPlainObject,
+  removeLeadingSlash,
+} from "@vuepress/shared";
 
 import { getSidebarInfo } from "./info.js";
 import { getSorter } from "./sorter.js";
@@ -6,12 +11,12 @@ import { logger } from "../../utils.js";
 
 import type { App } from "@vuepress/core";
 import type {
-  ThemeData,
   SidebarArrayOptions,
-  SidebarOptions,
   SidebarGroupItem,
-  SidebarSorter,
   SidebarInfo,
+  SidebarOptions,
+  SidebarSorter,
+  ThemeData,
 } from "../../../shared/index.js";
 
 const getGeneratePaths = (
@@ -20,7 +25,7 @@ const getGeneratePaths = (
 ): string[] => {
   const result: string[] = [];
 
-  if (!Array.isArray(sidebarConfig)) {
+  if (!isArray(sidebarConfig)) {
     logger.error(
       `Expecting array, but getting invalid sidebar config${
         prefix ? ` under ${prefix}` : ""
@@ -32,7 +37,7 @@ const getGeneratePaths = (
 
   sidebarConfig.forEach((item) => {
     // it’s a sidebar group config
-    if (typeof item === "object" && "children" in item) {
+    if (isPlainObject(item) && "children" in item) {
       const childPrefix = `${prefix}${item.prefix || ""}`;
 
       // the children needs to be generated
@@ -66,17 +71,17 @@ export const getSidebarData = (
 
   // exact generate sidebar paths
   Object.entries(themeData.locales).forEach(([localePath, { sidebar }]) => {
-    if (Array.isArray(sidebar))
-      generatePaths.push(...getGeneratePaths(sidebar));
-    else if (typeof sidebar === "object")
+    if (isArray(sidebar)) generatePaths.push(...getGeneratePaths(sidebar));
+    else if (isPlainObject(sidebar))
       Object.entries(sidebar).forEach(([prefix, config]) => {
         if (config === "structure") generatePaths.push(prefix);
-        else if (Array.isArray(config))
+        else if (isArray(config))
           generatePaths.push(
             ...getGeneratePaths(config).map((item) => `${prefix}${item}`)
           );
       });
-    else if (sidebar === "structure") generatePaths.push(localePath);
+    // sidebar is default "structure"
+    else if (sidebar !== false) generatePaths.push(localePath);
   });
 
   const sidebarData = Object.fromEntries(

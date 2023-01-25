@@ -1,6 +1,6 @@
 ---
 title: MdEnhance Plugin Config
-icon: markdown
+icon: fab fa-markdown
 order: 6
 category:
   - Конфиг
@@ -27,7 +27,7 @@ tag:
 
 `vuepress-theme-hope` установит для параметра `container` значение `true` по умолчанию.
 
-Подробнее смотрите в [документации по md-enhance][md-enhance-config].
+Подробнее смотрите в <ProjectLink name="md-enhance" path="/config.html">документации по md-enhance</ProjectLink>.
 
 :::
 
@@ -134,7 +134,7 @@ tag:
 
 Включить ли поддержку выделения.
 
-### imageLazyload
+### imgLazyload
 
 - Тип: `boolean`
 - По умолчанию: `false`
@@ -148,7 +148,7 @@ tag:
 
 Включить ли поддержку названия изображения.
 
-### imageMark
+### imgMark
 
 - Тип: `ImageMarkOptions | boolean`
 - По умолчанию: `false`
@@ -164,7 +164,7 @@ interface ImageMarkOptions {
 }
 ```
 
-### imageSize
+### imgSize
 
 - Тип: `boolean`
 - По умолчанию: `false`
@@ -201,7 +201,7 @@ interface TaskListOptions {
 - Тип: `KatexOptions & { mhchem?: boolean } | boolean`
 - По умолчанию: `false`
 
-Включить ли поддержку синтаксиса $\TeX$ через $\KaTeX$. Вы можете передать объект в конфигурацию $\KaTeX$.
+Включить ли поддержку синтаксиса $\TeX$ через KaTeX. Вы можете передать объект в конфигурацию KaTeX.
 
 В частности, вы можете включить расширение mhchem с помощью `katex.mhchem: true`.
 
@@ -225,7 +225,7 @@ interface TaskListOptions {
 
 ### mermaid
 
-- Тип: `boolean`
+- Тип: `MermaidConfig | boolean`
 - По умолчанию: `false`
 
 Включить ли поддержку [Mermaid](https://mermaid-js.github.io/mermaid/#/).
@@ -602,7 +602,7 @@ CodePen, JsFiddle нужна внешняя библиотека CSS для зн
 ### delay
 
 - Тип: `number`
-- По умолчанию: `500`
+- По умолчанию: `800`
 
 Задержка срабатывания, в мс.
 
@@ -657,5 +657,3 @@ CodePen, JsFiddle нужна внешняя библиотека CSS для зн
 - Обязательный: Нет
 
 Конфигурация локалей для плагина Расширения Markdown.
-
-[md-enhance-config]: https://vuepress-theme-hope.github.io/v2/md-enhance/config.html

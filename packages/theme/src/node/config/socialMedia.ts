@@ -1,5 +1,6 @@
+import { isArray, isString } from "@vuepress/shared";
 import { fs } from "@vuepress/utils";
-import { logger, TEMPLATE_FOLDER } from "../utils.js";
+import { TEMPLATE_FOLDER, logger } from "../utils.js";
 
 import type { ThemeData } from "../../shared/index.js";
 
@@ -12,7 +13,7 @@ export const checkSocialMediaIcons = (
     key: string,
     value: string | [string, string]
   ): string | false => {
-    if (typeof value === "string") {
+    if (isString(value)) {
       const templatePath = `${TEMPLATE_FOLDER}socialMediaIcons/${key.toLocaleLowerCase()}.svg`;
 
       if (fs.existsSync(templatePath)) {
@@ -26,7 +27,7 @@ export const checkSocialMediaIcons = (
       return false;
     }
 
-    if (Array.isArray(value)) {
+    if (isArray(value)) {
       // it’s a svg string
       if (value[1].startsWith("<svg")) {
         icons[key] = value[1];
@@ -54,8 +55,8 @@ export const checkSocialMediaIcons = (
   Object.entries(themeData.blog?.medias || {}).forEach(([key, value]) => {
     const result = checkIcon(key, value);
 
-    if (result) themeData.blog.medias![key] = result;
-    else delete themeData.blog.medias![key];
+    if (result) themeData.blog!.medias![key] = result;
+    else delete themeData.blog!.medias![key];
   });
 
   if (themeData.locales)
@@ -64,8 +65,8 @@ export const checkSocialMediaIcons = (
         ([key, value]) => {
           const result = checkIcon(key, value);
 
-          if (result) localeConfig.blog.medias![key] = result;
-          else delete localeConfig.blog.medias![key];
+          if (result) localeConfig.blog!.medias![key] = result;
+          else delete localeConfig.blog!.medias![key];
         }
       );
     });

@@ -1,7 +1,7 @@
 import type { ThemeLocaleData } from "../../shared/index.js";
 
 export const deLocale: ThemeLocaleData = {
-  lang: "de-AT",
+  lang: "de",
 
   navbarLocales: {
     langName: "Deutsch",
@@ -17,9 +17,9 @@ export const deLocale: ThemeLocaleData = {
     tag: "Tag",
     readingTime: "Lesezeit",
     words: "Wörter",
-    toc: "On This Page",
-    prev: "Prev",
-    next: "Next",
+    toc: "Auf dieser Seite",
+    prev: "Vorherige",
+    next: "Nächste",
     lastUpdated: "Zuletzt geändert",
     contributors: "Mitwirkende",
     editLink: "Diese Seite barbeiten",
@@ -38,8 +38,8 @@ export const deLocale: ThemeLocaleData = {
   },
 
   paginationLocales: {
-    prev: "Vorheriges",
-    next: "Nächstes",
+    prev: "Vorherige",
+    next: "Nächste",
     navigate: "Springe zu",
     action: "Los",
     errorText: "Bitte gib eine Nummer zwischen 1 und $page ein!",
@@ -48,18 +48,19 @@ export const deLocale: ThemeLocaleData = {
   outlookLocales: {
     themeColor: "Design-Farbe",
     darkmode: "Design-Modus",
-    fullscreen: "Full Screen",
+    fullscreen: "Vollbild",
   },
 
   encryptLocales: {
-    iconLabel: "Page Encrypted",
-    placeholder: "Entre a senha",
-    remember: "Remember password",
+    iconLabel: "Seite verschlüsselt",
+    placeholder: "Passwort eingeben",
+    remember: "Passwort merken",
     errorHint: "Bitte das korrekte Passwort eingeben!",
   },
 
   routeLocales: {
     skipToContent: "Zum Hauptinhalt springen",
+    notFoundTitle: "Seite nicht gefunden",
     notFoundMsg: [
       "Hier gibt es nichts.",
       "Wie sind wir hier hergekommen?",
@@ -68,6 +69,6 @@ export const deLocale: ThemeLocaleData = {
     ],
     back: "Zurück",
     home: "Zur Startseite",
-    openInNewWindow: "Open in new window",
+    openInNewWindow: "In neuem Fenster öffnen",
   },
 };

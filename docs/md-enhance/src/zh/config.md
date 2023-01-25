@@ -1,6 +1,6 @@
 ---
 title: 配置
-icon: config
+icon: gears
 ---
 
 你可以设置以下插件选项来启用或禁用一些功能。
@@ -166,14 +166,14 @@ icon: config
 
 是否启用图片 Figure 支持。
 
-## imageLazyload
+## imgLazyload
 
 - 类型: `boolean`
 - 默认值: `false`
 
 是否使用原生方式懒加载页面图片。
 
-## imageMark
+## imgMark
 
 - 类型: `ImageMarkOptions | boolean`
 - 默认值: `false`
@@ -189,7 +189,7 @@ interface ImageMarkOptions {
 }
 ```
 
-## imageSize
+## imgSize
 
 - 类型: `boolean`
 - 默认值: `false`
@@ -252,7 +252,7 @@ interface TaskListOptions {
 - 类型: `KatexOptions | boolean`
 - 默认值: `false`
 
-是否通过 $\KaTeX$ 启用 $\TeX$ 语法支持。你可以传入一个对象作为 $\KaTeX$ 的配置选项。
+是否通过 KaTeX 启用 $\TeX$ 语法支持。你可以传入一个对象作为 KaTeX 的配置选项。
 
 特别低，你可以通过 `katex.mhchem: true` 来启用 mhchem 扩展。
 
@@ -290,7 +290,7 @@ interface TaskListOptions {
 
 ## mermaid
 
-- 类型: `boolean`
+- 类型: `MermaidConfig | boolean`
 - 默认值: `false`
 
 是否启用 [Mermaid](https://mermaid-js.github.io/mermaid/#/) 支持。
@@ -678,7 +678,7 @@ CodePen 编辑器显示情况，第一位代表 HTML ，第二位代表 JS，第
 ## delay
 
 - 类型: `number`
-- 默认值: `500`
+- 默认值: `800`
 
 操作页面 DOM 的延时，单位 ms。
 
@@ -739,7 +739,8 @@ Markdown 增强插件的国际化配置。
 - **简体中文** (zh-CN)
 - **繁体中文** (zh-TW)
 - **英文(美国)** (en-US)
-- **德语** (de-AT)
+- **德语** (de-DE)
+- **德语(澳大利亚)** (de-AT)
 - **俄语** (ru-RU)
 - **乌克兰语** (uk-UA)
 - **越南语** (vi-VN)
@@ -751,5 +752,6 @@ Markdown 增强插件的国际化配置。
 - **日语** (ja-JP)
 - **土耳其语** (tr-TR)
 - **韩语** (ko-KR)
+- **芬兰语** (fi-FI)
 
 :::

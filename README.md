@@ -1,6 +1,6 @@
 <!-- markdownlint-disable -->
 <p align="center">
-  <img width="240" src="https://vuepress-theme-hope.github.io/v2/logo.svg" style="text-align: center;">
+  <img width="240" src="https://theme-hope.vuejs.press/logo.svg" style="text-align: center;">
 </p>
 <h1 align="center">vuepress-theme-hope</h1>
 <h4 align="center">A VuePress theme with tons of features✨</h4>
@@ -17,7 +17,7 @@
 
 <!-- markdownlint-restore -->
 
-[![Version](https://img.shields.io/npm/v/vuepress-theme-hope/next.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/vuepress-theme-hope.svg?style=flat-square&logo=npm) ![Total downloads](https://img.shields.io/npm/dt/vuepress-theme-hope?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/vuepress-theme-hope?style=flat-square&logo=npm)](https://www.npmjs.com/package/vuepress-theme-hope)
+[![Version](https://img.shields.io/npm/v/vuepress-theme-hope.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/vuepress-theme-hope.svg?style=flat-square&logo=npm) ![Total downloads](https://img.shields.io/npm/dt/vuepress-theme-hope?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/vuepress-theme-hope?style=flat-square&logo=npm)](https://www.npmjs.com/package/vuepress-theme-hope)
 
 [![open collective](https://opencollective.com/vuepress-theme-hope/tiers/badge.svg)](https://opencollective.com/vuepress-theme-hope)
 
@@ -28,21 +28,13 @@
 
 A VuePress theme with tons of features✨
 
-## [English Docs](https://vuepress-theme-hope.github.io/v2/)
+## [English Docs](https://theme-hope.vuejs.press/)
 
 ## [Online Demo](https://stackblitz.com/fork/vuepress-theme-hope)
 
 ## Contact
 
 We recommend you to contact using [issues](https://github.com/vuepress-theme-hope/vuepress-theme-hope/issues) and [discussions](https://github.com/vuepress-theme-hope/vuepress-theme-hope/discussions), but you are welcome to join our [telegram group!](https://t.me/vuepressthemehope).
-
-## Note
-
-Current branch is based on VuePress@v2, and it’s still in beta.
-
-This means that features and API are not solid, and there might be BREAKING CHANGES in future releases.
-
-Though the project has stable release of V1, and are held in [V1 Repo](https://github.com/vuepress-theme-hope/vuepress-theme-hope-v1/), but we do not recommend you to keep using V1 in new projects. See [V1 end of support Announcement](https://github.com/vuepress-theme-hope/vuepress-theme-hope/discussions/1535) for more details.
 
 ## Details
 

@@ -1,7 +1,8 @@
-import { isLinkHttp, removeEndingSlash } from "@vuepress/shared";
+import { isArray, isLinkHttp, removeEndingSlash } from "@vuepress/shared";
 import { load } from "cheerio";
 import matter from "gray-matter";
 import { HTML_TAGS, SVG_TAGS } from "../utils/index.js";
+import { isAbsoluteUrl } from "../../shared/index.js";
 
 import type { App, Page } from "@vuepress/core";
 import type { AnyNode } from "cheerio";
@@ -14,7 +15,7 @@ export interface PageExcerptOptions {
    *
    * 摘要分隔符
    *
-   * @default '<!-- more -->'
+   * @default "<!-- more -->"
    */
   excerptSeparator?: string;
 
@@ -54,7 +55,7 @@ const handleNode = (
       const { src } = node.attribs;
 
       // this is not a resolvable image link
-      if (!isLinkHttp(src) && !src.startsWith("/")) return null;
+      if (!isLinkHttp(src) && !isAbsoluteUrl(src)) return null;
     }
 
     // toc should be dropped
@@ -113,7 +114,7 @@ const handleNodes = (
   base: string,
   isCustomElement: (tagName: string) => boolean
 ): AnyNode[] =>
-  Array.isArray(nodes)
+  isArray(nodes)
     ? nodes
         .map((node) => handleNode(node, base, isCustomElement))
         .filter((node): node is AnyNode => node !== null)

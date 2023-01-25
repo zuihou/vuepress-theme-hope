@@ -1,5 +1,5 @@
 import { lang2PathConfig, path2langConfig } from "./config.js";
-import { deepMerge } from "../../shared/index.js";
+import { deepAssign } from "../../shared/index.js";
 import { Logger } from "../utils/index.js";
 
 import type { App, LocaleConfig } from "@vuepress/core";
@@ -13,7 +13,7 @@ export const path2Lang = (path = "", debug = false): HopeLang => {
 
   if (debug)
     console.warn(
-      `${path} isn’t assign with a lang, and will return 'en-US' instead.`
+      `${path} isn’t assign with a lang, and will return "en-US" instead.`
     );
 
   return "en-US";
@@ -24,7 +24,7 @@ export const lang2Path = (lang = "", debug = false): string => {
   if (lang in lang2PathConfig) return lang2PathConfig[lang as HopeLang];
 
   if (debug)
-    console.warn(`${lang} has no path config, and will return '/' instead.`);
+    console.warn(`${lang} has no path config, and will return "/" instead.`);
 
   return "/";
 };
@@ -98,7 +98,7 @@ export const getLocales = <T extends LocaleData>({
 
         return [
           localePath,
-          deepMerge(
+          deepAssign(
             {},
             defaultLocaleData || defaultLocalesConfig[rootPath] || {},
             userLocalesConfig[localePath] || {}
@@ -107,7 +107,7 @@ export const getLocales = <T extends LocaleData>({
       }),
     [
       "/",
-      deepMerge(
+      deepAssign(
         {},
         defaultLocalesConfig[rootPath],
         userLocalesConfig["/"] || userLocalesConfig[rootPath] || {}

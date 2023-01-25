@@ -47,6 +47,21 @@ export const pwaLocales: PWALocaleConfig = {
     update: "新内容已就绪",
   },
 
+  "/de/": {
+    install: "Installieren",
+    iOSInstall: "Drucke den Share-Button und dann 'zu Homescreen hinzufügen'",
+    cancel: "Abbrechen",
+    close: "Schließen",
+    prevImage: "Vorheriges Bild",
+    nextImage: "Nächstes Bild",
+    desc: "Berschreibung",
+    feature: "Funktionen",
+    explain:
+      "Diese App kann auf Ihrem PC oder Mobilgerät installiert werden. Dadurch sieht diese Web-App aus und verhält sich wie jede andere installierte App. Sie finden sie in Ihren App-Listen und können sie an den Startbildschirm, die Startmenüs oder die Taskleisten anheften. Diese installierte Web-App kann auch sicher mit anderen Apps und Ihrem Betriebssystem interagieren.",
+    hint: "Neuer Inhalt gefunden.",
+    update: "Neue Inhalte sind verfügbar.",
+  },
+
   "/de-at/": {
     install: "Installieren",
     iOSInstall: "Drucke den Share-Button und dan 'zu Homescreen hinzufügen'",
@@ -233,5 +248,20 @@ export const pwaLocales: PWALocaleConfig = {
       "이 앱은 PC 또는 모바일 장치에 설치할 수 있습니다. 이렇게 하면 이 웹 앱은 다른 설치된 앱과 마찬가지로 표시되고 작동합니다. 앱 목록에서 찾을 수 있으며 홈 화면, 시작 메뉴, 작업 표시줄에 고정할 수 있습니다. 설치된 웹 앱은 다른 앱과 안전하게 상호 작용할 수 있습니다.",
     hint: "새로운 콘텐츠를 찾았습니다.",
     update: "새로운 콘텐츠가 있습니다.",
+  },
+
+  "/fi/": {
+    install: "Asenna",
+    iOSInstall: "Paina Jaa-painiketta ja sitten 'Lisää kotiin'-painiketta",
+    cancel: "Peruuta",
+    close: "Sulje",
+    prevImage: "Edellinen kuva",
+    nextImage: "Seuraava kuva",
+    desc: "Kuvaus",
+    feature: "Avainominaisuudet",
+    explain:
+      "Tämä sovellus on asennettavissa tietokoneelle tai mobiililaitteelle. Tämä mahdollistaa sovelluksen toiminnan tietokoneohjelmana. Löydät sen sovelluslistasta ja voit kiinnittää sen työpöydälle, kotinäytölle, tehtäväpalkkiin tai muulle listalle. Asennettu sovellus voi turvallisesti olla vuorovaikutuksessa muiden sovellusten ja käyttöjärjestelmäsi kanssa.",
+    hint: "Uutta sisältöä.",
+    update: "Uutta sisältöä on saatavilla.",
   },
 };

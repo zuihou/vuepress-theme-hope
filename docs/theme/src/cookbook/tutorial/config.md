@@ -1,6 +1,7 @@
 ---
 title: Project Config
-icon: config
+icon: gears
+order: 5
 category:
   - Cookbook
   - Tutorial

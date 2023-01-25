@@ -1,6 +1,7 @@
 ---
 title: Настройка среды
 icon: leaf
+order: 1
 category:
   - Учебник с примерами
   - Руководство
@@ -83,5 +84,5 @@ tag:
 
 ```sh
 corepack enable
-corepack prepare pnpm@7.18.2 --activate
+corepack prepare pnpm@7.24.3 --activate
 ```

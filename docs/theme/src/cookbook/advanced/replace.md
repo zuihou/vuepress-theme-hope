@@ -1,6 +1,7 @@
 ---
 title: Replacing Theme Components
-icon: customize
+icon: boxes-packing
+order: 3
 category:
   - Advanced
 tag:
@@ -80,8 +81,8 @@ Components:
 - `@theme-hope/components/AutoLink`: basic link
 - `@theme-hope/components/BreadCrumb`: breadcrumb
 - `@theme-hope/components/CommonWrapper`: basic layout integration
-- `@theme-hope/components/HomeFeatures`: homepage features
-- `@theme-hope/components/HomeHero`: homepage logo and introduction
+- `@theme-hope/components/FeaturePanel`: homepage features
+- `@theme-hope/components/HeroInfo`: homepage logo and introduction
 - `@theme-hope/components/HomePage`: home page
 - `@theme-hope/components/Icon`: icon
 - `@theme-hope/components/MarkdownContent`: Markdown content
@@ -148,7 +149,7 @@ Components:
 - `@theme-hope/modules/info/components/AuthorInfo`: author information
 - `@theme-hope/modules/info/components/CategoryInfo`: category information
 - `@theme-hope/modules/info/components/DateInfo`: date information
-- `@theme-hope/modules/info/components/OriginalMark`: original mark
+- `@theme-hope/modules/info/components/OriginalInfo`: original mark
 - `@theme-hope/modules/info/components/PageInfo`: page information
 - `@theme-hope/modules/info/components/PageMeta`: page meta information
 - `@theme-hope/modules/info/components/PageViewInfo`: page views information
@@ -282,8 +283,8 @@ Components that provide slots are as follows:
 **theme**:
 
 - `AutoLink`: `default`, `before`, `after`
-- `CommonWrapper`: `default`, `navbarLeftStart`, `navbarLeftEnd`, `navbarCenterStart`, `navbarCenterEnd`, `navbarRightStart`, `navbarRightEnd`, `navScreenTop`, `navScreenBottom`, `sidebar`, `sidebarTop`, `sidebarBottom`
-- `HomeHero`: `heroImage`, `heroInfo`
+- `CommonWrapper`: `default`, `navbarStartBefore`, `navbarStartAfter`, `navbarCenterBefore`, `navbarCenterAfter`, `navbarEndBegin`, `navbarEndAfter`, `navScreenTop`, `navScreenBottom`, `sidebar`, `sidebarTop`, `sidebarBottom`
+- `HeroInfo`: `heroImage`, `heroInfo`
 - `HomePage`: `top`, `center`, `bottom`
 - `NormalPage`: `top`, `contentBefore`, `contentAfter`, `bottom`
 
@@ -291,7 +292,7 @@ Components that provide slots are as follows:
 
 - `DropdownLink`: `title`
 - `NavActions`: `before`, `after`
-- `Navbar`: `leftStart`, `leftEnd`, `centerStart`, `centerEnd`, `rightStart`, `rightEnd`
+- `Navbar`: `startBefore`, `startAfter`, `centerBefore`, `centerAfter`, `endBegin`, `endAfter`
 - `NavbarBrand`: `default`
 - `NavScreen`: `before`, `after`
 - `NavScreenDropdown`: `before`, `after`

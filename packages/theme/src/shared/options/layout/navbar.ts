@@ -35,9 +35,9 @@ export type NavbarComponent =
  * 导航栏布局选项
  */
 export interface NavbarLayoutOptions {
-  left: NavbarComponent[];
+  start: NavbarComponent[];
   center: NavbarComponent[];
-  right: NavbarComponent[];
+  end: NavbarComponent[];
 }
 
 export interface NavbarLocaleOptions {
@@ -46,13 +46,13 @@ export interface NavbarLocaleOptions {
    *
    * @description Set to `false` to disable navbar in current locale
    *
-   * @see https://vuepress-theme-hope.github.io/v2/guide/layout/navbar.html
+   * @see https://theme-hope.vuejs.vuepress/guide/layout/navbar.html
    *
    * 导航栏配置
    *
    * @description 设置 `false` 以在当前语言中禁用导航栏
    *
-   * @see https://vuepress-theme-hope.gitee.io/v2/zh/guide/layout/navbar.html
+   * @see https://theme-hope.vuejs.vuepress/v2/zh/guide/layout/navbar.html
    */
   navbar?: NavbarOptions | false;
 
@@ -115,7 +115,7 @@ export interface NavbarLocaleOptions {
    *
    * 是否在向下滚动时自动隐藏导航栏
    *
-   * @default 'mobile'
+   * @default "mobile"
    */
   navbarAutoHide?: "always" | "mobile" | "none";
 
@@ -124,7 +124,7 @@ export interface NavbarLocaleOptions {
    *
    * 导航栏布局设置
    *
-   * @default { left: ["Brand"], center: ["Links"], right: ["Language", "Repo", "Outlook", "Search"] }
+   * @default { start: ["Brand"], center: ["Links"], end: ["Language", "Repo", "Outlook", "Search"] }
    */
   navbarLayout?: NavbarLayoutOptions;
 

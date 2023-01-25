@@ -6,7 +6,7 @@ import FadeSlideY from "@theme-hope/components/transitions/FadeSlideY";
 import HomePage from "@theme-hope/components/HomePage";
 import NormalPage from "@theme-hope/components/NormalPage";
 import SkipLink from "@theme-hope/components/SkipLink";
-import { useMobile } from "@theme-hope/composables/index";
+import { useWindowSize } from "@theme-hope/composables/index";
 import {
   useThemeData,
   useThemeLocaleData,
@@ -26,13 +26,14 @@ export default defineComponent({
     const themeLocale = useThemeLocaleData();
     const page = usePageData();
     const frontmatter = usePageFrontmatter<ThemePageFrontmatter>();
-    const isMobile = useMobile();
+    const { isMobile } = useWindowSize();
 
-    const sidebarDisplay = computed(
-      () =>
-        themeLocale.value.blog.sidebarDisplay ||
-        themeData.value.blog.sidebarDisplay ||
-        "mobile"
+    const sidebarDisplay = computed(() =>
+      ENABLE_BLOG
+        ? themeLocale.value.blog?.sidebarDisplay ||
+          themeData.value.blog?.sidebarDisplay ||
+          "mobile"
+        : "none"
     );
 
     return (): VNode[] => [
@@ -45,12 +46,10 @@ export default defineComponent({
             frontmatter.value.home
               ? h(HomePage)
               : h(FadeSlideY, () => h(NormalPage, { key: page.value.path })),
-          ...(ENABLE_BLOG && sidebarDisplay.value !== "none"
+          ...(sidebarDisplay.value !== "none"
             ? { navScreenBottom: () => h(resolveComponent("BloggerInfo")) }
             : {}),
-          ...(ENABLE_BLOG &&
-          !isMobile.value &&
-          sidebarDisplay.value === "always"
+          ...(!isMobile.value && sidebarDisplay.value === "always"
             ? { sidebar: () => h(resolveComponent("BloggerInfo")) }
             : {}),
         }

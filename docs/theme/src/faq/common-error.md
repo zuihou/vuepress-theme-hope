@@ -1,6 +1,6 @@
 ---
 title: Common Errors
-icon: warn
+icon: triangle-exclamation
 category:
   - FAQ
 ---
@@ -31,7 +31,10 @@ Also you can check these:
 
 - If you only encounter this problem on certain pages, please check whether the page has additional components you added.
 
-  If so, these components are likely to have different rendering results between SSR and the client. You can try to make their behavior consistent, or wrap your components with the `<ClientOnly />` component provided by `@vuepress/client`.
+  If so, these components are likely to have different rendering results between SSR[^ssr] and CSR[^csr]. You can try to make their behavior consistent, or wrap your components with the `<ClientOnly />` component provided by `@vuepress/client`.
+
+[^ssr]: **SSR**: **S**erver **S**ide **R**endering
+[^csr]: **CSR**: **C**lient **S**ide **R**endering
 
 - If you have this problem in all pages, please also follow the previous step to check the components you added in the layout or global components.
 
@@ -47,8 +50,8 @@ Using object format sidebar config means you want to set different sidebar based
 
 - If you want to avoid this warning, you need to add sidebar config for rootLocale path, since all pages will fallback to that.
 - If you want to disable sidebar in current route, set `sidebar: false` in frontmatter.
-- If you want to disable sidebar in current folder, add `currentFolderRoute: false` in sidebar config.
-- If you want to tell theme that you only want sidebar in routes you set, add `rootLocalePath: false` in sidebar config to tell theme sidebar config is disabled by default.
+- If you want to disable sidebar in current folder, add `[currentFolderRoute]: false` in sidebar config.
+- If you want to tell theme that you only want sidebar in routes you set, add `[rootLocalePath]: false` in sidebar config to tell theme sidebar config is disabled by default.
 
 ## `useXXX() is called without provider`
 
@@ -61,19 +64,19 @@ Make sure you are using the latest `vuepress` and `vuepress-theme-hope` versions
 @tab pnpm
 
 ```bash
-pnpm add vuepress@next vuepress-theme-hope@next
+pnpm add @vuepress/client@next vuepress@next vuepress-theme-hope vue@latest -E
 ```
 
 @tab yarn
 
 ```bash
-yarn add vuepress@next vuepress-theme-hope@next
+yarn add vuepress@next vuepress-theme-hope -E
 ```
 
 @tab npm
 
 ```bash
-npm i vuepress@next vuepress-theme-hope@next
+npm i vuepress@next vuepress-theme-hope -E
 ```
 
 :::
@@ -101,6 +104,22 @@ npm i && npm update
 ```
 
 :::
+
+::: warning
+
+Any official packages starting with `@vuepress/` should be upgrade to the same version as VuePress.
+
+I.E.: if you are using `@vuepress/plugin-search` and `@vuepress/utils` , you should ensure they have the same version number as `vuepress`.
+
+Also, if you're using another third-party plugin, make sure it's compatible with the version of VuePress you're upgrading to.
+
+:::
+
+## HotReload not working in DevServer
+
+Some configuration has high performance impact on dev server, so their hot reload are disabled by default. You can enable it manually via `hotReload: true` in theme options.
+
+These include categories and tags for blog, structured sidebar and git-based information.
 
 ## Some page settings are invalid
 

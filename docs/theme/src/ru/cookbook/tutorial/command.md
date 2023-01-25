@@ -1,6 +1,7 @@
 ---
 title: Команды проекта
-icon: command
+icon: flag
+order: 3
 category:
   - Учебник с примерами
   - Руководство
@@ -52,22 +53,20 @@ tag:
 
 ::: code-tabs#shell
 
-@tab pnpm
-
 ```bash
-pnpm add @vuepress/client@next vuepress@next vuepress-theme-hope@next && pnpm i && pnpm up
+pnpm add @vuepress/client@next vue vuepress@next vuepress-theme-hope -E && pnpm i && pnpm up
 ```
 
 @tab yarn
 
 ```bash
-yarn add vuepress@next vuepress-theme-hope@next && yarn install && yarn upgrade
+yarn add vuepress@next vuepress-theme-hope -E && yarn install && yarn upgrade
 ```
 
 @tab npm
 
 ```bash
-npm i vuepress@next vuepress-theme-hope@next && npm install && npm update
+npm i vuepress@next vuepress-theme-hope -E && npm install && npm update
 ```
 
 :::
@@ -76,6 +75,8 @@ npm i vuepress@next vuepress-theme-hope@next && npm install && npm update
 
 Any official plugins starting with `@vuepress/plugin-` should be the same version as VuePress.
 
-If you're using another third-party plugin, make sure it's compatible with the version of VuePress you're upgrading to.
+I.E.: if you are using `@vuepress/plugin-search` and `@vuepress/utils` , you should ensure they have the same version number as `vuepress`.
+
+Also, if you're using another third-party plugin, make sure it's compatible with the version of VuePress you're upgrading to.
 
 :::

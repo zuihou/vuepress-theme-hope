@@ -73,8 +73,8 @@
 
     font-weight: 500;
 
-    transition: background var(--color-transition) border-color
-      var(--color-transition);
+    transition: background var(--t-color, 0.3s ease) border-color
+      var(--t-color, 0.3s ease);
   }
 
   .title {
@@ -99,18 +99,13 @@
   }
 
   .action {
+    @include reset.button;
+
     display: inline-flex;
-    margin-left: 10px;
+    margin-inline-start: 10px;
 
-    &:hover .icon {
-      transition: transform 0.15s cubic-bezier(0.2, 0, 0.13, 2);
-      transform: scale(1.2);
-    }
-
-    &.code {
-      @media (max-width: hope-config.$tablet) {
-        display: none;
-      }
+    @media (max-width: hope-config.$tablet) {
+      display: none;
     }
   }
 
@@ -121,7 +116,7 @@
 
     background: var(--grey15);
 
-    transition: background var(--color-transition);
+    transition: background var(--t-color, 0.3s ease);
 
     .loading-icon {
       width: 4em;
@@ -130,7 +125,7 @@
 
       color: var(--c-brand, #3eaf7c);
 
-      transition: color var(--color-transition);
+      transition: color var(--t-color, 0.3s ease);
     }
   }
 
@@ -152,9 +147,9 @@
 
     height: auto;
 
-    background: var(--c-bg);
+    background: var(--c-bg, #fff);
 
-    transition: background var(--color-transition);
+    transition: background var(--t-color, 0.3s ease);
 
     @media (max-width: hope-config.$tablet) {
       &.show-code {

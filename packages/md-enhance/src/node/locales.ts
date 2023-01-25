@@ -28,6 +28,15 @@ export const markdownEnhanceLocales: MarkdownEnhanceLocaleConfig = {
     details: "詳情",
   },
 
+  "/de/": {
+    info: "Information",
+    note: "Notiz",
+    tip: "Tips",
+    warning: "Warnung",
+    danger: "Gefahr",
+    details: "Details",
+  },
+
   "/de-at/": {
     info: "Information",
     note: "Note",
@@ -134,5 +143,14 @@ export const markdownEnhanceLocales: MarkdownEnhanceLocaleConfig = {
     warning: "경고",
     danger: "위험",
     details: "세부사항",
+  },
+
+  "/fi/": {
+    info: "Tietoa",
+    note: "Huomautus",
+    tip: "Vinkki",
+    warning: "Varoitus",
+    danger: "Vaara",
+    details: "Yksityiskohdat",
   },
 };

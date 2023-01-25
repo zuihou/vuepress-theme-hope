@@ -2,23 +2,13 @@ import { getBundlerName } from "./getBundler.js";
 
 import type { App } from "@vuepress/core";
 import type {
-  WebpackChainConfig,
   WebpackBundlerOptions,
+  WebpackChainConfig,
 } from "@vuepress/bundler-webpack";
 
-export interface WebpackCommonOptions {
-  /**
-   * VuePress Node App
-   */
-  app: App;
-  /**
-   * VuePress Bundler config
-   */
-  config: unknown;
-}
-
-export const chainWebpack = (
-  { app, config }: WebpackCommonOptions,
+export const addChainWebpack = (
+  bundlerOptions: unknown,
+  app: App,
   chainWebpack: (
     config: WebpackChainConfig,
     isServer: boolean,
@@ -26,10 +16,10 @@ export const chainWebpack = (
   ) => void
 ): void => {
   if (getBundlerName(app) === "webpack") {
-    const bundlerConfig = <WebpackBundlerOptions>config;
-    const { chainWebpack: originalChainWebpack } = bundlerConfig;
+    const webpackBundlerOptions = <WebpackBundlerOptions>bundlerOptions;
+    const { chainWebpack: originalChainWebpack } = webpackBundlerOptions;
 
-    bundlerConfig.chainWebpack = (config, isServer, isBuild): void => {
+    webpackBundlerOptions.chainWebpack = (config, isServer, isBuild): void => {
       originalChainWebpack?.(config, isServer, isBuild);
       chainWebpack(config, isServer, isBuild);
     };

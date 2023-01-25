@@ -1,6 +1,6 @@
 ---
 title: Options
-icon: config
+icon: gears
 ---
 
 ## Plugin Options
@@ -109,7 +109,8 @@ Locale config for copyright plugin.
 - **Simplified Chinese** (zh-CN)
 - **Traditional Chinese** (zh-TW)
 - **English (United States)** (en-US)
-- **German** (de-AT)
+- **German** (de-DE)
+- **German (Australia)** (de-AT)
 - **Russian** (ru-RU)
 - **Ukrainian** (uk-UA)
 - **Vietnamese** (vi-VN)
@@ -121,6 +122,7 @@ Locale config for copyright plugin.
 - **Japanese** (ja-JP)
 - **Turkish** (tr-TR)
 - **Korean** (ko-KR)
+- **Finnish** (fi-FI)
 
 :::
 

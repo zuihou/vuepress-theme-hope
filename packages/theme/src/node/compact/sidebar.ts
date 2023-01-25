@@ -1,18 +1,22 @@
-import { droppedLogger, deprecatedLogger } from "./utils.js";
+import { isArray, isPlainObject, isString } from "@vuepress/shared";
+import { colors } from "@vuepress/utils";
+import { deprecatedLogger, droppedLogger } from "./utils.js";
 import { logger } from "../utils.js";
 
 import type {
-  SidebarOptions,
   SidebarArrayOptions,
   SidebarItem,
+  SidebarOptions,
 } from "../../shared/index.js";
 
-const handleArraySidebarOptions = (config: unknown[]): SidebarArrayOptions =>
+const handleArraySidebarOptions = (
+  config: SidebarArrayOptions
+): SidebarArrayOptions =>
   config
     .map((item) => {
-      if (typeof item === "string") return item;
+      if (isString(item)) return item;
 
-      if (typeof item === "object") {
+      if (isPlainObject(item)) {
         const convertConfig: [string, string][] = [
           ["title", "text"],
           ["path", "link"],
@@ -21,23 +25,19 @@ const handleArraySidebarOptions = (config: unknown[]): SidebarArrayOptions =>
 
         convertConfig.forEach(([deprecatedOption, newOption]) =>
           deprecatedLogger({
-            options: item as Record<string, unknown>,
+            // @ts-ignore
+            options: item,
             deprecatedOption,
             newOption,
             scope: "sidebar",
           })
         );
 
-        droppedLogger(
-          item as Record<string, unknown>,
-          "sidebarDepth",
-          "Found in sidebar"
-        );
-
         // @ts-ignore
-        if (Array.isArray(item.children))
-          // @ts-ignore
-          handleArraySidebarOptions(item.children as unknown[]);
+        droppedLogger(item, "sidebarDepth", "Found in sidebar");
+
+        if ("children" in item && isArray(item.children))
+          handleArraySidebarOptions(item.children);
 
         return item as SidebarItem;
       }
@@ -50,31 +50,37 @@ const handleArraySidebarOptions = (config: unknown[]): SidebarArrayOptions =>
  * @deprecated You should use V2 standard sidebar config and avoid using it
  */
 export const convertSidebarOptions = (
-  config: unknown
+  config: SidebarOptions | unknown
 ): SidebarOptions | false => {
-  if (config === false) return false;
-  if (Array.isArray(config)) return handleArraySidebarOptions(config);
+  if (config === false || config === "structure") return config;
 
-  if (typeof config === "object" && config)
+  if (isArray(config))
+    return handleArraySidebarOptions(config as SidebarArrayOptions);
+
+  if (isPlainObject(config) && config)
     return Object.fromEntries(
       Object.entries(config).map<
-        [string, SidebarArrayOptions | "structure" | false]
+        [string, SidebarArrayOptions | "structure" | "heading" | false]
       >(([key, value]) => {
-        if (Array.isArray(value))
-          return [key, handleArraySidebarOptions(value)];
+        if (isArray(value))
+          return [key, handleArraySidebarOptions(value as SidebarArrayOptions)];
 
-        if (value === "structure" || value === false)
-          return [key, <"structure" | false>value];
+        if (value === "structure" || value === "heading" || value === false)
+          return [key, <"structure" | "heading" | false>value];
 
         logger.error(
-          '"sidebar" value should be an array, "structure" or false when setting as an object'
+          '"sidebar" value should be an array, "structure", "heading" or false when setting as an object'
         );
 
         return [key, false];
       })
     );
 
-  logger.error('"sidebar" config should be an array or object');
+  logger.error(
+    `${colors.magenta(
+      "sidebar"
+    )} config should be: an array, an object, "structure", "heading" or false`
+  );
 
   return false;
 };

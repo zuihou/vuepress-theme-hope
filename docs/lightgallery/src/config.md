@@ -1,6 +1,6 @@
 ---
 title: Plugin Options
-icon: config
+icon: gears
 ---
 
 ## selector
@@ -34,7 +34,7 @@ Optional values:
 ## delay
 
 - Type: `number`
-- Default: `500`
+- Default: `800`
 
 The delay of lightgallery fetching page images, in ms.
 

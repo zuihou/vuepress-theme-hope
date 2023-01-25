@@ -1,5 +1,6 @@
 import { withBase } from "@vuepress/client";
-import { defineComponent, h, onMounted, watch, ref } from "vue";
+import { isString } from "@vuepress/shared";
+import { defineComponent, h, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import { EyeIcon, FireIcon } from "@theme-hope/modules/info/components/icons";
@@ -54,9 +55,9 @@ export default defineComponent({
     });
 
     watch(
-      () => route.path,
-      (newValue: string, oldValue: string) => {
-        if (newValue !== oldValue) setTimeout(getCount, 500);
+      () => [route.path, route.query],
+      () => {
+        setTimeout(getCount, 500);
       }
     );
 
@@ -65,7 +66,7 @@ export default defineComponent({
         ? h(
             "span",
             {
-              class: "visitor-info",
+              class: "page-pageview-info",
               "aria-label": `${metaLocale.value.views}${
                 props.pure ? "" : "🔢"
               }`,
@@ -78,10 +79,9 @@ export default defineComponent({
                 {
                   class: "waline-pageview-count",
                   /** visitorID */
-                  "data-path":
-                    typeof props.pageview === "string"
-                      ? props.pageview
-                      : withBase(route.path),
+                  "data-path": isString(props.pageview)
+                    ? props.pageview
+                    : withBase(route.path),
                 },
                 "..."
               ),

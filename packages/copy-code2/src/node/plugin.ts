@@ -28,9 +28,9 @@ export const copyCodePlugin =
       name: "vuepress-plugin-copy-code2",
 
       define: (): Record<string, unknown> => ({
-        COPY_CODE_DELAY: options.delay || 500,
+        COPY_CODE_DELAY: options.delay || 800,
         COPY_CODE_DURATION: options.duration || 2000,
-        COPY_CODE_PURE: options.pure || false,
+        COPY_CODE_FANCY: options.fancy || false,
         COPY_CODE_SHOW_IN_MOBILE: options.showInMobile || false,
         COPY_CODE_LOCALES: userCopyCodeLocales,
         COPY_CODE_SELECTOR:
@@ -38,8 +38,8 @@ export const copyCodePlugin =
           '.theme-default-content div[class*="language-"] pre',
       }),
 
-      extendsBundlerOptions: (config: unknown, app): void => {
-        addViteSsrNoExternal({ app, config }, "vuepress-shared");
+      extendsBundlerOptions: (bundlerOptions: unknown, app): void => {
+        addViteSsrNoExternal(bundlerOptions, app, "vuepress-shared");
       },
 
       clientConfigFile: path.resolve(__dirname, "../client/config.js"),

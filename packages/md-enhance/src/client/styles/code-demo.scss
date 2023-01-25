@@ -45,7 +45,7 @@
 
   background: var(--code-demo-header-bg-color);
 
-  text-align: left;
+  text-align: start;
 
   .toggle-button {
     @include reset.button;
@@ -202,7 +202,7 @@
       border-radius: 0;
     }
 
-    button.copy {
+    button.copy-code-button {
       right: 0;
       bottom: 0;
 

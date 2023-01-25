@@ -18,8 +18,6 @@ export default hopeTheme({
 
   docsDir: "docs",
 
-  pageInfo: ["Author", "Original", "Date", "Category", "Tag", "ReadingTime"],
-
   blog: {
     medias: {
       Baidu: "https://example.com",
@@ -156,8 +154,8 @@ export default hopeTheme({
       figure: true,
       flowchart: true,
       gfm: true,
-      imageLazyload: true,
-      imageSize: true,
+      imgLazyload: true,
+      imgSize: true,
       include: true,
       katex: true,
       mark: true,
@@ -237,12 +235,6 @@ export default hopeTheme({
     //             src: "/assets/icon/guide-maskable.png",
     //             sizes: "192x192",
     //             purpose: "maskable",
-    //             type: "image/png",
-    //           },
-    //           {
-    //             src: "/assets/icon/guide-monochrome.png",
-    //             sizes: "192x192",
-    //             purpose: "monochrome",
     //             type: "image/png",
     //           },
     //         ],

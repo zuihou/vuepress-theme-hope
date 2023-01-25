@@ -1,4 +1,4 @@
-import { pwa, theme } from "docs-shared";
+import { theme } from "docs-shared";
 
 export default theme("seo2", {
   locales: {
@@ -6,7 +6,12 @@ export default theme("seo2", {
       navbar: [
         "/",
         "/shared",
-        { text: "Node", prefix: "/node/", children: ["bundler", "content"] },
+        {
+          text: "Node",
+          icon: "fab fa-node-js",
+          prefix: "/node/",
+          children: ["bundler", "content"],
+        },
         "/client",
       ],
 
@@ -19,6 +24,7 @@ export default theme("seo2", {
         "/zh/shared",
         {
           text: "Node",
+          icon: "fab fa-node-js",
           prefix: "/zh/node/",
           children: ["bundler", "content"],
         },
@@ -33,10 +39,5 @@ export default theme("seo2", {
     mdEnhance: {
       codetabs: true,
     },
-
-    pwa: pwa({
-      name: "vuepress-shared",
-      shortName: "VuePress2 Shared utils",
-    }),
   },
 });

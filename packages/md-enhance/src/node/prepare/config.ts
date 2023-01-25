@@ -6,7 +6,7 @@ import type { MarkdownEnhanceOptions } from "../options.js";
 export const prepareConfigFile = async (
   app: App,
   options: MarkdownEnhanceOptions,
-  legacy = false
+  legacy = true
 ): Promise<string> => {
   let configImport = "";
   let enhance = "";
@@ -87,7 +87,7 @@ app.component("FlowChart", FlowChart);
 import "${CLIENT_FOLDER}styles/footnote.scss";
 `;
 
-  if (getStatus("imageMark", true))
+  if (getStatus("imgMark", true))
     configImport += `\
 import "${CLIENT_FOLDER}styles/image-mark.scss";
 `;

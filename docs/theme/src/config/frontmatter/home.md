@@ -1,6 +1,6 @@
 ---
 title: Home Frontmatter Config
-icon: config
+icon: home
 order: 4
 category:
   - Config

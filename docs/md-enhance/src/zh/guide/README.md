@@ -1,6 +1,6 @@
 ---
 title: 快速上手
-icon: creative
+icon: lightbulb
 ---
 
 通过安装并启用此插件，你可以在 Markdown 中使用更多的语法。
@@ -42,19 +42,19 @@ Orange
 @tab pnpm
 
 ```bash
-pnpm add -D vuepress-plugin-md-enhance@next
+pnpm add -D vuepress-plugin-md-enhance
 ```
 
 @tab yarn
 
 ```bash
-yarn add -D vuepress-plugin-md-enhance@next
+yarn add -D vuepress-plugin-md-enhance
 ```
 
 @tab:active npm
 
 ```bash
-npm i -D vuepress-plugin-md-enhance@next
+npm i -D vuepress-plugin-md-enhance
 ```
 
 :::
@@ -223,7 +223,7 @@ $$
 
 ### 导入文件
 
-@include(./demo.snippet.md{5-9})
+@include(./demo.snippet.md{9-13})
 
 - [查看详情](include.md)
 

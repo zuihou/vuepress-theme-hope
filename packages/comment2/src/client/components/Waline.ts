@@ -67,10 +67,7 @@ export default defineComponent({
 
     const walineProps = computed(() => ({
       lang: lang.value === "zh-CN" ? "zh-CN" : "en",
-      locale: {
-        ...walineLocale.value,
-        ...(walineOption.locale || {}),
-      },
+      locale: walineLocale.value,
       emoji: [
         "//unpkg.com/@waline/emojis@1.1.0/weibo",
         "//unpkg.com/@waline/emojis@1.1.0/bilibili",
@@ -92,7 +89,7 @@ export default defineComponent({
                 serverURL: walineOption.serverURL,
                 path: withBase(route.path),
               });
-            }, walineOption.delay || 500);
+            }, walineOption.delay || 800);
         },
         { immediate: true }
       );
@@ -102,7 +99,7 @@ export default defineComponent({
       enableComment.value
         ? h(
             "div",
-            { class: "waline-wrapper" },
+            { class: "waline-wrapper", id: "comment" },
             enableWaline ? h(Waline, walineProps.value) : []
           )
         : null;

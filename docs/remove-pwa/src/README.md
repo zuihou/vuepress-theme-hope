@@ -13,7 +13,7 @@ actions:
   - text: Config 🛠
     link: /config.html
 
-footer: Theme by <a href="https://vuepress-theme-hope.github.io/v2/" target="_blank">VuePress Theme Hope</a> | MIT Licensed, Copyright © 2019-present Mr.Hope
+footer: Theme by <a href="https://theme-hope.vuejs.press" target="_blank">VuePress Theme Hope</a> | MIT Licensed, Copyright © 2019-present Mr.Hope
 
 copyright: false
 ---
@@ -27,19 +27,19 @@ copyright: false
 @tab pnpm
 
 ```bash
-pnpm add -D vuepress-plugin-remove-pwa@next
+pnpm add -D vuepress-plugin-remove-pwa
 ```
 
 @tab yarn
 
 ```bash
-yarn add -D vuepress-plugin-remove-pwa@next
+yarn add -D vuepress-plugin-remove-pwa
 ```
 
 @tab npm
 
 ```bash
-npm i -D vuepress-plugin-remove-pwa@next
+npm i -D vuepress-plugin-remove-pwa
 ```
 
 :::
@@ -79,3 +79,9 @@ export default {
 ```
 
 :::
+
+<NetlifyBadge />
+
+<script setup lang="ts">
+import NetlifyBadge from "@NetlifyBadge";
+</script>

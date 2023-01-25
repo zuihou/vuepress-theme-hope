@@ -4,7 +4,7 @@ import { enNavbar, zhNavbar } from "./navbar/index.js";
 import { enSidebar, zhSidebar } from "./sidebar/index.js";
 
 const hostname =
-  process.env.HOSTNAME || "https://vuepress-theme-hope-blog-demo.netlify.app";
+  process.env.HOSTNAME || "https://theme-hope-blog-demo.vuejs.press";
 
 export default hopeTheme({
   hostname,
@@ -21,8 +21,6 @@ export default hopeTheme({
   repo: "vuepress-theme-hope/vuepress-theme-hope",
 
   docsDir: "demo/theme-blog/src",
-
-  pageInfo: ["Author", "Original", "Date", "Category", "Tag", "ReadingTime"],
 
   hotReload: true,
 
@@ -180,8 +178,8 @@ export default hopeTheme({
       figure: true,
       flowchart: true,
       gfm: true,
-      imageLazyload: true,
-      imageSize: true,
+      imgLazyload: true,
+      imgSize: true,
       include: true,
       katex: true,
       mark: true,
@@ -262,12 +260,6 @@ export default hopeTheme({
                 purpose: "maskable",
                 type: "image/png",
               },
-              {
-                src: "/assets/icon/guide-monochrome.png",
-                sizes: "192x192",
-                purpose: "monochrome",
-                type: "image/png",
-              },
             ],
           },
         ],
@@ -275,8 +267,8 @@ export default hopeTheme({
     },
 
     seo:
-      hostname === "https://vuepress-theme-hope.github.io"
+      hostname === "https://theme-hope-blog-demo.vuejs.press"
         ? {}
-        : { canonical: "https://vuepress-theme-hope.github.io/blog-demo/" },
+        : { canonical: "https://theme-hope-blog-demo.vuejs.press" },
   },
 });

@@ -1,9 +1,12 @@
 import {
+  isArray,
+  isFunction,
   isLinkHttp,
   removeEndingSlash,
   removeLeadingSlash,
 } from "@vuepress/shared";
 import { fs, path, withSpinner } from "@vuepress/utils";
+import { isAbsoluteUrl } from "vuepress-shared/node";
 import { getRedirectHTML } from "./typings/index.js";
 
 import type { App, Page } from "@vuepress/core";
@@ -20,15 +23,14 @@ export const generateHTML = async (
     pages,
   } = app;
 
-  const config =
-    typeof options.config === "function"
-      ? options.config(app)
-      : options.config || {};
+  const config = isFunction(options.config)
+    ? options.config(app)
+    : options.config || {};
 
   const redirectMap = Object.fromEntries(
     (<Page<Record<string, never>, RedirectPluginFrontmatterOption>[]>pages)
       .map<[string, string][]>(({ frontmatter, path }) =>
-        Array.isArray(frontmatter.redirectFrom)
+        isArray(frontmatter.redirectFrom)
           ? frontmatter.redirectFrom.map((from) => [
               from.replace(/\/$/, "/index.html"),
               path,
@@ -50,7 +52,7 @@ export const generateHTML = async (
     Promise.all(
       Object.entries({ ...config, ...redirectMap }).map(([from, to]) => {
         const filePath = dir.dest(removeLeadingSlash(from));
-        const redirectUrl = to.startsWith("/")
+        const redirectUrl = isAbsoluteUrl(to)
           ? `${hostname}${base}${removeLeadingSlash(to)}`
           : to;
 

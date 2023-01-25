@@ -1,8 +1,9 @@
 import { usePageData } from "@vuepress/client";
-import { defineComponent, h, onMounted, watch, ref } from "vue";
+import { defineComponent, h, onMounted, ref, watch } from "vue";
 import { RouterLink, useRoute } from "vue-router";
 import { isActiveLink } from "vuepress-shared/client";
 
+import PrintButton from "@theme-hope/modules/info/components/PrintButton";
 import { useMetaLocale } from "@theme-hope/modules/info/composables/index";
 
 import type { PageHeader } from "@vuepress/shared";
@@ -134,7 +135,10 @@ export default defineComponent({
       return tocHeaders
         ? h("div", { class: "toc-place-holder" }, [
             h("aside", { id: "toc" }, [
-              h("div", { class: "toc-header" }, metaLocale.value.toc),
+              h("div", { class: "toc-header" }, [
+                metaLocale.value.toc,
+                h(PrintButton),
+              ]),
               h("div", { class: "toc-wrapper", ref: toc }, [tocHeaders]),
             ]),
           ])

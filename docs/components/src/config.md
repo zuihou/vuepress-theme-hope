@@ -1,6 +1,6 @@
 ---
 title: Plugin Options
-icon: config
+icon: gears
 ---
 
 ## components
@@ -9,14 +9,18 @@ icon: config
 
   ```ts
   type AvailableComponent =
+    | "ArtPlayer"
     | "AudioPlayer"
     | "Badge"
     | "BiliBili"
+    | "Catalog"
     | "CodePen"
     | "FontIcon"
     | "PDF"
     | "StackBlitz"
+    | "SiteInfo"
     | "VideoPlayer"
+    | "XiGua"
     | "YouTube";
   ```
 
@@ -26,23 +30,46 @@ Components to be registered.
 
 Available component names:
 
+- `"ArtPlayer"`
 - `"AudioPlayer"`
 - `"Badge"`
 - `"BiliBili"`
+- `"Catalog"`
 - `"CodePen"`
 - `"FontIcon"`
 - `"PDF"`
 - `"StackBlitz"`
+- `"SiteInfo"`
 - `"VideoPlayer"`
+- `"XiGua"`
 - `"YouTube"`
 
 ## componentsOptions
 
 Global config for components.
 
+### componentsOptions.artPlayer
+
+- Type: `ComponentsArtPlayerOptions`
+- Required: No
+- Details:
+  - [Guide → ArtPlayer](./guide/artplayer.md#global-config)
+
 ### componentsOptions.fontIcon.assets
 
-- Type: `` "iconfont" | "fontawesome" | `//${string}` | `http://${string}` | `https://${string}`  ``
+- Type: `FontIconAssets`
+
+  ```ts
+  type Link = `//${string}` | `http://${string}` | `https://${string}`;
+
+  type FontIconAssets =
+    | "iconfont"
+    | "fontawesome"
+    | "fontawesome-with-brands"
+    | Link
+    | Link[];
+  ```
+
 - Required: No
 - Details:
   - [Guide → FontIcon](./guide/fonticon.md)
@@ -94,7 +121,24 @@ Whether enabling backToTop button. When setting a number, it will be used as Bac
 - Type: `NoticeOptions`
 
   ```ts
-  interface NoticeLocaleOptions {
+  interface NoticeActionOption {
+    /**
+     * Action text
+     */
+    text: string;
+    /**
+     * Action link
+     */
+    link?: string;
+    /**
+     * Action type
+     *
+     * @default 'default
+     */
+    type?: "primary" | "default";
+  }
+
+  interface NoticeItemOptions {
     /**
      * Notice title
      */
@@ -104,33 +148,6 @@ Whether enabling backToTop button. When setting a number, it will be used as Bac
      * Notice content
      */
     content: string;
-
-    /**
-     * Notice footer
-     */
-    actions: {
-      /**
-       * Action text
-       */
-      text: string;
-      /**
-       * Action link
-       */
-      link?: string;
-      /**
-       * Action type
-       *
-       * @default 'default
-       */
-      type?: "primary" | "default";
-    }[];
-  }
-
-  interface NoticeOptions {
-    /**
-     * Notice locales Options
-     */
-    locales: Record<string, NoticeLocaleOptions>;
 
     /**
      * Notice key
@@ -146,12 +163,12 @@ Whether enabling backToTop button. When setting a number, it will be used as Bac
      *
      * @default false
      */
-    showOnce?: string;
+    showOnce?: boolean;
 
     /**
      * Whether the notice shall be confirmed
      *
-     * @default true
+     * @default false
      */
     confirm?: boolean;
 
@@ -161,7 +178,15 @@ Whether enabling backToTop button. When setting a number, it will be used as Bac
      * @default false
      */
     fullscreen?: boolean;
+
+    /**
+     * Notice actions
+     */
+    actions?: NoticeActionOption[];
   }
+
+  type NoticeOptions = NoticeItemOptions &
+    ({ path: string } | { match: RegExp });
   ```
 
 - Required: No
@@ -195,12 +220,58 @@ Component locales.
 
 Locales config for BackToTop button.
 
+### locales.catalog
+
+- Type: `CatalogLocaleConfig`
+
+  ```ts
+  interface CatalogLocaleData {
+    /**
+     * Catalog title
+     */
+    title: string;
+  }
+
+  interface CatalogLocaleConfig {
+    [localePath: string]: CatalogLocaleData;
+  }
+  ```
+
+- Required: No
+
+Locales config for catalog component.
+
+### locales.pdf
+
+- Type: `PDFLocaleConfig`
+
+  ```ts
+  interface PDFLocaleData {
+    /**
+     * PDF hint text
+     *
+     * @description Only used if the browser does not support embedding PDF and no PDFJS URL is provided.
+     * [url] will be replaced by actual PDF link.
+     */
+    hint: string;
+  }
+
+  interface PDFLocaleConfig {
+    [localePath: string]: CatalogLocaleData;
+  }
+  ```
+
+- Required: No
+
+Locales config for pdf component.
+
 ::: details Built-in Supported Languages
 
 - **Simplified Chinese** (zh-CN)
 - **Traditional Chinese** (zh-TW)
 - **English (United States)** (en-US)
-- **German** (de-AT)
+- **German** (de-DE)
+- **German (Australia)** (de-AT)
 - **Russian** (ru-RU)
 - **Ukrainian** (uk-UA)
 - **Vietnamese** (vi-VN)
@@ -212,5 +283,6 @@ Locales config for BackToTop button.
 - **Japanese** (ja-JP)
 - **Turkish** (tr-TR)
 - **Korean** (ko-KR)
+- **Finnish** (fi-FI)
 
 :::

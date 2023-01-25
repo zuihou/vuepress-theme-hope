@@ -1,6 +1,6 @@
 ---
 title: Руководство по вкладу
-icon: creative
+icon: lightbulb
 category:
   - FAQ
 ---
@@ -25,7 +25,7 @@ pnpm i
 
 ```sh
 corepack enable
-corepack prepare pnpm@7.18.2 --activate
+corepack prepare pnpm@7.24.3 --activate
 ```
 
 :::
@@ -46,6 +46,7 @@ corepack prepare pnpm@7.18.2 --activate
 ├── demo → Demo projects
 │
 ├── docs → document directory
+│ ├── auto-catalog → auto-catalog plugin document
 │ ├── blog → blog2 plugin document
 │ ├── comment → comment2 plugin document
 │ ├── components → components plugin document
@@ -63,6 +64,7 @@ corepack prepare pnpm@7.18.2 --activate
 │ └── theme → theme document
 │
 ├── packages → project source code
+│ ├── auto-catalog → auto-catalog plugin
 │ ├── blog2 → blog2 plugin
 │ ├── comment2 → comment2 plugin
 │ ├── components → components plugin

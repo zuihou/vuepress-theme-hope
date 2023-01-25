@@ -41,6 +41,19 @@ export const searchProLocales: SearchProLocaleConfig = {
     loading: "正在加載搜索索引...",
   },
 
+  "/de/": {
+    cancel: "Abbrechen",
+    placeholder: "Suche",
+    search: "Suche",
+    select: "auswählen",
+    navigate: "wechseln",
+    exit: "schließen",
+    history: "Suchverlauf",
+    emptyHistory: "Suchverlauf leeren",
+    emptyResult: "Keine Ergebnisse gefunden",
+    loading: "Suchindex wird geladen...",
+  },
+
   "/de-at/": {
     cancel: "Abbrechen",
     placeholder: "Suche",
@@ -195,5 +208,18 @@ export const searchProLocales: SearchProLocaleConfig = {
     emptyHistory: "검색 기록 지우기",
     emptyResult: "결과를 찾을 수 없습니다",
     loading: "검색 인덱스를 로드하는 중...",
+  },
+
+  "/fi/": {
+    cancel: "Peruuta",
+    placeholder: "Etsi",
+    search: "Etsi",
+    select: "valitaksesi",
+    navigate: "navigoidaksesi",
+    exit: "poistuaksesi",
+    history: "Hakuhistoria",
+    emptyHistory: "Tyhjennä hakuhistoria",
+    emptyResult: "Tuloksia ei löytynyt",
+    loading: "Ladataan hakuindeksiä...",
   },
 };

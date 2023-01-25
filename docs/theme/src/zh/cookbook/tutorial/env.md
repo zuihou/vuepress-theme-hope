@@ -1,6 +1,7 @@
 ---
 title: 准备运行环境
 icon: leaf
+order: 1
 category:
   - 快速上手
   - 基础知识
@@ -95,5 +96,5 @@ pnpm 的一些功能可以保证你拥有正确的依赖，并且它能加速安
 
 ```sh
 corepack enable
-corepack prepare pnpm@7.18.2 --activate
+corepack prepare pnpm@7.24.3 --activate
 ```

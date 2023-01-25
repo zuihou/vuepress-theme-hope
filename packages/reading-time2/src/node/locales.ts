@@ -22,6 +22,12 @@ export const readingTimeLocales: ReadingTimeLocaleConfig = {
     time: "大约 $time 分鐘",
   },
 
+  "/de/": {
+    word: "Ungefähr $word Wörter",
+    less1Minute: "Weniger als eine Minute",
+    time: "Ungefähr $time min",
+  },
+
   "/de-at/": {
     word: "Um die $word Wörter",
     less1Minute: "Weniger als eine Minute",
@@ -92,5 +98,11 @@ export const readingTimeLocales: ReadingTimeLocaleConfig = {
     word: "약 $word 단어",
     less1Minute: "1분 미만",
     time: "약 $time 분",
+  },
+
+  "/fi/": {
+    word: "Noin $word sanaa",
+    less1Minute: "Alle minuutti",
+    time: "Noin $time minuuttia",
   },
 };

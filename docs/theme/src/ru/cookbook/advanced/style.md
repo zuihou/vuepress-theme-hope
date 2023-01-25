@@ -1,6 +1,7 @@
 ---
 title: Настройка стиля
-icon: style
+icon: wand-magic-sparkles
+order: 2
 category:
   - Учебник с примерами
   - Кастомизация

@@ -1,6 +1,6 @@
 ---
 title: Plugin Options
-icon: config
+icon: gears
 ---
 
 ## indexContent
@@ -225,7 +225,8 @@ Multilingual configuration of the search plugin.
 - **Simplified Chinese** (zh-CN)
 - **Traditional Chinese** (zh-TW)
 - **English (United States)** (en-US)
-- **German** (de-AT)
+- **German** (de-DE)
+- **German (Australia)** (de-AT)
 - **Russian** (ru-RU)
 - **Ukrainian** (uk-UA)
 - **Vietnamese** (vi-VN)
@@ -237,5 +238,6 @@ Multilingual configuration of the search plugin.
 - **Japanese** (ja-JP)
 - **Turkish** (tr-TR)
 - **Korean** (ko-KR)
+- **Finnish** (fi-FI)
 
 :::

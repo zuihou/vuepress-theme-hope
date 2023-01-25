@@ -4,23 +4,23 @@ export default [
   ...rollupTypescript("node/index", {
     external: [
       "node:module",
+      /^@mdit\/plugin-/,
       "@vuepress/plugin-container",
       "@vuepress/shared",
       "@vuepress/utils",
       "markdown-it/lib/token.js",
       "markdown-it/lib/helpers/parse_link_label.js",
       /^mathjax-full\//,
-      "katex",
       "vuepress-plugin-sass-palette",
       "vuepress-shared/node",
     ],
-    dtsExternal: ["vuepress-shared"],
+    dtsExternal: ["vuepress-shared", "vuepress-shared/node"],
     copy: [["client/styles", "client"]],
   }),
   ...rollupTypescript("client/compact/index", {
     external: ["vue", /\.scss$/],
     dtsExternal: [/\.scss$/],
-    copy: [["compact/styles", "compact"]],
+    copy: [["client/compact/styles", "client/compact"]],
   }),
   ...rollupTypescript("client/components/ChartJS", {
     external: ["chart.js/auto", "vue", "vuepress-shared/client", /\.scss$/],
@@ -52,7 +52,7 @@ export default [
   ...rollupTypescript("client/components/FlowChart", {
     external: [
       "@vueuse/core",
-      "flowchart.js/src/flowchart.parse.js",
+      "flowchart.ts",
       "vue",
       "vuepress-shared/client",
       /\.scss$/,

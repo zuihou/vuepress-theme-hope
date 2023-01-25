@@ -1,7 +1,10 @@
 import { computed, defineComponent, h, ref, resolveComponent } from "vue";
 import { hasGlobalComponent } from "vuepress-shared/client";
 
-import { useMobile, useThemeLocaleData } from "@theme-hope/composables/index";
+import {
+  useThemeLocaleData,
+  useWindowSize,
+} from "@theme-hope/composables/index";
 import LanguageDropdown from "@theme-hope/modules/navbar/components/LanguageDropdown";
 import NavbarBrand from "@theme-hope/modules/navbar/components/NavbarBrand";
 import NavbarLinks from "@theme-hope/modules/navbar/components/NavbarLinks";
@@ -30,12 +33,12 @@ export default defineComponent({
 
   setup(_props, { emit, slots }) {
     const themeLocale = useThemeLocaleData();
+    const { isMobile } = useWindowSize();
 
-    const isMobile = useMobile();
     const showScreen = ref(false);
 
     const autoHide = computed(() => {
-      const { navbarAutoHide } = themeLocale.value;
+      const { navbarAutoHide = "mobile" } = themeLocale.value;
 
       return (
         navbarAutoHide !== "none" &&
@@ -48,9 +51,9 @@ export default defineComponent({
     >(
       () =>
         themeLocale.value.navbarLayout || {
-          left: ["Brand"],
+          start: ["Brand"],
           center: ["Links"],
-          right: ["Language", "Repo", "Outlook", "Search"],
+          end: ["Language", "Repo", "Outlook", "Search"],
         }
     );
 
@@ -78,12 +81,13 @@ export default defineComponent({
               "navbar",
               {
                 "auto-hide": autoHide.value,
-                "hide-icon": !themeLocale.value.navbarIcon,
+                "hide-icon": themeLocale.value.navbarIcon === false,
               },
             ],
+            id: "navbar",
           },
           [
-            h("div", { class: "navbar-left" }, [
+            h("div", { class: "navbar-start" }, [
               // @ts-ignore
               h(ToggleSidebarButton, {
                 onToggle: () => {
@@ -91,21 +95,21 @@ export default defineComponent({
                   emit("toggleSidebar");
                 },
               }),
-              slots["leftStart"]?.(),
-              ...navbarLayout.value.left.map((item) => map[item]),
-              slots["leftEnd"]?.(),
+              slots["startBefore"]?.(),
+              ...(navbarLayout.value.start || []).map((item) => map[item]),
+              slots["startAfter"]?.(),
             ]),
 
             h("div", { class: "navbar-center" }, [
-              slots["centerStart"]?.(),
-              ...navbarLayout.value.center.map((item) => map[item]),
-              slots["centerEnd"]?.(),
+              slots["centerBefore"]?.(),
+              ...(navbarLayout.value.center || []).map((item) => map[item]),
+              slots["centerAfter"]?.(),
             ]),
 
-            h("div", { class: "navbar-right" }, [
-              slots["rightStart"]?.(),
-              ...navbarLayout.value.right.map((item) => map[item]),
-              slots["rightEnd"]?.(),
+            h("div", { class: "navbar-end" }, [
+              slots["endBegin"]?.(),
+              ...(navbarLayout.value.end || []).map((item) => map[item]),
+              slots["endAfter"]?.(),
 
               h(ToggleNavbarButton, {
                 active: showScreen.value,

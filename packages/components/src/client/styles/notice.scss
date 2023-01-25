@@ -43,6 +43,9 @@
 .notice-wrapper {
   position: fixed;
   top: 80px;
+
+  // NOTE: Compatible with Android Wechat
+  // inset-inline-end: 20px;
   right: 20px;
   z-index: 1500;
 
@@ -58,10 +61,17 @@
     display: none;
   }
 
+  #{hope-config.$rtl-selector} & {
+    right: unset;
+    left: 20px;
+  }
+
   &.fullscreen {
     position: fixed;
     top: 50vh;
     right: 50vw;
+    left: unset;
+
     transform: translate(50%, -50%);
   }
 }
@@ -72,10 +82,11 @@
   margin: 0;
   padding: 8px 12px;
 
-  background: var(--c-brand);
+  background: var(--c-brand, #3eaf7c);
   color: var(--white);
 
   font-weight: 500;
+  text-align: start;
 
   .close-icon {
     vertical-align: middle;
@@ -91,6 +102,10 @@
     color: var(--white);
 
     cursor: pointer;
+
+    #{hope-config.$rtl-selector} & {
+      float: left;
+    }
 
     &:hover {
       background-color: rgb(0 0 0 / 30%);
@@ -118,7 +133,7 @@
   border-radius: 8px;
 
   background-color: var(--c-bg-lighter, #eaecef);
-  color: var(--text-color);
+  color: var(--c-text, #2c3e50);
 
   cursor: pointer;
 
@@ -127,11 +142,11 @@
   }
 
   &.primary {
-    background-color: var(--c-brand);
+    background-color: var(--c-brand, #3eaf7c);
     color: var(--white);
 
     &:hover {
-      background-color: var(--c-brand-light);
+      background-color: var(--c-brand-light, #4abf8a);
     }
   }
 }

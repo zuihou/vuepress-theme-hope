@@ -1,5 +1,6 @@
 import { createPage } from "@vuepress/core";
-import { removeLeadingSlash } from "@vuepress/shared";
+import { isFunction, isString, removeLeadingSlash } from "@vuepress/shared";
+import { colors } from "@vuepress/utils";
 import { logger } from "./utils.js";
 
 import type { App, Page } from "@vuepress/core";
@@ -52,31 +53,37 @@ export const prepareCategory = (
         },
         index
       ) => {
-        if (typeof key !== "string" || !key) {
-          logger.error(`Invalid 'key' option ${key} in 'category[${index}]'`);
-
-          return null;
-        }
-
-        if (typeof getter !== "function") {
+        if (!isString(key) || !key) {
           logger.error(
-            `Invalid 'getter' option in 'category[${index}]', it should be a function!`
+            `Invalid ${colors.magenta("key")} option ${colors.cyan(
+              key
+            )} in ${colors.cyan(`category[${index}]`)}`
           );
 
           return null;
         }
 
-        if (app.env.isDebug) logger.info(`Generating ${key} category.\n`);
+        if (!isFunction(getter)) {
+          logger.error(
+            `Invalid ${colors.magenta("getter")} option in "${colors.cyan(
+              `category[${index}]`
+            )}", it should be a function!`
+          );
+
+          return null;
+        }
+
+        if (app.env.isDebug)
+          logger.info(`Generating ${colors.cyan(key)} category.\n`);
 
         const categoryMap: CategoryMap = {};
         const pageKeys: string[] = [];
-        const getItemPath =
-          typeof itemPath === "function"
-            ? itemPath
-            : (name: string): string =>
-                (itemPath || "")
-                  .replace(/:key/g, slugify(key))
-                  .replace(/:name/g, slugify(name));
+        const getItemPath = isFunction(itemPath)
+          ? itemPath
+          : (name: string): string =>
+              (itemPath || "")
+                .replace(/:key/g, slugify(key))
+                .replace(/:name/g, slugify(name));
 
         for (const localePath in pageMap) {
           if (path) {
@@ -102,7 +109,8 @@ export const prepareCategory = (
             else if (app.pages[index].key !== mainPage.key) {
               app.pages.splice(index, 1, mainPage);
 
-              if (init) logger.warn(`Overriding existed path ${pagePath}`);
+              if (init)
+                logger.warn(`Overriding existed path ${colors.cyan(pagePath)}`);
             }
             pageKeys.push(mainPage.key);
 

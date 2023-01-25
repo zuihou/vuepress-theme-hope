@@ -1,6 +1,6 @@
 ---
 title: 图片
-icon: pic
+icon: image
 ---
 
 改进 Markdown 中的图像语法以支持颜色方案和大小。
@@ -23,11 +23,11 @@ export default {
       // 启用 figure
       figure: true,
       // 启用图片懒加载
-      imageLazyload: true,
+      imgLazyload: true,
       // 启用图片标记
-      imageMark: true,
+      imgMark: true,
       // 启用图片大小
-      imageSize: true,
+      imgSize: true,
     }),
   ],
 };
@@ -45,11 +45,11 @@ export default {
       // 启用 figure
       figure: true,
       // 启用图片懒加载
-      imageLazyload: true,
+      imgLazyload: true,
       // 启用图片标记
-      imageMark: true,
+      imgMark: true,
       // 启用图片大小
-      imageSize: true,
+      imgSize: true,
     }),
   ],
 };
@@ -59,11 +59,11 @@ export default {
 
 ## 图片懒加载
 
-如果你想在你的页面中延迟加载图片，你可以在插件选项中设置 `imageLazyload: true`。
+如果你想在你的页面中延迟加载图片，你可以在插件选项中设置 `imgLazyload: true`。
 
 ::: note
 
-我们正在使用原生 HTML5 功能启用延迟加载，因此您的浏览器必须支持 [loading=lazy 属性](https://caniuse.com/loading-lazy-attr)。
+我们正在使用原生 HTML5 功能启用延迟加载，因此你的浏览器必须支持 [loading=lazy 属性](https://caniuse.com/loading-lazy-attr)。
 
 :::
 
@@ -71,7 +71,7 @@ export default {
 
 GFM 支持通过 ID 标记图片，使得图片只在特定的模式显示。我们同时支持 GitHub 的标记与简易标记 `#light` 和 `#dark`。
 
-你可以通过 `imageMark` 选项控制它。
+你可以通过 `imgMark` 选项控制它。
 
 ```md
 ![GitHub Light](/assets/icon/github-light.png#gh-dark-mode-only)
@@ -97,7 +97,7 @@ GFM 支持通过 ID 标记图片，使得图片只在特定的模式显示。我
 
 ### 高级用法
 
-你可以将对象传递给 `imageMark` 以配置 ID 标记，可用选项有:
+你可以将对象传递给 `imgMark` 以配置 ID 标记，可用选项有:
 
 ```ts
 interface ImageMarkOptions {
@@ -110,7 +110,7 @@ interface ImageMarkOptions {
 
 ## 图片尺寸
 
-当你在插件选项中设置 `imageSize: true` 时，可以使用 `=widthxheight` 指定图像大小。
+当你在插件选项中设置 `imgSize: true` 时，可以使用 `=widthxheight` 指定图像大小。
 
 ```md
 ![Alt](/example.png =200x300)
@@ -129,18 +129,18 @@ interface ImageMarkOptions {
 
 ## 图片 Figure
 
-有时，您可能希望为图像添加描述，并将其单独展示在上下文中，在这种情况下，您应该在插件选项中设置 `figure: true`。
+有时，你可能希望为图像添加描述，并将其单独展示在上下文中，在这种情况下，你应该在插件选项中设置 `figure: true`。
 
-这样当您单独将图片至于一行 (也可同时嵌套链接)，图像将显示为 `<figure>` ，标题或图片替代文字将显示为 `<figcaption>`。
+这样当你单独将图片至于一行 (也可同时嵌套链接)，图像将显示为 `<figure>` ，标题或图片替代文字将显示为 `<figcaption>`。
 
 ```md
 ![VuePress Hope 图标](/favicon.ico)
 
-[![VuePress Hope 图标](/favicon.ico)](https://vuepress-theme-hope.github.io/)
+[![VuePress Hope 图标](/favicon.ico)](https://theme-hope.vuejs.press/)
 
 ![VuePress Hope 图标](/favicon.ico "VuePress Hope 图标")
 
-[![VuePress Hope 图标](/favicon.ico "VuePress Hope 图标")](https://vuepress-theme-hope.github.io/)
+[![VuePress Hope 图标](/favicon.ico "VuePress Hope 图标")](https://theme-hope.vuejs.press/)
 
 ![VuePress Hope 图标](/logo.svg "VuePress Hope 图标" =300x300)
 ```
@@ -149,18 +149,14 @@ interface ImageMarkOptions {
 
 ![VuePress Hope 图标](/favicon.ico)
 
-[![VuePress Hope 图标](/favicon.ico)](https://vuepress-theme-hope.github.io/)
+[![VuePress Hope 图标](/favicon.ico)](https://theme-hope.vuejs.press/)
 
 ![VuePress Hope 图标](/favicon.ico "VuePress Hope 图标")
 
-[![VuePress Hope 图标](/favicon.ico "VuePress Hope 图标")](https://vuepress-theme-hope.github.io/)
+[![VuePress Hope 图标](/favicon.ico "VuePress Hope 图标")](https://theme-hope.vuejs.press/)
 
 ![VuePress Hope 图标](/logo.svg "VuePress Hope 图标" =300x300)
 
 <script setup lang="ts">
 import AppearanceSwitch from "@theme-hope/modules/outlook/components/AppearanceSwitch"
 </script>
-
-```
-
-```

@@ -51,11 +51,11 @@ export const enNavbar = navbar([
     children: [
       {
         text: "V2 Docs",
-        link: "https://vuepress-theme-hope.github.io/v2/",
+        link: "https://theme-hope.vuejs.press/",
       },
       {
         text: "V2 Docs Demo",
-        link: "https://vuepress-theme-hope.github.io/docs-demo/",
+        link: "https://theme-hope-docs-demo.vuejs.press/",
       },
       {
         text: "V1 Docs",

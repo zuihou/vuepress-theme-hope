@@ -1,18 +1,17 @@
 import { useSassPalettePlugin } from "vuepress-plugin-sass-palette";
-import { getLocales, mergeViteConfig } from "vuepress-shared/node";
 
+import { extendsBundlerOptions } from "./bundler.js";
 import { convertOptions } from "./convert/index.js";
-import { backToTopLocales } from "./locales.js";
+import { getDefine } from "./define.js";
 import { prepareConfigFile } from "./prepare.js";
-import { getIconPrefix, logger } from "./utils.js";
+import { logger } from "./utils.js";
 
 import type { PluginFunction } from "@vuepress/core";
-import type { ViteBundlerOptions } from "@vuepress/bundler-vite";
-import type { RollupWarning } from "rollup";
-import type { ComponentOptions } from "./options.js";
+
+import type { ComponentOptions } from "./options/index.js";
 
 export const componentsPlugin =
-  (options: ComponentOptions, legacy = false): PluginFunction =>
+  (options: ComponentOptions, legacy = true): PluginFunction =>
   (app) => {
     // TODO: Remove this in v2 stable
     if (legacy)
@@ -24,52 +23,9 @@ export const componentsPlugin =
     return {
       name: "vuepress-plugin-components",
 
-      define: (): Record<string, unknown> => {
-        const { assets, prefix } = options.componentOptions?.fontIcon || {};
+      define: getDefine(options),
 
-        return {
-          BACK_TO_TOP_LOCALES: getLocales({
-            app,
-            name: "backToTop",
-            default: backToTopLocales,
-            config: options.locales?.backToTop,
-          }),
-          ICON_PREFIX:
-            typeof prefix === "string" ? prefix : getIconPrefix(assets),
-          PDFJS_URL: options.componentOptions?.pdf?.pdfjs || null,
-        };
-      },
-
-      extendsBundlerOptions: (config: unknown, app): void => {
-        const { bundler } = app.options;
-
-        if (bundler.name.endsWith("vite")) {
-          const bundlerConfig = <ViteBundlerOptions>config;
-
-          bundlerConfig.viteOptions = mergeViteConfig(
-            bundlerConfig.viteOptions || {},
-            {
-              build: {
-                rollupOptions: {
-                  onwarn(
-                    warning: RollupWarning,
-                    warn: (warning: RollupWarning) => void
-                  ) {
-                    if (
-                      warning.message.includes(
-                        'is imported from external module "@vueuse/core" but never used in '
-                      )
-                    )
-                      return;
-
-                    warn(warning);
-                  },
-                },
-              },
-            }
-          );
-        }
-      },
+      extendsBundlerOptions,
 
       clientConfigFile: (app) => prepareConfigFile(app, options),
     };

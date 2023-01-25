@@ -6,7 +6,7 @@ title: AudioPlayer
 
 <!-- more -->
 
-## 案例
+## 示例
 
 一个音频播放器:
 
@@ -60,6 +60,13 @@ title: AudioPlayer
 如果你的服务器不能为音频文件返回正确的 mime 类型，你应该指定它。 (例如：`audio/mp3`)
 
 :::
+
+### title
+
+- 类型: `string`
+- 必填: 否
+
+音频标题
 
 ### poster
 

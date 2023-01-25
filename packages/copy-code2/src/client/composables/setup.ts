@@ -25,6 +25,7 @@
  * © 2019 GitHub, Inc.
  */
 
+import { isArray, isString } from "@vuepress/shared";
 import { onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { Message, useLocaleConfig } from "vuepress-shared/client";
@@ -32,8 +33,8 @@ import { Message, useLocaleConfig } from "vuepress-shared/client";
 import {
   copyCodeDelay,
   copyCodeDuration,
+  copyCodeFancy,
   copyCodeLocales,
-  copyCodePure,
   copyCodeSelector,
   copyCodeShowInMobile,
 } from "../define.js";
@@ -65,8 +66,10 @@ export const setupCopyCode = (): void => {
       copyElement.setAttribute("aria-label", locale.value.copy);
       copyElement.setAttribute("data-copied", locale.value.copied);
 
-      if (copyCodePure) copyElement.classList.add("pure");
-      else copyElement.setAttribute("data-balloon-pos", "left");
+      if (copyCodeFancy) {
+        copyElement.classList.add("fancy");
+        copyElement.setAttribute("data-balloon-pos", "left");
+      }
 
       if (codeBlockElement.parentElement)
         codeBlockElement.parentElement.insertBefore(
@@ -79,11 +82,11 @@ export const setupCopyCode = (): void => {
 
   const generateCopyButton = (): void => {
     setTimeout(() => {
-      if (typeof copyCodeSelector === "string")
+      if (isString(copyCodeSelector))
         document
           .querySelectorAll<HTMLElement>(copyCodeSelector)
           .forEach(insertCopyButton);
-      else if (Array.isArray(copyCodeSelector))
+      else if (isArray(copyCodeSelector))
         copyCodeSelector.forEach((item) => {
           document
             .querySelectorAll<HTMLElement>(item)
@@ -119,7 +122,7 @@ export const setupCopyCode = (): void => {
 
       timeoutIdMap.set(button, timeoutId);
 
-      if (!copyCodePure)
+      if (copyCodeFancy)
         message.pop(
           `${CHECK_ICON}<span>${locale.value.hint} 🎉</span>`,
           copyCodeDuration
@@ -150,12 +153,12 @@ export const setupCopyCode = (): void => {
         if (preBlock) copy(codeContainer, preBlock, buttonElement);
       }
     });
-  });
 
-  watch(
-    () => route.path,
-    () => {
-      if (!isMobile() || copyCodeShowInMobile) generateCopyButton();
-    }
-  );
+    watch(
+      () => route.path,
+      () => {
+        if (!isMobile() || copyCodeShowInMobile) generateCopyButton();
+      }
+    );
+  });
 };

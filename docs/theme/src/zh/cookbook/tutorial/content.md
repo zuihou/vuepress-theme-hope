@@ -1,6 +1,7 @@
 ---
 title: 项目内容
-icon: page
+icon: file
+order: 4
 category:
   - 快速上手
   - 基础知识

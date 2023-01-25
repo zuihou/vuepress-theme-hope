@@ -1,6 +1,6 @@
 ---
 title: Theme Basic Options
-icon: config
+icon: circle-info
 order: 2
 category:
   - Config
@@ -60,6 +60,13 @@ It should contain full protocol (eg: `https://example.com`).
 - Required: No
 
 Global default author.
+
+## favicon
+
+- Type: `string`
+- Required: No
+
+Site favicon.
 
 ## navbar
 

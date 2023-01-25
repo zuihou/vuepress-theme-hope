@@ -3,12 +3,12 @@ import { atou } from "vuepress-shared/client";
 import { CODEPEN_SVG, JSFIDDLE_SVG, LoadingIcon } from "./icons.js";
 import { loadNormal, loadReact, loadVue } from "../composables/index.js";
 import {
+  getCode,
+  getNormalCode,
+  getReactCode,
+  getVueCode,
   injectCSS,
   injectScript,
-  getCode,
-  getReactCode,
-  getNormalCode,
-  getVueCode,
 } from "../utils/index.js";
 
 import type { PropType, VNode } from "vue";
@@ -151,7 +151,7 @@ export default defineComponent({
         h("div", { class: "code-demo-header" }, [
           code.value.isLegal
             ? h("button", {
-                class: ["toggle-button", isExpanded.value ? "down" : "right"],
+                class: ["toggle-button", isExpanded.value ? "down" : "end"],
                 onClick: () => {
                   height.value = isExpanded.value
                     ? "0"

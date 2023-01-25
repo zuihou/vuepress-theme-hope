@@ -1,6 +1,6 @@
 ---
 title: Конфигурация главной страницы Frontmatter
-icon: config
+icon: home
 order: 4
 category:
   - Конфиг

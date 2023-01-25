@@ -3,7 +3,7 @@ import { enNavbar, zhNavbar } from "./navbar/index.js";
 import { enSidebar, zhSidebar } from "./sidebar/index.js";
 
 const hostname =
-  process.env.HOSTNAME || "https://vuepress-theme-hope-docs-demo.netlify.app";
+  process.env.HOSTNAME || "https://theme-hope-docs-demo.vuejs.press";
 
 export default hopeTheme({
   hostname,
@@ -20,8 +20,6 @@ export default hopeTheme({
   repo: "vuepress-theme-hope/vuepress-theme-hope",
 
   docsDir: "demo/theme-docs/src",
-
-  pageInfo: ["Author", "Original", "Date", "Category", "Tag", "ReadingTime"],
 
   locales: {
     "/": {
@@ -107,8 +105,8 @@ export default hopeTheme({
       figure: true,
       flowchart: true,
       gfm: true,
-      imageLazyload: true,
-      imageSize: true,
+      imgLazyload: true,
+      imgSize: true,
       include: true,
       katex: true,
       mark: true,
@@ -189,12 +187,6 @@ export default hopeTheme({
                 purpose: "maskable",
                 type: "image/png",
               },
-              {
-                src: "/assets/icon/guide-monochrome.png",
-                sizes: "192x192",
-                purpose: "monochrome",
-                type: "image/png",
-              },
             ],
           },
         ],
@@ -202,8 +194,8 @@ export default hopeTheme({
     },
 
     seo:
-      hostname === "https://vuepress-theme-hope.github.io"
+      hostname === "https://theme-hope-docs-demo.vuejs.press"
         ? {}
-        : { canonical: "https://vuepress-theme-hope.github.io/docs-demo/" },
+        : { canonical: "https://theme-hope-docs-demo.vuejs.press" },
   },
 });

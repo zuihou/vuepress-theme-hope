@@ -1,4 +1,4 @@
-import { injectLocalizedDate } from "vuepress-shared";
+import { injectLocalizedDate } from "vuepress-shared/node";
 import { convertFrontmatter } from "../compact/index.js";
 import { checkFrontmatter } from "../frontmatter/check.js";
 import { ArticleInfoType, PageType } from "../../shared/index.js";
@@ -6,9 +6,9 @@ import { ArticleInfoType, PageType } from "../../shared/index.js";
 import type { App, Page, PluginObject } from "@vuepress/core";
 import type {
   ThemeBlogHomePageFrontmatter,
+  ThemeNormalPageFrontmatter,
   ThemePageData,
   ThemeProjectHomePageFrontmatter,
-  ThemeNormalPageFrontmatter,
 } from "../../shared/index.js";
 
 export const injectPageInfo = (page: Page<ThemePageData>): void => {
@@ -42,12 +42,14 @@ export const injectPageInfo = (page: Page<ThemePageData>): void => {
   if ("icon" in frontmatter)
     page.routeMeta[ArticleInfoType.icon] = frontmatter.icon;
 
+  if ("order" in frontmatter) page.routeMeta["order"] = frontmatter.order;
+
   // resolve shortTitle
   if ("shortTitle" in frontmatter)
     page.routeMeta[ArticleInfoType.shortTitle] = frontmatter.shortTitle;
 };
 
-export const extendsPagePlugin = (legacy = false): PluginObject => ({
+export const extendsPagePlugin = (legacy = true): PluginObject => ({
   name: "vuepress-theme-hope-extends-page",
 
   extendsPage: (page, app): void => {
@@ -63,6 +65,6 @@ export const extendsPagePlugin = (legacy = false): PluginObject => ({
   },
 });
 
-export const useExtendsPagePlugin = (app: App, legacy = false): void => {
+export const useExtendsPagePlugin = (app: App, legacy = true): void => {
   app.use(extendsPagePlugin(legacy));
 };

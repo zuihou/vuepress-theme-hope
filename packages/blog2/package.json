@@ -1,6 +1,6 @@
 {
   "name": "vuepress-plugin-blog2",
-  "version": "2.0.0-beta.145",
+  "version": "2.0.0-beta.168",
   "description": "Blog plugin for VuePress",
   "keywords": [
     "vuepress",
@@ -8,7 +8,7 @@
     "vuepress-plugin",
     "blog"
   ],
-  "homepage": "https://vuepress-theme-hope.github.io/v2/blog/",
+  "homepage": "https://plugin-blog2.vuejs.press/",
   "bugs": {
     "url": "https://github.com/vuepress-theme-hope/vuepress-theme-hope/issues"
   },
@@ -40,28 +40,36 @@
     "dev": "pnpm dev:ts",
     "dev:ts": "tsc -b tsconfig.build.json --watch"
   },
+  "engines": {
+    "node": "^14.18.0 || >=16.0.0",
+    "npm": ">=8",
+    "pnpm": ">=7"
+  },
   "dependencies": {
-    "@vuepress/client": "2.0.0-beta.59",
-    "@vuepress/core": "2.0.0-beta.59",
-    "@vuepress/shared": "2.0.0-beta.59",
-    "@vuepress/utils": "2.0.0-beta.59",
+    "@vuepress/client": "2.0.0-beta.60",
+    "@vuepress/core": "2.0.0-beta.60",
+    "@vuepress/shared": "2.0.0-beta.60",
+    "@vuepress/utils": "2.0.0-beta.60",
     "chokidar": "^3.5.3",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6",
     "vuepress-shared": "workspace:*"
   },
   "peerDependencies": {
-    "vuepress": "2.0.0-beta.59",
-    "vuepress-vite": "2.0.0-beta.59",
-    "vuepress-webpack": "2.0.0-beta.59"
-  },
-  "engines": {
-    "node": "^14.18.0 || >=16.0.0",
-    "npm": ">=8",
-    "pnpm": ">=7"
+    "@vuepress/client": "2.0.0-beta.60",
+    "vuepress": "2.0.0-beta.60",
+    "vuepress-shared": "workspace:*",
+    "vuepress-vite": "2.0.0-beta.60",
+    "vuepress-webpack": "2.0.0-beta.60"
   },
   "peerDependenciesMeta": {
+    "@vuepress/client": {
+      "optional": true
+    },
     "vuepress": {
+      "optional": true
+    },
+    "vuepress-shared": {
       "optional": true
     },
     "vuepress-vite": {

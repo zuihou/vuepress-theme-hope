@@ -1,6 +1,6 @@
 ---
 title: 主题基本选项
-icon: config
+icon: circle-info
 order: 1
 category:
   - 配置
@@ -58,6 +58,13 @@ tag:
 - 必填: 否
 
 文章显示的默认作者
+
+## favicon
+
+- 类型: `string`
+- 必填: 否
+
+站点图标
 
 ## navbar
 

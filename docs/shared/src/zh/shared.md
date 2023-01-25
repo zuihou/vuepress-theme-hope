@@ -1,5 +1,6 @@
 ---
 title: 共享
+icon: share-nodes
 ---
 
 以下函数在 Node 端和客户端上均可用。
@@ -8,9 +9,9 @@ title: 共享
 
 编码并压缩 / 解码并解压缩 属性。
 
-当您想对字符串内容进行编码并通过 props 将其传递给组件时，这在 markdown 插件中很有用。
+当你想对字符串内容进行编码并通过 props 将其传递给组件时，这在 markdown 插件中很有用。
 
-您可以使用 `encodeURIComponent` 和 `decodeURIComponent` 简单地实现这一点，但如果内容包含很多特殊字符，它可能会非常大。
+你可以使用 `encodeURIComponent` 和 `decodeURIComponent` 简单地实现这一点，但如果内容包含很多特殊字符，它可能会非常大。
 
 所以我们提供 `utoa` 和 `atou` 来压缩和编码内容。
 
@@ -74,15 +75,15 @@ encodeURIComponent(content); // '%0A%7B%0A%20%20%22type%22%3A%20%22bar%22%2C%0A%
 
 ## Utils
 
-### deepMerge
+### deepAssign
 
-将多个对象深度合并到第一个对象，对于将用户选项与默认选项合并很有用。
+`Object.assign` 的深度版本，对于将用户选项与默认选项合并很有用。
 
 ```ts
 /**
  * Deep merge objects to the first one
  */
-export const deepMerge: <
+export const deepAssign: <
   T extends IAnyObject,
   U extends IAnyObject = T,
   V extends Partial<T> & Partial<U> = T & U
@@ -96,7 +97,7 @@ export const deepMerge: <
 
 ```ts
 // or vuepress-shared/client
-import { deepMerge } from "vuepress-shared/node";
+import { deepAssign } from "vuepress-shared/node";
 
 const defaultOptions = {
   optionA: {
@@ -116,7 +117,7 @@ const userOptions = {
   optionB: false,
 };
 
-deepMerge(defaultOptions, userOptions);
+deepAssign(defaultOptions, userOptions);
 // {
 //   optionA: {
 //     optionA1: "optionA1",

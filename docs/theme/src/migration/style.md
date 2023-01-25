@@ -1,6 +1,6 @@
 ---
 title: Style Migration Guide
-icon: style
+icon: wand-magic-sparkles
 category:
   - Migration
 tag:
@@ -38,7 +38,7 @@ Move to `palette.scss`.
 
 Move to `palette.scss`.
 
-- Add `$bg-color-secondary`
+- Add `$bg-color-secondary`,`$bg-color-tertiary`
 
 - `$accentColor` renamed to `$theme-color`
 

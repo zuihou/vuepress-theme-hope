@@ -1,6 +1,7 @@
 ---
 title: Setting Environment
 icon: leaf
+order: 1
 category:
   - Cookbook
   - Tutorial
@@ -85,5 +86,5 @@ Install pnpm by entering the following command in the terminal:
 
 ```sh
 corepack enable
-corepack prepare pnpm@7.18.2 --activate
+corepack prepare pnpm@7.24.3 --activate
 ```

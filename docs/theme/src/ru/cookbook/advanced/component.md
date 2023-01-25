@@ -1,6 +1,7 @@
 ---
 title: Использование компонентов
-icon: plugin
+icon: puzzle-piece
+order: 1
 category:
   - Руководство
   - Кастомизация

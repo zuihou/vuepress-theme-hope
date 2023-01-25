@@ -1,6 +1,6 @@
 ---
 title: Руководство по миграции конфигурации
-icon: config
+icon: gears
 category:
   - Миграция
 tag:
@@ -106,6 +106,8 @@ tag:
 - переименован `sidebarDepth` в `headerDepth`
 
 - удален `displayAllHeaders`
+
+- support generating sidebar automatically from file structure
 
 ### Конфигурация боковой панели навигации унифицирована
 
@@ -219,7 +221,9 @@ tag:
 
 - перемещен `feed` в `plugins.feed`
 
-  - Поддерживает удаление пользовательских компонентов и элементов с помощью параметров `plugins.feed.customElements` ![NEW](https://img.shields.io/badge/-new-brightgreen)
+  - Поддерживает удаление пользовательских компонентов и элементов с помощью параметров `plugins.feed.removedElements` ![NEW](https://img.shields.io/badge/-new-brightgreen)
+
+  - Visualized atom and rss feeds, configurable with `plugins.feed.atomXslFilename` `plugins.feed.atomXslTemplate` `plugins.feed.rssXslFilename` and `plugins.feed.rssXslTemplate` ![NEW](https://img.shields.io/badge/-new-brightgreen)
 
   - Настройте генерацию ленты с помощью опцию `plugins.feed.getter` ![NEW](https://img.shields.io/badge/-new-brightgreen)
 
@@ -257,7 +261,7 @@ tag:
 
   - поддержка метки изображения ![New](https://img.shields.io/badge/-New-brightgreen)
 
-    Используйте суффикс `#light` и `#dark`, чтобы пометить изображения, чтобы отображать их в светлом или темном режиме с помощью опции `plugins.mdEnhance.imageMark`
+    Используйте суффикс `#light` и `#dark`, чтобы пометить изображения, чтобы отображать их в светлом или темном режиме с помощью опции `plugins.mdEnhance.imgMark`
 
   - Поддержка chart.js ![New](https://img.shields.io/badge/-New-brightgreen)
 
@@ -347,7 +351,7 @@ tag:
 
   - переименован `mdEnhance.codegroup` в `plugins.mdEnhance.codetabs` ![changed](https://img.shields.io/badge/-changed-yellow)
 
-  - переименован `mdEnhance.lazyload` в `plugins.mdEnhance.imageLazyload` изменение значение по умолчанию с `true` на `false` ![changed](https://img.shields.io/badge/-changed-yellow)
+  - переименован `mdEnhance.lazyload` в `plugins.mdEnhance.imgLazyload` изменение значение по умолчанию с `true` на `false` ![changed](https://img.shields.io/badge/-changed-yellow)
 
   - удалено `plugins.mdEnhance.lineNumbers` ![removed](https://img.shields.io/badge/-removed-red)
 
@@ -407,6 +411,8 @@ tag:
     развернуты в нескольких местах.
 
 - перемещен `sitemap` в `plugins.sitemap`
+
+  - Visualized sitemap, configurable with `plugins.sitemap.sitemapXSLFilename` and `plugins.sitemap.sitemapXSLTemplate` ![New](https://img.shields.io/badge/-New-brightgreen)
 
   - `plugin.sitemap.priority` ![New](https://img.shields.io/badge/-New-brightgreen): установка значения по умолчанию для приоритета
 

@@ -1,6 +1,7 @@
 ---
 title: Расширение темы
-icon: extend
+icon: clone
+order: 4
 category:
   - Продвинутый
 tag:

@@ -6,7 +6,7 @@ title: VideoPlayer
 
 <!-- more -->
 
-## 案例
+## 示例
 
 一个视频播放器:
 
@@ -88,6 +88,13 @@ title: VideoPlayer
 如果你的服务器不能为视频文件返回正确的 mime 类型，你应该指定它。 (例如：`video/mp4`)
 
 :::
+
+### title
+
+- 类型: `string`
+- 必填: 否
+
+视频标题
 
 ### poster
 
