@@ -1,6 +1,5 @@
-import { hopeTheme } from "vuepress-theme-hope";
-import type { ThemeFunction } from "@vuepress/core";
-import type { ThemeOptions } from "vuepress-theme-hope";
+import { type ThemeFunction } from "@vuepress/core";
+import { type ThemeOptions, hopeTheme } from "vuepress-theme-hope";
 
 const IS_GITEE = "GITEE" in process.env;
 const IS_NETLIFY = "NETLIFY" in process.env;
@@ -54,6 +53,7 @@ export const theme = (
         repoId: "R_kgDOG_Pt2A",
         category: "Announcements",
         categoryId: "DIC_kwDOG_Pt2M4COD69",
+        mapping: "url",
       },
 
       components: IS_NETLIFY

@@ -1,7 +1,8 @@
+import { type App } from "@vuepress/core";
 import { isPlainObject } from "@vuepress/shared";
+import { keys } from "vuepress-shared/node";
 
-import type { App } from "@vuepress/core";
-import type { ThemeOptions } from "../../shared/index.js";
+import { type ThemeOptions } from "../../shared/index.js";
 
 export interface ThemeStatus {
   enableBlog: boolean;
@@ -13,6 +14,7 @@ export interface ThemeStatus {
   supportPageview: boolean;
 }
 
+/** @private */
 export const getStatus = (
   app: App,
   themeOptions: ThemeOptions
@@ -34,7 +36,7 @@ export const getStatus = (
           path: path || `/${key}/`,
         })) || []
       : [],
-    hasMultipleLanguages: Object.keys(locales).length > 1,
+    hasMultipleLanguages: keys(locales).length > 1,
     supportPageview: Boolean(
       plugins.comment && plugins.comment.provider === "Waline"
     ),

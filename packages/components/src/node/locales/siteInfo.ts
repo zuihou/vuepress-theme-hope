@@ -1,4 +1,4 @@
-import type { SiteInfoLocaleConfig } from "../../shared/index.js";
+import { type SiteInfoLocaleConfig } from "../../shared/index.js";
 
 export const siteInfoLocaleConfig: SiteInfoLocaleConfig = {
   "/en/": { source: "Source" },
@@ -32,4 +32,10 @@ export const siteInfoLocaleConfig: SiteInfoLocaleConfig = {
   "/ko/": { source: "소스 코드" },
 
   "/fi/": { source: "Lähdekoodi" },
+
+  "/hu/": { source: "Forrás" },
+
+  "/id/": { source: "Sumber" },
+
+  "/nl/": { source: "Bron" },
 };

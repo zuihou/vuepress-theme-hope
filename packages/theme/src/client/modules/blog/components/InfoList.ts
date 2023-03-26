@@ -1,8 +1,17 @@
-import { computed, defineComponent, h, ref } from "vue";
+import {
+  type FunctionalComponent,
+  type VNode,
+  computed,
+  defineComponent,
+  h,
+  ref,
+} from "vue";
 import { RouterLink } from "vue-router";
+import { keys } from "vuepress-shared/client";
 
-import CategoryList from "@theme-hope/modules/blog/components/CategoryList";
 import DropTransition from "@theme-hope/components/transitions/DropTransition";
+import { useNavigate, useThemeLocaleData } from "@theme-hope/composables/index";
+import CategoryList from "@theme-hope/modules/blog/components/CategoryList";
 import TagList from "@theme-hope/modules/blog/components/TagList";
 import TimelineList from "@theme-hope/modules/blog/components/TimelineList";
 import {
@@ -11,8 +20,6 @@ import {
   TagIcon,
   TimelineIcon,
 } from "@theme-hope/modules/blog/components/icons/index";
-
-import { useNavigate, useThemeLocaleData } from "@theme-hope/composables/index";
 import {
   useArticles,
   useCategoryMap,
@@ -20,7 +27,7 @@ import {
   useTagMap,
 } from "@theme-hope/modules/blog/composables/index";
 
-import type { FunctionalComponent, VNode } from "vue";
+import { ArticleInfoType } from "../../../../shared/index.js";
 
 import "../styles/info-list.scss";
 
@@ -31,12 +38,10 @@ export default defineComponent({
     const themeLocale = useThemeLocaleData();
     const articles = useArticles();
     const categoryMap = useCategoryMap();
-    const categoryNumber = computed(
-      () => Object.keys(categoryMap.value.map).length
-    );
+    const categoryNumber = computed(() => keys(categoryMap.value.map).length);
     const stars = useStars();
     const tagMap = useTagMap();
-    const tagNumber = computed(() => Object.keys(tagMap.value.map).length);
+    const tagNumber = computed(() => keys(tagMap.value.map).length);
     const navigate = useNavigate();
 
     const active = ref<"article" | "category" | "tag" | "timeline">("article");
@@ -62,6 +67,7 @@ export default defineComponent({
             h(
               "button",
               {
+                type: "button",
                 class: "blog-type-button",
                 onClick: () => {
                   active.value = key;
@@ -108,7 +114,11 @@ export default defineComponent({
                         h(
                           "li",
                           { class: "sticky-article" },
-                          h(RouterLink, { to: path }, () => info.title)
+                          h(
+                            RouterLink,
+                            { to: path },
+                            () => info[ArticleInfoType.title]
+                          )
                         )
                     )
                   )

@@ -1,22 +1,25 @@
+import { type App } from "@vuepress/core";
 import { getLocales } from "vuepress-shared/node";
+
+import { catalogLocales } from "./compact/index.js";
+import { getIconInfo, getShareServiceConfig } from "./components/index.js";
 import {
   backToTopLocales,
-  catalogLocales,
   pdfLocaleConfig,
   siteInfoLocaleConfig,
 } from "./locales/index.js";
-import { getIconInfo } from "./components/index.js";
-
-import type { App } from "@vuepress/core";
-import type { ComponentOptions } from "./options/index.js";
+import { type ComponentOptions } from "./options/index.js";
 
 export const getDefine =
-  (options: ComponentOptions): ((app: App) => Record<string, unknown>) =>
+  (
+    options: ComponentOptions,
+    legacy: boolean
+  ): ((app: App) => Record<string, unknown>) =>
   (app) => {
     const { assets, prefix } = options.componentOptions?.fontIcon || {};
     const result: Record<string, unknown> = {};
 
-    if (options.components?.includes("Catalog"))
+    if (legacy && (options.components as unknown[])?.includes("Catalog"))
       result["CATALOG_LOCALES"] = getLocales({
         app,
         name: "catalog",
@@ -47,6 +50,13 @@ export const getDefine =
         config: options.locales?.pdf,
       });
       result["PDFJS_URL"] = options.componentOptions?.pdf?.pdfjs || null;
+    }
+
+    if (options.components?.includes("Share")) {
+      result["SHARE_CONTENT_SELECTOR"] =
+        options.componentOptions?.share?.contentSelector ??
+        ".theme-default-content";
+      result["SHARE_SERVICES"] = getShareServiceConfig(options);
     }
 
     if (options.components?.includes("SiteInfo"))

@@ -1,3 +1,4 @@
+import { type PluginFunction } from "@vuepress/core";
 import { getDirname, path } from "@vuepress/utils";
 import { useSassPalettePlugin } from "vuepress-plugin-sass-palette";
 import {
@@ -5,16 +6,16 @@ import {
   addViteOptimizeDepsExclude,
   addViteOptimizeDepsInclude,
   addViteSsrExternal,
+  checkVersion,
   getLocales,
 } from "vuepress-shared/node";
 
 import { getProvider } from "./alias.js";
 import { convertOptions } from "./compact.js";
 import { walineLocales } from "./locales.js";
-import { logger } from "./utils.js";
-
-import type { CommentOptions } from "../shared/index.js";
-import type { PluginFunction } from "@vuepress/core";
+import { applyDemo } from "./options.js";
+import { PLUGIN_NAME, logger } from "./utils.js";
+import { type CommentOptions } from "../shared/index.js";
 
 const __dirname = getDirname(import.meta.url);
 
@@ -25,13 +26,11 @@ export const commentPlugin =
     // TODO: Remove this in v2 stable
     if (legacy)
       convertOptions(options as CommentOptions & Record<string, unknown>);
+    checkVersion(app, PLUGIN_NAME, "2.0.0-beta.61");
+
     if (app.env.isDebug) logger.info("Options:", options);
 
-    const provider =
-      options.provider &&
-      ["Giscus", "Waline", "Twikoo"].includes(options.provider)
-        ? options.provider
-        : "None";
+    applyDemo(options, app);
 
     const userWalineLocales =
       options.provider === "Waline"
@@ -50,11 +49,10 @@ export const commentPlugin =
     useSassPalettePlugin(app, { id: "hope" });
 
     return {
-      name: "vuepress-plugin-comment2",
+      name: PLUGIN_NAME,
 
       alias: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        "vuepress-plugin-comment2/provider": getProvider(options.provider),
+        [`${PLUGIN_NAME}/provider`]: getProvider(options.provider),
       },
 
       define: () => ({
@@ -68,20 +66,31 @@ export const commentPlugin =
       }),
 
       extendsBundlerOptions: (bundlerOptions: unknown, app): void => {
-        if (provider === "Giscus") {
-          addCustomElement(bundlerOptions, app, "GiscusWidget");
-          addViteSsrExternal(bundlerOptions, app, "giscus");
-        }
+        switch (options.provider) {
+          case "Artalk": {
+            addViteOptimizeDepsInclude(bundlerOptions, app, "artalk");
+            addViteSsrExternal(bundlerOptions, app, "artalk");
+            break;
+          }
 
-        if (provider === "Waline") {
-          addViteOptimizeDepsInclude(bundlerOptions, app, "autosize");
-          addViteOptimizeDepsExclude(bundlerOptions, app, "@waline/client");
-          addViteSsrExternal(bundlerOptions, app, "@waline/client");
-        }
+          case "Giscus": {
+            addCustomElement(bundlerOptions, app, "GiscusWidget");
+            addViteSsrExternal(bundlerOptions, app, "giscus");
+            break;
+          }
 
-        if (provider === "Twikoo") {
-          addViteOptimizeDepsInclude(bundlerOptions, app, "twikoo");
-          addViteSsrExternal(bundlerOptions, app, "twikoo");
+          case "Waline": {
+            addViteOptimizeDepsInclude(bundlerOptions, app, "autosize");
+            addViteOptimizeDepsExclude(bundlerOptions, app, "@waline/client");
+            addViteSsrExternal(bundlerOptions, app, "@waline/client");
+            break;
+          }
+
+          case "Twikoo": {
+            addViteOptimizeDepsInclude(bundlerOptions, app, "twikoo");
+            addViteSsrExternal(bundlerOptions, app, "twikoo");
+            break;
+          }
         }
       },
 

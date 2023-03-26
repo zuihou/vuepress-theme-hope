@@ -1,6 +1,11 @@
-import type { App } from "@vuepress/core";
-import type { ThemeData } from "../../shared/index.js";
+import { type App } from "@vuepress/core";
+import { entries } from "vuepress-shared/node";
 
+import { type ThemeData } from "../../shared/index.js";
+
+/**
+ * @private
+ */
 export const prepareThemeColorScss = async (
   app: App,
   themeData: ThemeData
@@ -8,7 +13,7 @@ export const prepareThemeColorScss = async (
   await app.writeTemp(
     "theme-hope/theme-color.scss",
     `\
-$picker: (${Object.entries(themeData.themeColor || {})
+$picker: (${entries(themeData.themeColor || {})
       .map(([color, value]) => `"${color}": ${value}`)
       .join(",")});
 `

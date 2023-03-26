@@ -1,10 +1,9 @@
-import { h } from "vue";
+import { type FunctionalComponent, type PropType, h } from "vue";
 import { useRoute } from "vue-router";
+import { startsWith } from "vuepress-shared/client";
 
 import NoticeItem from "./NoticeItem.js";
-
-import type { FunctionalComponent, PropType } from "vue";
-import type { NoticeItemOptions } from "../../shared/index.js";
+import { type NoticeItemOptions } from "../../shared/index.js";
 
 import "../styles/notice.scss";
 
@@ -20,7 +19,7 @@ const Notice: FunctionalComponent<{
   const item = config.find((item) =>
     "match" in item
       ? new RegExp(item.match).test(route.path)
-      : route.path.startsWith(item.path)
+      : startsWith(route.path, item.path)
   );
 
   return item ? h(NoticeItem, item) : null;

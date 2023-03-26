@@ -1,6 +1,8 @@
 import { isLinkHttp } from "@vuepress/shared";
 import {
+  type PropType,
   TransitionGroup,
+  type VNode,
   computed,
   defineComponent,
   h,
@@ -8,12 +10,10 @@ import {
   ref,
 } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { isAbsoluteUrl } from "vuepress-shared/client";
+import { isAbsoluteUrl, startsWith } from "vuepress-shared/client";
 
 import { CloseIcon } from "./icons.js";
-
-import type { PropType, VNode } from "vue";
-import type { NoticeActionOption } from "../../shared/index.js";
+import { type NoticeActionOption } from "../../shared/index.js";
 
 import "../styles/notice.scss";
 
@@ -118,7 +118,7 @@ export default defineComponent({
     const isMatched = computed(() =>
       props.match
         ? new RegExp(props.match).test(route.path)
-        : route.path.startsWith(props.path)
+        : startsWith(route.path, props.path)
     );
 
     onMounted(() => {
@@ -138,10 +138,10 @@ export default defineComponent({
     };
 
     const openLink = (link?: string): void => {
-      if (link) {
+      if (link)
         if (isAbsoluteUrl(link)) void router.push(link);
         else if (isLinkHttp(link)) window.open(link);
-      }
+
       close();
     };
 
@@ -180,6 +180,7 @@ export default defineComponent({
                     { class: "notice-footer" },
                     props.actions.map(({ text, link, type = "" }) =>
                       h("button", {
+                        type: "button",
                         class: ["notice-footer-action", type],
                         onClick: () => openLink(link),
                         innerHTML: text,

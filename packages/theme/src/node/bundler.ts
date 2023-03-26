@@ -1,3 +1,6 @@
+import { type ViteBundlerOptions } from "@vuepress/bundler-vite";
+import { type WebpackBundlerOptions } from "@vuepress/bundler-webpack";
+import { type App } from "@vuepress/core";
 import {
   addViteConfig,
   addViteOptimizeDepsExclude,
@@ -5,10 +8,6 @@ import {
   getBundlerName,
   tagHint,
 } from "vuepress-shared/node";
-
-import type { App } from "@vuepress/core";
-import type { ViteBundlerOptions } from "@vuepress/bundler-vite";
-import type { WebpackBundlerOptions } from "@vuepress/bundler-webpack";
 
 /**
  * Add tags as customElement
@@ -76,6 +75,9 @@ export const checkTag = (bundlerOptions: unknown, app: App): void => {
   }
 };
 
+/**
+ * @private
+ */
 export const extendsBundlerOptions = (
   bundlerOptions: unknown,
   app: App

@@ -1,30 +1,32 @@
+import { type App, type Page } from "@vuepress/core";
+import { type GitData } from "@vuepress/plugin-git";
 import { colors, fs, path } from "@vuepress/utils";
+import { entries, fromEntries } from "vuepress-shared/node";
 
 import { Feed } from "./feed.js";
-import { getFeedChannelOption, getFeedLinks, getFilename } from "../options.js";
 import { FeedInfo } from "../extractor/index.js";
+import {
+  type ResolvedFeedOptionsMap,
+  getFeedChannelOption,
+  getFeedLinks,
+  getFilename,
+} from "../options.js";
+import { type FeedPluginFrontmatter } from "../typings/index.js";
 import { compareDate, logger } from "../utils/index.js";
-
-import type { App, Page } from "@vuepress/core";
-import type { GitData } from "@vuepress/plugin-git";
-import type { ResolvedFeedOptionsMap } from "../options.js";
-import type { FeedPluginFrontmatter } from "../typings/index.js";
 
 export class FeedGenerator {
   /** feed 生成器 */
   feedMap: Record<string, Feed>;
 
   constructor(private app: App, private options: ResolvedFeedOptionsMap) {
-    this.feedMap = Object.fromEntries(
-      Object.entries(options).map(([localePath, localeOptions]) => {
-        return [
-          localePath,
-          new Feed({
-            channel: getFeedChannelOption(app, localeOptions, localePath),
-            links: getFeedLinks(app, localeOptions, localePath),
-          }),
-        ];
-      })
+    this.feedMap = fromEntries(
+      entries(options).map(([localePath, localeOptions]) => [
+        localePath,
+        new Feed({
+          channel: getFeedChannelOption(app, localeOptions, localePath),
+          links: getFeedLinks(app, localeOptions, localePath),
+        }),
+      ])
     );
   }
 
@@ -56,7 +58,6 @@ export class FeedGenerator {
     const pages = this.app.pages
       .filter((page) => page.pathLocale === localePath)
       .filter(filter)
-
       // @ts-ignore
       .sort(sorter)
       .slice(0, feedCount);
@@ -90,58 +91,53 @@ export class FeedGenerator {
     const { dest } = this.app.dir;
 
     await Promise.all([
-      ...Object.entries(this.options).map(
-        async ([localePath, localeOptions]) => {
-          // current locale has valid output
-          if (localeOptions.atom || localeOptions.json || localeOptions.rss) {
-            const feed = this.feedMap[localePath];
-            const {
-              atomOutputFilename,
-              jsonOutputFilename,
-              rssOutputFilename,
-            } = getFilename(localeOptions, localePath);
+      ...entries(this.options).map(async ([localePath, localeOptions]) => {
+        // current locale has valid output
+        if (localeOptions.atom || localeOptions.json || localeOptions.rss) {
+          const feed = this.feedMap[localePath];
+          const { atomOutputFilename, jsonOutputFilename, rssOutputFilename } =
+            getFilename(localeOptions, localePath);
 
-            this.addPages(localePath);
+          this.addPages(localePath);
 
-            // generate atom files
-            if (localeOptions.atom) {
-              await fs.ensureDir(path.dirname(dest(atomOutputFilename)));
-              await fs.outputFile(dest(atomOutputFilename), feed.atom());
+          // generate atom files
+          if (localeOptions.atom) {
+            await fs.ensureDir(path.dirname(dest(atomOutputFilename)));
+            await fs.outputFile(dest(atomOutputFilename), feed.atom());
 
-              logger.succeed(
-                `Atom feed file generated and saved to ${colors.cyan(
-                  `/${atomOutputFilename}`
-                )}`
-              );
-            }
+            logger.succeed(
+              `Atom feed file generated and saved to ${colors.cyan(
+                `/${atomOutputFilename}`
+              )}`
+            );
+          }
 
-            // generate json files
-            if (localeOptions.json) {
-              await fs.ensureDir(path.dirname(dest(jsonOutputFilename)));
-              await fs.outputFile(dest(jsonOutputFilename), feed.json());
+          // generate json files
+          if (localeOptions.json) {
+            await fs.ensureDir(path.dirname(dest(jsonOutputFilename)));
+            await fs.outputFile(dest(jsonOutputFilename), feed.json());
 
-              logger.succeed(
-                `JSON feed file generated and saved to ${colors.cyan(
-                  `/${jsonOutputFilename}`
-                )}`
-              );
-            }
+            logger.succeed(
+              `JSON feed file generated and saved to ${colors.cyan(
+                `/${jsonOutputFilename}`
+              )}`
+            );
+          }
 
-            // generate rss files
-            if (localeOptions.rss) {
-              await fs.ensureDir(path.dirname(dest(rssOutputFilename)));
-              await fs.outputFile(dest(rssOutputFilename), feed.rss());
+          // generate rss files
+          if (localeOptions.rss) {
+            await fs.ensureDir(path.dirname(dest(rssOutputFilename)));
+            await fs.outputFile(dest(rssOutputFilename), feed.rss());
 
-              logger.succeed(
-                `RSS feed file generated and saved to ${colors.cyan(
-                  `/${rssOutputFilename}`
-                )}`
-              );
-            }
+            logger.succeed(
+              `RSS feed file generated and saved to ${colors.cyan(
+                `/${rssOutputFilename}`
+              )}`
+            );
           }
         }
-      ),
-      Object.entries(this.options)
+      }),
+      entries(this.options)
         .filter(([, { atom }]) => atom)
         .map(([localePath, localeOptions]) => {
           const { atomXslTemplate, atomXslFilename } = getFilename(
@@ -151,7 +147,7 @@ export class FeedGenerator {
 
           return fs.copyFile(atomXslTemplate, dest(atomXslFilename));
         }),
-      Object.entries(this.options)
+      entries(this.options)
         .filter(([, { rss }]) => rss)
         .map(([localePath, localeOptions]) => {
           const { rssXslFilename, rssXslTemplate } = getFilename(

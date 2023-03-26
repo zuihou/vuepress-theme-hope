@@ -1,8 +1,7 @@
 import { container } from "@mdit/plugin-container";
-import { utoa } from "vuepress-shared/node";
-
-import type { PluginSimple } from "markdown-it";
+import { type PluginSimple } from "markdown-it";
 import type Token from "markdown-it/lib/token.js";
+import { utoa } from "vuepress-shared/node";
 
 /** @deprecated */
 export const legacyCodeDemo: PluginSimple = (md) => {
@@ -18,13 +17,18 @@ export const legacyCodeDemo: PluginSimple = (md) => {
 
       for (let i = index; i < tokens.length; i++) {
         const { type, content, info } = tokens[i];
+        const language = info
+          ? md.utils
+              .unescapeAll(info)
+              .trim()
+              .match(/^([^ :[{]+)/)?.[1] || "text"
+          : "";
 
         if (type === `container_demo_close`) break;
         if (!content) continue;
-        if (type === "fence") {
-          if (info === "json") config = utoa(content);
-          else code[info] = content;
-        }
+        if (type === "fence")
+          if (language === "json") config = utoa(content);
+          else code[language] = content;
       }
 
       return `

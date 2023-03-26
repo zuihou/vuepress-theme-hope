@@ -1,16 +1,18 @@
+import { type App, type Page } from "@vuepress/core";
 import {
   isLinkHttp,
   isString,
   removeEndingSlash,
   removeLeadingSlash,
 } from "@vuepress/shared";
-import { Logger, isAbsoluteUrl, isUrl } from "vuepress-shared/node";
+import { Logger, entries, isAbsoluteUrl, isUrl } from "vuepress-shared/node";
 
-import type { App, Page } from "@vuepress/core";
-import type { SeoOptions } from "./options.js";
-import type { ExtendPage } from "./typings/index.js";
+import { type SeoOptions } from "./options.js";
+import { type ExtendPage } from "./typings/index.js";
 
-export const logger = new Logger("vuepress-plugin-seo2");
+export const PLUGIN_NAME = "vuepress-plugin-seo2";
+
+export const logger = new Logger(PLUGIN_NAME);
 
 export interface AlternateInfo {
   path: string;
@@ -21,7 +23,7 @@ export const getAlternateInfo = (
   { lang, path, pathLocale }: Page,
   { pages, siteData }: App
 ): AlternateInfo[] =>
-  Object.entries(siteData.locales)
+  entries(siteData.locales)
     .map(([localePath, { lang }]) => ({
       path: `${localePath}${path.replace(pathLocale, "")}`,
       lang,
@@ -62,7 +64,7 @@ export const getImages = (
 ): string[] => {
   const result = /!\[.*?\]\((.*?)\)/giu.exec(content);
 
-  if (result) {
+  if (result)
     return result
       .map(([, link]) => {
         if (isAbsoluteUrl(link)) return resolveUrl(hostname, base, link);
@@ -72,7 +74,6 @@ export const getImages = (
         return null;
       })
       .filter((item): item is string => item !== null);
-  }
 
   return [];
 };

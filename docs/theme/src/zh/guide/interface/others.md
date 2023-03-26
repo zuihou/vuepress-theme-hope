@@ -1,7 +1,7 @@
 ---
 title: 其他界面功能
 icon: ellipsis
-order: 5
+order: 6
 category:
   - 界面
 tag:
@@ -74,7 +74,7 @@ export default defineUserConfig({
 
 ## RTL 布局
 
-`vuepress-theme-hope` 完全支持 RTL 布局。只需在 RTL 多语言配置内设置 `rtl: false`
+`vuepress-theme-hope` 完全支持 RTL 布局。只需在 RTL 多语言配置内设置 `rtl: true`
 
 试一试: <ToggleRTLButton />
 

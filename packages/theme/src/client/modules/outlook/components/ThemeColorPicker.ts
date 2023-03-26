@@ -1,6 +1,5 @@
-import { defineComponent, h, onMounted } from "vue";
-
-import type { PropType, VNode } from "vue";
+import { type PropType, type VNode, defineComponent, h, onMounted } from "vue";
+import { entries, keys } from "vuepress-shared/client";
 
 import "../styles/theme-color-picker.scss";
 
@@ -22,9 +21,7 @@ export default defineComponent({
   setup(props) {
     const setThemeColor = (theme = ""): void => {
       const classes = document.documentElement.classList;
-      const themes = Object.keys(props.themeColor).map(
-        (color) => `theme-${color}`
-      );
+      const themes = keys(props.themeColor).map((color) => `theme-${color}`);
 
       if (!theme) {
         localStorage.removeItem("theme");
@@ -58,7 +55,7 @@ export default defineComponent({
             onClick: () => setThemeColor(),
           })
         ),
-        ...Object.entries(props.themeColor).map(([color, value]) =>
+        ...entries(props.themeColor).map(([color, value]) =>
           h(
             "li",
             h("span", {

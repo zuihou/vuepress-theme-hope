@@ -1,28 +1,27 @@
-import { getLocales } from "vuepress-shared/node";
+import { type App } from "@vuepress/core";
+import { entries, fromEntries, getLocales } from "vuepress-shared/node";
+
 import { getEncryptConfig } from "./encrypt.js";
+import { type ThemeStatus } from "./status.js";
+import {
+  type ThemeData,
+  type ThemeLocaleConfig,
+  type ThemeLocaleOptions,
+  type ThemeOptions,
+} from "../../shared/index.js";
 import { themeLocalesData } from "../locales/index.js";
 
-import type { App } from "@vuepress/core";
-import type { ThemeStatus } from "./status.js";
-import {
-  ThemeData,
-  ThemeLocaleConfig,
-  ThemeLocaleOptions,
-  ThemeOptions,
-} from "../../shared/index.js";
-
-const rootAllowConfig = [
-  "blog",
-  "encrypt",
-  "print",
-  "pure",
-  "darkmode",
-  "themeColor",
-  "fullscreen",
-  "mobileBreakPoint",
+const ROOT_DISALLOW_CONFIG = [
+  "navbar",
+  "sidebar",
+  "rtl",
+  "langName",
+  "selectLangAriaLabel",
 ];
 
 /**
+ * @private
+ *
  * Get client-side `themeData`
  */
 export const getThemeData = (
@@ -32,10 +31,10 @@ export const getThemeData = (
 ): ThemeData => {
   const themeData: ThemeData = {
     encrypt: {},
-    ...Object.fromEntries(
+    ...fromEntries(
       // only remain root allowed config
-      Object.entries(themeOptions).filter(([key]) =>
-        rootAllowConfig.includes(key)
+      entries(themeOptions).filter(
+        ([key]) => !ROOT_DISALLOW_CONFIG.includes(key)
       )
     ),
     locales:
@@ -43,14 +42,14 @@ export const getThemeData = (
       getLocales({
         app,
         name: "vuepress-theme-hope",
-        default: Object.fromEntries(
-          Object.entries(themeLocalesData).map(([locale, config]) => {
+        default: fromEntries(
+          entries(themeLocalesData).map(([locale, config]) => {
             // remove blog locales if blog is not enabled
             if (!enableBlog) {
-              // @ts-ignore
+              // @ts-expect-error
               delete config.blogLocales;
 
-              // @ts-ignore
+              // @ts-expect-error
               delete config.paginationLocales;
             }
 
@@ -58,8 +57,8 @@ export const getThemeData = (
           })
         ),
         // extract localeConfig
-        config: Object.fromEntries(
-          Object.entries<ThemeLocaleOptions>({
+        config: fromEntries(
+          entries<ThemeLocaleOptions>({
             // ensure default locale
             // eslint-disable-next-line @typescript-eslint/naming-convention
             "/": {},
@@ -68,9 +67,9 @@ export const getThemeData = (
             localePath,
             <ThemeLocaleConfig>{
               // root config
-              ...Object.fromEntries(
-                Object.entries(themeOptions).filter(
-                  ([key]) => key !== "locales" && !rootAllowConfig.includes(key)
+              ...fromEntries(
+                entries(themeOptions).filter(([key]) =>
+                  ROOT_DISALLOW_CONFIG.includes(key)
                 )
               ),
               // locale options

@@ -1,13 +1,18 @@
-import { usePageData } from "@vuepress/client";
-import { defineComponent, h, onMounted, ref, watch } from "vue";
+import { type PageHeader, usePageData } from "@vuepress/client";
+import {
+  type PropType,
+  type VNode,
+  defineComponent,
+  h,
+  onMounted,
+  ref,
+  watch,
+} from "vue";
 import { RouterLink, useRoute } from "vue-router";
 import { isActiveLink } from "vuepress-shared/client";
 
 import PrintButton from "@theme-hope/modules/info/components/PrintButton";
 import { useMetaLocale } from "@theme-hope/modules/info/composables/index";
-
-import type { PageHeader } from "@vuepress/shared";
-import type { PropType, VNode } from "vue";
 
 import "../styles/toc.scss";
 
@@ -31,19 +36,23 @@ const renderChildren = (
     ? h(
         "ul",
         { class: "toc-list" },
-        headers.map((header) => [
-          h(
-            "li",
-            {
-              class: [
-                "toc-item",
-                { active: isActiveLink(route, `#${header.slug}`) },
-              ],
-            },
-            renderHeader(header)
-          ),
-          renderChildren(header.children, headerDepth - 1),
-        ])
+        headers.map((header) => {
+          const children = renderChildren(header.children, headerDepth - 1);
+
+          return [
+            h(
+              "li",
+              {
+                class: [
+                  "toc-item",
+                  { active: isActiveLink(route, `#${header.slug}`) },
+                ],
+              },
+              renderHeader(header)
+            ),
+            children ? h("li", children) : null,
+          ];
+        })
       )
     : null;
 };
@@ -73,7 +82,7 @@ export default defineComponent({
     },
   },
 
-  setup(props) {
+  setup(props, { slots }) {
     const route = useRoute();
     const page = usePageData();
     const metaLocale = useMetaLocale();
@@ -135,11 +144,13 @@ export default defineComponent({
       return tocHeaders
         ? h("div", { class: "toc-place-holder" }, [
             h("aside", { id: "toc" }, [
+              slots["before"]?.(),
               h("div", { class: "toc-header" }, [
                 metaLocale.value.toc,
                 h(PrintButton),
               ]),
-              h("div", { class: "toc-wrapper", ref: toc }, [tocHeaders]),
+              h("div", { class: "toc-wrapper", ref: toc }, tocHeaders),
+              slots["after"]?.(),
             ]),
           ])
         : null;

@@ -16,10 +16,10 @@ Available components:
 - AudioPlayer
 - Badge
 - BiliBili
-- Catalog
 - CodePen
 - FontIcon
 - PDF
+- Replit
 - SiteInfo
 - StackBlitz
 - VideoPlayer
@@ -49,9 +49,9 @@ export default defineUserConfig({
           "AudioPlayer",
           "Badge",
           "BiliBili",
-          "Catalog",
           "CodePen",
           "PDF",
+          "Replit",
           "StackBlitz",
           "VideoPlayer",
           "YouTube",
@@ -77,9 +77,9 @@ export default {
           "AudioPlayer",
           "Badge",
           "BiliBili",
-          "Catalog",
           "CodePen",
           "PDF",
+          "Replit",
           "StackBlitz",
           "VideoPlayer",
           "YouTube",
@@ -232,26 +232,6 @@ A bilibili video with custom settings:
 
 See <ProjectLink name="components" path="/guide/bilibili.html">BiliBili</ProjectLink> page for available props.
 
-## Catalog
-
-A component which display catalog.
-
-Home page catalog:
-
-<!-- markdownlint-disable MD033 -->
-
-<div class="catalog-display-container">
-  <Catalog base='/' />
-</div>
-
-<!-- markdownlint-enable MD033 -->
-
-```md
-<Catalog base='/' />
-```
-
-See <ProjectLink name="components" path="/guide/catalog.html">Catalog</ProjectLink> page for available props.
-
 ## CodePen
 
 A component which allows you to embed CodePen demo.
@@ -334,6 +314,32 @@ PDF viewer starting with page 2 and without toolbar:
 ```
 
 See <ProjectLink name="components" path="/guide/pdf.html">PDF</ProjectLink> page for available props.
+
+## Replit
+
+An embedded repl:
+
+<Replit user="FuckDoctors" repl="Java-Test" />
+
+```md
+<Replit user="FuckDoctors" repl="Java-Test" />
+```
+
+An embedded repl with opening file:
+
+<Replit user="FuckDoctors" repl="Java-Test" file="Main.java" />
+
+```md
+<Replit user="FuckDoctors" repl="Java-Test" file="Main.java" />
+```
+
+A repl link:
+
+<Replit user="FuckDoctors" repl="Java-Test" plain />
+
+```md
+<Replit user="FuckDoctors" repl="Java-Test" plain />
+```
 
 ## SiteInfo
 

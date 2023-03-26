@@ -128,7 +128,7 @@ Sidebar Config.
 
 Whether show icons in the sidebar
 
-### sidebarSorter <Badge text="Root Only" />
+### sidebarSorter <Badge text="Root only" type="warning" />
 
 - Type: `SidebarSorter`
 
@@ -139,6 +139,7 @@ Whether show icons in the sidebar
 
     title: string;
     order: number | null;
+    path?: string | null;
 
     frontmatter: ThemeNormalPageFrontmatter;
     pageData: ThemePageData;
@@ -334,7 +335,7 @@ The default content for the footer, can accept HTMLString.
 
 ### copyright
 
-- Type: `string | boolean`
+- Type: `string | false`
 - Default: `"Copyright © <author>"`
 
 The default copyright info, set it to `false` to disable it by default.

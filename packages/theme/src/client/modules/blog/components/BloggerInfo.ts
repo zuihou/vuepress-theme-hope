@@ -1,10 +1,9 @@
 import { useSiteLocaleData, withBase } from "@vuepress/client";
-import { computed, defineComponent, h } from "vue";
-import { getAuthor } from "vuepress-shared/client";
+import { type VNode, computed, defineComponent, h } from "vue";
+import { getAuthor, keys } from "vuepress-shared/client";
 
-import SocialMedia from "@theme-hope/modules/blog/components/SocialMedia";
 import { useNavigate, useThemeLocaleData } from "@theme-hope/composables/index";
-
+import SocialMedia from "@theme-hope/modules/blog/components/SocialMedia";
 import {
   useArticles,
   useBlogOptions,
@@ -12,8 +11,6 @@ import {
   useTagMap,
   useTimelines,
 } from "@theme-hope/modules/blog/composables/index";
-
-import type { VNode } from "vue";
 
 import "../styles/blogger-info.scss";
 
@@ -104,15 +101,11 @@ export default defineComponent({
               h("div", locale.value.article),
             ]),
             h("div", { onClick: () => navigate(categoryMap.value.path) }, [
-              h(
-                "div",
-                { class: "num" },
-                Object.keys(categoryMap.value.map).length
-              ),
+              h("div", { class: "num" }, keys(categoryMap.value.map).length),
               h("div", locale.value.category),
             ]),
             h("div", { onClick: () => navigate(tagMap.value.path) }, [
-              h("div", { class: "num" }, Object.keys(tagMap.value.map).length),
+              h("div", { class: "num" }, keys(tagMap.value.map).length),
               h("div", locale.value.tag),
             ]),
             h("div", { onClick: () => navigate(timelines.value.path) }, [

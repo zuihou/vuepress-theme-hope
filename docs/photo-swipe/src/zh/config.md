@@ -6,7 +6,7 @@ icon: gears
 ## selector
 
 - 类型: `string | string[]`
-- 默认值: `".theme-default-content :not(a) > img"`
+- 默认值: `".theme-default-content :not(a) > img:not([no-view])"`
 
 图片选择器
 
@@ -97,5 +97,7 @@ Photo Swipe 插件的国际化配置。
 - **土耳其语** (tr-TR)
 - **韩语** (ko-KR)
 - **芬兰语** (fi-FI)
+- **印尼语** (id-ID)
+- **荷兰语** (nl-NL)
 
 :::

@@ -1,9 +1,9 @@
-import { getConfig, preProcessorConfig } from "./utils.js";
-
 import type Babel from "@babel/core";
-import type { Code, CodeType } from "./typings.js";
-import type { PreProcessorType } from "./utils.js";
-import type { CodeDemoOptions } from "../../../shared/index.js";
+import { keys } from "vuepress-shared/client";
+
+import { type Code, type CodeType } from "./typings.js";
+import { getConfig, preProcessorConfig } from "./utils.js";
+import { type CodeDemoOptions } from "../../../shared/index.js";
 
 declare global {
   interface Window {
@@ -12,7 +12,7 @@ declare global {
 }
 
 export const getCode = (code: Record<string, string>): CodeType => {
-  const languages = Object.keys(code);
+  const languages = keys(code);
   const result: CodeType = {
     html: [],
     js: [],
@@ -20,7 +20,7 @@ export const getCode = (code: Record<string, string>): CodeType => {
     isLegal: false,
   };
 
-  (<PreProcessorType[]>["html", "js", "css"]).forEach((type) => {
+  (["html", "js", "css"] as const).forEach((type) => {
     const match = languages.filter((language) =>
       preProcessorConfig[type].types.includes(language)
     );

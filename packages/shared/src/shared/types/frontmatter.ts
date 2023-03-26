@@ -1,5 +1,6 @@
-import type { PageFrontmatter } from "@vuepress/core";
-import type { Author } from "./author.js";
+import { type PageFrontmatter } from "@vuepress/core";
+
+import { type Author } from "./author.js";
 
 export interface BasePageFrontMatter extends PageFrontmatter {
   /**
@@ -21,7 +22,7 @@ export interface BasePageFrontMatter extends PageFrontmatter {
    *
    * 写作日期
    */
-  date?: Date;
+  date?: Date | string;
 
   /**
    * Page Category(ies)

@@ -1,3 +1,5 @@
+import { type App, type Page } from "@vuepress/core";
+import { type GitData } from "@vuepress/plugin-git";
 import {
   isLinkHttp,
   removeEndingSlash,
@@ -5,18 +7,16 @@ import {
 } from "@vuepress/shared";
 import { colors, fs } from "@vuepress/utils";
 import { SitemapStream } from "sitemap";
-import { TEMPLATE_FOLDER, logger } from "./utils.js";
 
-import type { App, Page } from "@vuepress/core";
-import type { GitData } from "@vuepress/plugin-git";
-import type { ModifyTimeGetter, SitemapOptions } from "./options.js";
-import type {
-  SitemapImageOption,
-  SitemapLinkOption,
-  SitemapNewsOption,
-  SitemapPluginFrontmatter,
-  SitemapVideoOption,
+import { type ModifyTimeGetter, type SitemapOptions } from "./options.js";
+import {
+  type SitemapImageOption,
+  type SitemapLinkOption,
+  type SitemapNewsOption,
+  type SitemapPluginFrontmatter,
+  type SitemapVideoOption,
 } from "./typings/index.js";
+import { TEMPLATE_FOLDER, logger } from "./utils.js";
 
 interface SitemapPageInfo {
   lastmod?: string;
@@ -30,16 +30,17 @@ interface SitemapPageInfo {
 
 const reportedLocales: string[] = [];
 
-const stripLocalePrefix = (
-  page: Page
-): {
-  // path of root locale
+const stripLocalePrefix = ({
+  path,
+  pathLocale,
+}: Page): {
+  /** path of root locale */
   defaultPath: string;
-  // Locale path prefix of the page
+  /** Locale path prefix of the page */
   pathLocale: string;
 } => ({
-  defaultPath: page.path.replace(page.pathLocale, "/"),
-  pathLocale: page.pathLocale,
+  defaultPath: path.replace(pathLocale, "/"),
+  pathLocale: pathLocale,
 });
 
 const generatePageMap = (
@@ -58,8 +59,8 @@ const generatePageMap = (
   } = options;
 
   const {
-    pages,
     options: { base, locales },
+    pages,
   } = app;
 
   const pageLocalesMap = pages.reduce(
@@ -133,7 +134,7 @@ const generatePageMap = (
       };
 
       // log sitemap info in debug mode
-      if (app.env.isDebug) {
+      if (app.env.isDebug)
         logger.info(
           `sitemap option for ${page.path}: ${JSON.stringify(
             sitemapInfo,
@@ -141,7 +142,6 @@ const generatePageMap = (
             2
           )}`
         );
-      }
 
       pagesMap.set(page.path, sitemapInfo);
     }

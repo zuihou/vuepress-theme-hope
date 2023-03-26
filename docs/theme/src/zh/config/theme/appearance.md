@@ -24,14 +24,19 @@ tag:
 - 类型: `FontIconAssets`
 
   ```ts
-  type Link = `//${string}` | `http://${string}` | `https://${string}`;
+  type Link =
+    | `/${string}`
+    | `//${string}`
+    | `http://${string}`
+    | `https://${string}`;
 
-  export type FontIconAssets =
+  type BuiltInFontIcon =
+    | "iconify"
     | "iconfont"
     | "fontawesome"
-    | "fontawesome-with-brand"
-    | Link
-    | Link[];
+    | "fontawesome-with-brands";
+
+  type FontIconAssets = BuiltInFontIcon | Link | (BuiltInFontIcon | Link)[];
   ```
 
 - 必填: 否
@@ -97,7 +102,7 @@ tag:
 
 :::
 
-## wideBreakPoint <Badge text="仅限 Root" type="warning" />
+## pcBreakPoint <Badge text="仅限 Root" type="warning" />
 
 - 类型: `number`
 - 默认值: `1440`

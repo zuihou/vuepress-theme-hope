@@ -1,4 +1,4 @@
-import type { PDFLocaleConfig } from "../../shared/index.js";
+import { type PDFLocaleConfig } from "../../shared/index.js";
 
 export const pdfLocaleConfig: PDFLocaleConfig = {
   "/en/": {
@@ -67,5 +67,17 @@ export const pdfLocaleConfig: PDFLocaleConfig = {
 
   "/fi/": {
     hint: "<p>Tämä selain ei tue PDF-tiedostojen upottamista. Lataa PDF-tiedosto nähdäksesi sen: <a href='[url]' target='_blank'>Lataa PDF</a></p>",
+  },
+
+  "/hu/": {
+    hint: "<p>Ez a böngésző nem támogatja a PDF beágyazását. Kérlek töltsd le a PDF-et megtekintéshez: <a href='[url]' target='_blank'>PDF letöltése</a></p>",
+  },
+
+  "/id/": {
+    hint: "<p>Browser ini tidak mendukung penyematan PDF. Silakan unduh PDF untuk melihatnya: <a href='[url]' target='_blank'>Unduh PDF</a></p>",
+  },
+
+  "/nl/": {
+    hint: "<p>Deze browser ondersteunt geen embedded PDFs. Gelieve de PDF te downloaden om ze te bekjken: <a href='[url]' target='_blank'>Download PDF</a></p>",
   },
 };

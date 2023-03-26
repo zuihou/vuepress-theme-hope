@@ -1,12 +1,12 @@
-import { useDebounceFn, useEventListener } from "@vueuse/core";
 import { usePageFrontmatter } from "@vuepress/client";
-import { Transition, computed, defineComponent, h, onMounted, ref } from "vue";
+import { useWindowScroll } from "@vueuse/core";
+import { Transition, type VNode, computed, defineComponent, h } from "vue";
 import { useLocaleConfig } from "vuepress-shared/client";
+
 import { BackToTopIcon } from "./icons.js";
+import { type BackToTopLocaleConfig } from "../../shared/index.js";
 
-import type { VNode } from "vue";
-import type { BackToTopLocaleConfig } from "../../shared/index.js";
-
+import "balloon-css/balloon.css";
 import "../styles/back-to-top.scss";
 
 declare const BACK_TO_TOP_LOCALES: BackToTopLocaleConfig;
@@ -31,31 +31,12 @@ export default defineComponent({
     const locale = useLocaleConfig(BACK_TO_TOP_LOCALES);
 
     /** Scroll distance */
-    const scrollTop = ref(0);
+    const { y } = useWindowScroll();
 
     /** Whether to display button */
-    const show = computed<boolean>(
+    const show = computed(
       () =>
-        pageFrontmatter.value.backToTop !== false &&
-        scrollTop.value > props.threshold
-    );
-
-    // Get scroll distance
-    const getScrollTop = (): number =>
-      window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0;
-
-    onMounted(() => {
-      scrollTop.value = getScrollTop();
-    });
-
-    useEventListener(
-      "scroll",
-      useDebounceFn(() => {
-        scrollTop.value = getScrollTop();
-      }, 100)
+        pageFrontmatter.value.backToTop !== false && y.value > props.threshold
     );
 
     return (): VNode =>
@@ -64,6 +45,7 @@ export default defineComponent({
           ? h(
               "button",
               {
+                type: "button",
                 class: "back-to-top",
                 // hint text
                 "aria-label": locale.value.backToTop,
@@ -71,7 +53,6 @@ export default defineComponent({
                 // Scroll to top
                 onClick: () => {
                   window.scrollTo({ top: 0, behavior: "smooth" });
-                  scrollTop.value = 0;
                 },
               },
               h(BackToTopIcon)

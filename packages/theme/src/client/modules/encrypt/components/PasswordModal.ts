@@ -1,10 +1,9 @@
 import { usePageFrontmatter } from "@vuepress/client";
-import { computed, defineComponent, h, nextTick, ref } from "vue";
+import { type VNode, computed, defineComponent, h, nextTick, ref } from "vue";
 
-import { LockIcon } from "./icons.js";
 import { useThemeLocaleData } from "@theme-hope/composables/index";
 
-import type { VNode } from "vue";
+import { LockIcon } from "./icons.js";
 
 import "../styles/password-modal.scss";
 
@@ -20,10 +19,7 @@ export default defineComponent({
     full: Boolean,
   },
 
-  emits: {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    verify: (_password: string, _remember: boolean) => true,
-  },
+  emits: ["verify"],
 
   setup(props, { emit }) {
     const frontmatter = usePageFrontmatter();
@@ -90,7 +86,11 @@ export default defineComponent({
             }),
             locale.value.remember,
           ]),
-          h("button", { class: "submit", onClick: () => verify() }, "OK"),
+          h(
+            "button",
+            { type: "button", class: "submit", onClick: () => verify() },
+            "OK"
+          ),
         ])
       );
   },

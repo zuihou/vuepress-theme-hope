@@ -1,4 +1,4 @@
-import type { ThemeLocaleData } from "../../shared/index.js";
+import { type ThemeLocaleData } from "../../shared/index.js";
 
 export const brLocale: ThemeLocaleData = {
   lang: "pt-BR",
@@ -23,6 +23,7 @@ export const brLocale: ThemeLocaleData = {
     lastUpdated: "Última atualização",
     editLink: "Editar esta página",
     contributors: "Contribuidores",
+    print: "Imprimir",
   },
 
   blogLocales: {

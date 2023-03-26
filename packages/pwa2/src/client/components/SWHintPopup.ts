@@ -1,11 +1,16 @@
-import { Transition, defineComponent, h, onMounted, ref } from "vue";
+import {
+  Transition,
+  type VNode,
+  defineComponent,
+  h,
+  onMounted,
+  ref,
+} from "vue";
 import { useLocaleConfig } from "vuepress-shared/client";
 
 import { UpdateIcon } from "./icons.js";
 import { usePWAEvent } from "../composables/index.js";
 import { locales } from "../define.js";
-
-import type { VNode } from "vue";
 
 import "../styles/popup.scss";
 
@@ -19,7 +24,6 @@ export default defineComponent({
     const uninstall = (): void => {
       if (enabled.value) {
         // force refresh
-
         // @ts-ignore
         window.location.reload(true);
         enabled.value = false;
@@ -54,6 +58,7 @@ export default defineComponent({
             ? h(
                 "button",
                 {
+                  type: "button",
                   class: "sw-hint-popup",
                   tabindex: 0,
                   onClick: () => uninstall(),

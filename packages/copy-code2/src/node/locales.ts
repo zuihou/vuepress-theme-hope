@@ -1,4 +1,4 @@
-import type { CopyCodeLocaleConfig } from "../shared/index.js";
+import { type CopyCodeLocaleConfig } from "../shared/index.js";
 
 /** Multi language config for copy code */
 export const copyCodeLocales: CopyCodeLocaleConfig = {
@@ -102,5 +102,23 @@ export const copyCodeLocales: CopyCodeLocaleConfig = {
     copy: "Kopioi koodi",
     copied: "Kopioitu",
     hint: "Kopioitu onnistuneesti",
+  },
+
+  "/hu/": {
+    copy: "Kód másolása",
+    copied: "Másolva",
+    hint: "Sikeres másolás",
+  },
+
+  "/id/": {
+    copy: "Salin kode",
+    copied: "Disalin",
+    hint: "Kode berhasil disalin",
+  },
+
+  "/nl/": {
+    copy: "Kopieer code",
+    copied: "Gekopieerd",
+    hint: "Succesvol gekopieerd",
   },
 };

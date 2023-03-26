@@ -1,9 +1,8 @@
-import { createPage } from "@vuepress/core";
+import { type App, type PageFrontmatter, createPage } from "@vuepress/core";
 import { getTitleFromFilename } from "vuepress-shared/node";
-import { logger } from "./utils.js";
 
-import type { App, PageFrontmatter } from "@vuepress/core";
-import type { AutoCatalogOptions } from "./options.js";
+import { type AutoCatalogOptions } from "./options.js";
+import { logger } from "./utils.js";
 
 export const generateCatalog = async (
   app: App,
@@ -11,7 +10,9 @@ export const generateCatalog = async (
     component = "AutoCatalog",
     exclude = [],
     frontmatter = (): PageFrontmatter => ({}),
+    iconComponent,
     level = 3,
+    index = false,
   }: AutoCatalogOptions
 ): Promise<void> => {
   const {
@@ -21,7 +22,17 @@ export const generateCatalog = async (
 
   const pathToBeGenerated = new Set<string>();
   const content = `\
-<${component}${[1, 2].includes(level) ? ` :level="${level}"` : ""} />
+<${component}${[1, 2].includes(level) ? ` :level="${level}"` : ""}${
+    index ? " index" : ""
+  }>\
+${
+  iconComponent
+    ? `
+  <template #icon="{icon}"><${iconComponent} :icon="icon" /></template>
+`
+    : ""
+}\
+</${component}>
 `;
 
   pages.forEach(({ path: pagePath, pathLocale }) => {
@@ -49,7 +60,7 @@ export const generateCatalog = async (
     Array.from(pathToBeGenerated)
       .map((path) => decodeURI(path))
       .map((path) => {
-        const [, basename] = /\/([^/]+)\/?$/.exec(path) || [];
+        const [, basename = ""] = /\/([^/]+)\/?$/.exec(path) || [];
         const title = getTitleFromFilename(basename);
 
         return createPage(app, {

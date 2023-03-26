@@ -1,12 +1,11 @@
-import { computed, defineComponent, h } from "vue";
+import { type PropType, type VNode, computed, defineComponent, h } from "vue";
 import { RouterLink, useRoute } from "vue-router";
 
-import Icon from "@theme-hope/components/Icon";
+import HopeIcon from "@theme-hope/components/HopeIcon";
 import SidebarLinks from "@theme-hope/modules/sidebar/components/SidebarLinks";
 import { isActiveSidebarItem } from "@theme-hope/modules/sidebar/utils/index";
 
-import type { PropType, VNode } from "vue";
-import type { ResolvedSidebarGroupItem } from "../utils/index.js";
+import { type ResolvedSidebarGroupItem } from "../utils/index.js";
 
 import "../styles/sidebar-group.scss";
 
@@ -35,9 +34,7 @@ export default defineComponent({
     },
   },
 
-  emits: {
-    toggle: () => true,
-  },
+  emits: ["toggle"],
 
   setup(props, { emit }) {
     const route = useRoute();
@@ -71,6 +68,7 @@ export default defineComponent({
             ],
             ...(collapsible
               ? {
+                  type: "button",
                   onClick: () => emit("toggle"),
                   onKeydown: (event: KeyboardEvent): void => {
                     if (event.key === "Enter") emit("toggle");
@@ -80,7 +78,7 @@ export default defineComponent({
           },
           [
             // icon
-            h(Icon, { icon }),
+            h(HopeIcon, { icon }),
             // title
             link
               ? h(RouterLink, { to: link, class: "title" }, () => text)

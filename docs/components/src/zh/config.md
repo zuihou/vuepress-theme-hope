@@ -13,10 +13,11 @@ icon: gears
     | "AudioPlayer"
     | "Badge"
     | "BiliBili"
-    | "Catalog"
     | "CodePen"
     | "FontIcon"
     | "PDF"
+    | "Replit"
+    | "Share"
     | "StackBlitz"
     | "SiteInfo"
     | "VideoPlayer"
@@ -34,10 +35,11 @@ icon: gears
 - `"AudioPlayer"`
 - `"Badge"`
 - `"BiliBili"`
-- `"Catalog"`
 - `"CodePen"`
 - `"FontIcon"`
 - `"PDF"`
+- `"Replit"`
+- `"Share"`
 - `"StackBlitz"`
 - `"SiteInfo"`
 - `"VideoPlayer"`
@@ -60,14 +62,19 @@ icon: gears
 - 类型: `FontIconAssets`
 
   ```ts
-  type Link = `//${string}` | `http://${string}` | `https://${string}`;
+  type Link =
+    | `/${string}`
+    | `//${string}`
+    | `http://${string}`
+    | `https://${string}`;
 
-  export type FontIconAssets =
+  type BuiltInFontIcon =
+    | "iconify"
     | "iconfont"
     | "fontawesome"
-    | "fontawesome-with-brand"
-    | Link
-    | Link[];
+    | "fontawesome-with-brands";
+
+  type FontIconAssets = BuiltInFontIcon | Link | (BuiltInFontIcon | Link)[];
   ```
 
 - 必填: 否
@@ -93,6 +100,21 @@ icon: gears
   - [指南 → PDF → PDFJS](./guide/pdf.md#pdfjs-查看器)
 
 PDFJS 查看器的路径
+
+### componentsOptions.share.services
+
+- 类型: `(string | ShareService)[]`
+- 详情:
+  - [指南 → Share → 设置组件](./guide/share.md#设置组件)
+
+分享服务
+
+### componentsOptions.share.twitterUserName
+
+- 类型: `string`
+- 必填: 否
+
+Twitter 用户名。
 
 ## rootComponents
 
@@ -218,27 +240,6 @@ AddThis 的公开 ID。
 
 返回顶部按钮国际化配置。
 
-### locales.catalog
-
-- 类型: `CatalogLocaleConfig`
-
-  ```ts
-  interface CatalogLocaleData {
-    /**
-     * 目录标题
-     */
-    title: string;
-  }
-
-  interface CatalogLocaleConfig {
-    [localePath: string]: CatalogLocaleData;
-  }
-  ```
-
-- 必填: 否
-
-目录组件国际化配置。
-
 ### locales.pdf
 
 - 类型: `PDFLocaleConfig`
@@ -282,5 +283,7 @@ PDF 组件国际化配置。
 - **土耳其语** (tr-TR)
 - **韩语** (ko-KR)
 - **芬兰语** (fi-FI)
+- **印尼语** (id-ID)
+- **荷兰语** (nl-NL)
 
 :::

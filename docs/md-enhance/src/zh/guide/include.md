@@ -332,7 +332,7 @@ interface IncludeOptions {
    *
    * @default (path) => path
    */
-  getPath?: (path: string) => string;
+  resolvePath?: (path: string, cwd: string) => string;
 
   /**
    * 是否深度导入包含的 Markdown 文件
@@ -361,7 +361,7 @@ export default {
     mdEnhancePlugin({
       // 添加 `@src` 别名支持
       include: {
-        getPath: (file) => {
+        resolvePath: (file) => {
           if (file.startsWith("@src"))
             return file.replace("@src", path.resolve(__dirname, ".."));
 
@@ -387,7 +387,7 @@ export default {
     mdEnhancePlugin({
       // 添加 `@src` 别名支持
       include: {
-        getPath: (file) => {
+        resolvePath: (file) => {
           if (file.startsWith("@src"))
             return file.replace("@src", path.resolve(__dirname, ".."));
 
@@ -407,11 +407,13 @@ export default {
 
 @tab TS
 
-```ts {5}
+```ts {6-7}
 // .vuepress/config.ts
+import { defineConfig } from "vuepress";
 import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
-export default {
+export default defineConfig({
+  // 现在任何带有 `.snippet.md` 扩展名的文件都不会呈现为页面
   pagePatterns: ["**/*.md", "!*.snippet.md", "!.vuepress", "!node_modules"],
 
   plugins: [
@@ -419,16 +421,17 @@ export default {
       include: true,
     }),
   ],
-};
+});
 ```
 
 @tab JS
 
-```js {5}
+```js {5-6}
 // .vuepress/config.js
 import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
+  // 现在任何带有 `.snippet.md` 扩展名的文件都不会呈现为页面
   pagePatterns: ["**/*.md", "!*.snippet.md", "!.vuepress", "!node_modules"],
 
   plugins: [

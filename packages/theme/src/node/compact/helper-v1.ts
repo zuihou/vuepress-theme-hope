@@ -1,19 +1,18 @@
+import { type UserConfig } from "@vuepress/cli";
+import { type Plugin, type PluginConfig } from "@vuepress/core";
+import { type MarkdownOptions } from "@vuepress/markdown";
 import { isArray, isFunction, isPlainObject, isString } from "@vuepress/shared";
 import { colors } from "@vuepress/utils";
+
 import { defineHopeConfig } from "./helper-v2.js";
 import { convertThemeOptions } from "./theme.js";
 import { deprecatedMsg } from "./utils.js";
-
-import { logger } from "../utils.js";
-
-import type { Plugin, PluginConfig } from "@vuepress/core";
-import type { UserConfig } from "@vuepress/cli";
-import type { MarkdownOptions } from "@vuepress/markdown";
-import type {
-  NavbarOptions,
-  SidebarOptions,
-  ThemeOptions,
+import {
+  type NavbarOptions,
+  type SidebarOptions,
+  type ThemeOptions,
 } from "../../shared/index.js";
+import { logger } from "../utils.js";
 
 /**
  * @deprecated use `import { navbar } from "vuepress-theme-hope";` instead
@@ -84,7 +83,7 @@ ${colors.magenta("markdown.slugify")} is ${colors.red(
 If you want to change the slugify function anyway, set the following options separately:
 · ${colors.blue("markdown.anchor.slugify")}
 · ${colors.blue("markdown.toc.slugify")}
-· ${colors.blue("markdown.extractHeaders.slugify")}
+· ${colors.blue("markdown.headers.slugify")}
 `
     );
 
@@ -148,10 +147,7 @@ const checkPluginOptions = (plugins: unknown): PluginConfig => {
         }
 
         // check name
-        if (
-          !name.startsWith("vuepress-plugin-") &&
-          !name.match(/@.*\/vuepress-plugin-/)
-        ) {
+        if (!/^(@.*\/)?vuepress-plugin-/.test(name)) {
           logger.error(
             "VuePress2 requires plugin name to strict equal a package name, you should fix it"
           );
@@ -239,7 +235,7 @@ const checkPluginOptions = (plugins: unknown): PluginConfig => {
   return [];
 };
 
-export const checkBundlerOptions = (config: Record<string, unknown>): void => {
+const checkBundlerOptions = (config: Record<string, unknown>): void => {
   [
     "postcss",
     "stylus",

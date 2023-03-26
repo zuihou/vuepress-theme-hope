@@ -117,6 +117,13 @@ export default defineUserConfig({
      * @default false
      */
     shift?: boolean;
+
+    /**
+     * Whether to press `event.metaKey` at the same time
+     *
+     * @default false
+     */
+    meta?: boolean;
   }
   ```
 
@@ -126,12 +133,19 @@ Specify the [event.key](http://keycode.info/) of the hotkeys.
 
 When hotkeys are pressed, the search box input will be focused. Set to an empty array to disable hotkeys.
 
-## historyCount
+## queryHistoryCount
 
 - Type: `number`
 - Default: `5`
 
-Max stored history item count.
+Max stored query history count, set `0` to disable it.
+
+## resultHistoryCount
+
+- Type: `number`
+- Default: `5`
+
+Max stored matched result history count, set `0` to disable it.
 
 ## delay
 
@@ -145,6 +159,13 @@ Delay to start searching after input.
 Performing client search with huge contents could be slow, so under this case you might need to increase this value to ensure user finish input before searching.
 
 :::
+
+## worker
+
+- Type: `string`
+- Default: `search-pro.worker.js`
+
+Output Worker filename
 
 ## hotReload
 
@@ -239,5 +260,7 @@ Multilingual configuration of the search plugin.
 - **Turkish** (tr-TR)
 - **Korean** (ko-KR)
 - **Finnish** (fi-FI)
+- **Indonesian** (id-ID)
+- **Dutch** (nl-NL)
 
 :::

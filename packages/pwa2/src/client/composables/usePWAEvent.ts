@@ -1,6 +1,7 @@
-import { inject } from "vue";
-import type { Emitter } from "mitt";
-import type { InjectionKey } from "vue";
+import { type Emitter } from "mitt";
+import { type InjectionKey, inject } from "vue";
+
+declare const __VUEPRESS_DEV__: boolean;
 
 export type PWAEvent = Emitter<{
   ready: ServiceWorkerRegistration;
@@ -12,7 +13,9 @@ export type PWAEvent = Emitter<{
   error: Error;
 }>;
 
-export const pwaEventSymbol: InjectionKey<PWAEvent> = Symbol.for("PWAEvent");
+export const pwaEventSymbol: InjectionKey<PWAEvent> = Symbol(
+  __VUEPRESS_DEV__ ? "PWAEvent" : ""
+);
 
 export const usePWAEvent = (): PWAEvent => {
   const pwaEvent = inject(pwaEventSymbol);

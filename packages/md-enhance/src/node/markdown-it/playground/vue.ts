@@ -1,8 +1,9 @@
-import { deepAssign } from "vuepress-shared/node";
-import type {
-  PlaygroundData,
-  PlaygroundOptions,
-  VuePresetPlaygroundOptions,
+import { deepAssign, entries, fromEntries } from "vuepress-shared/node";
+
+import {
+  type PlaygroundData,
+  type PlaygroundOptions,
+  type VuePresetPlaygroundOptions,
 } from "../../typings/index.js";
 
 const VUE_SUPPORTED_EXTENSIONS = [
@@ -34,8 +35,8 @@ export const getVuePlaygroundPreset = (
       ...localSettings,
     };
 
-    const fileInfo = Object.fromEntries(
-      Object.entries(files)
+    const fileInfo = fromEntries(
+      entries(files)
         .filter(([, { ext }]) => VUE_SUPPORTED_EXTENSIONS.includes(ext))
         .map(([key, { content }]) => {
           if (key === "import-map.json") {

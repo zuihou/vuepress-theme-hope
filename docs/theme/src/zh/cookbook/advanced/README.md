@@ -2,7 +2,7 @@
 title: 高级
 icon: gem
 dir:
-  order: 4
+  order: 5
 category:
   - 教程知识
   - 高级
@@ -39,8 +39,6 @@ article: false
 ## 目录
 
 - [使用组件](component.md)
-
-- [自定义主题样式](style.md)
 
 - [替换主题组件](replace.md)
 

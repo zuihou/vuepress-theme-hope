@@ -3,14 +3,14 @@ import {
   usePageHeadTitle,
   withBase,
 } from "@vuepress/client";
-import { computed, defineComponent, h, ref } from "vue";
+import { isString } from "@vuepress/shared";
+import { type VNode, computed, defineComponent, h, ref } from "vue";
 
 import DropTransition from "@theme-hope/components/transitions/DropTransition";
-import { SlideDownIcon } from "./icons/icons.js";
-import defaultHeroBgImagePath from "../assets/hero.jpg";
 
-import type { VNode } from "vue";
-import type { ThemeBlogHomePageFrontmatter } from "../../../../shared/index.js";
+import { SlideDownIcon } from "./icons/icons.js";
+import { type ThemeBlogHomePageFrontmatter } from "../../../../shared/index.js";
+import defaultHeroBgImagePath from "../assets/hero.jpg";
 
 import "../styles/blog-hero.scss";
 
@@ -28,38 +28,14 @@ export default defineComponent({
       () => frontmatter.value.heroFullScreen || false
     );
 
-    const heroImageStyle = computed(() => {
-      const defaultStyle = {
-        maxHeight: "180px",
-        margin:
-          frontmatter.value.heroText === false
-            ? "6rem auto 1.5rem"
-            : "1rem auto",
-      };
+    const bgImage = computed(() => {
+      const { bgImage } = frontmatter.value;
 
-      return {
-        ...defaultStyle,
-        ...frontmatter.value.heroImageStyle,
-      };
-    });
-
-    const bgImage = computed(() =>
-      frontmatter.value.bgImage
-        ? withBase(frontmatter.value.bgImage)
-        : frontmatter.value.bgImage ?? defaultHeroBgImagePath
-    );
-
-    const bgImageStyle = computed(() => {
-      const defaultStyle = {
-        height: "350px",
-        textAlign: "center",
-        overflow: "hidden",
-      };
-
-      return {
-        ...defaultStyle,
-        ...frontmatter.value.bgImageStyle,
-      };
+      return isString(bgImage)
+        ? withBase(bgImage)
+        : bgImage === false
+        ? null
+        : defaultHeroBgImagePath;
     });
 
     return (): VNode | null =>
@@ -69,23 +45,31 @@ export default defineComponent({
             "div",
             {
               ref: hero,
-              class: ["blog-hero", { fullscreen: isFullScreen.value }],
-              style: bgImageStyle.value,
+              class: [
+                "blog-hero",
+                {
+                  fullscreen: isFullScreen.value,
+                  "no-bg": !bgImage.value,
+                },
+              ],
             },
             [
               bgImage.value
                 ? h("div", {
                     class: "mask",
-                    style: {
-                      background: `url(${bgImage.value}) center/cover no-repeat`,
-                    },
+                    style: [
+                      {
+                        background: `url(${bgImage.value}) center/cover no-repeat`,
+                      },
+                      frontmatter.value.bgImageStyle,
+                    ],
                   })
                 : null,
               h(DropTransition, { appear: true, delay: 0.04 }, () =>
                 heroImage.value
                   ? h("img", {
                       class: "hero-image",
-                      style: heroImageStyle.value,
+                      style: frontmatter.value.heroImageStyle,
                       src: withBase(heroImage.value),
                       alt: frontmatter.value.heroAlt || "hero image",
                     })
@@ -108,6 +92,7 @@ export default defineComponent({
                 ? h(
                     "button",
                     {
+                      type: "button",
                       class: "slide-down-button",
                       onClick: () => {
                         window.scrollTo({

@@ -1,24 +1,32 @@
-import { feedPlugin } from "vuepress-plugin-feed2";
-import { deepAssign, getAuthor } from "vuepress-shared/node";
-
-import type { Plugin } from "@vuepress/core";
-import type { FeedOptions } from "vuepress-plugin-feed2";
-import type { ThemeData } from "../../shared/index.js";
+import { type Plugin } from "@vuepress/core";
 import { isFunction } from "@vuepress/shared";
+import { type FeedOptions, feedPlugin } from "vuepress-plugin-feed2";
+import {
+  deepAssign,
+  entries,
+  fromEntries,
+  getAuthor,
+  keys,
+} from "vuepress-shared/node";
+
+import { type ThemeData } from "../../shared/index.js";
 
 const themeComponents = [
   // @vuepress/plugin-external-link
   "ExternalLinkIcon",
+
+  // vuepress-plugin-auto-catalog
+  "AutoCatalog",
 
   // vuepress-plugin-components
   "ArtPlayer",
   "AudioPlayer",
   "Badge",
   "BiliBili",
-  "Catalog",
   "CodePen",
   "FontIcon",
   "PDF",
+  "Replit",
   "SiteInfo",
   "StackBlitz",
   "VideoPlayer",
@@ -37,15 +45,20 @@ const themeComponents = [
   "VuePlayground",
 ];
 
+/**
+ * @private
+ *
+ * Resolve options for vuepress-plugin-feed2
+ */
 export const getFeedPlugin = (
   themeData: ThemeData,
   options: Omit<FeedOptions, "hostname"> = {},
   hostname?: string,
   favicon?: string,
-  legacy = true
+  legacy = false
 ): Plugin | null => {
   // disable feed if no options for feed plugin
-  if (!Object.keys(options).length) return null;
+  if (!keys(options).length) return null;
 
   const { removedElements } = options;
 
@@ -57,14 +70,12 @@ export const getFeedPlugin = (
     channel: {
       ...(favicon ? { icon: favicon } : {}),
       ...(themeData.locales["/"].logo
-        ? {
-            image: themeData.locales["/"].logo,
-          }
+        ? { image: themeData.locales["/"].logo }
         : {}),
       ...(globalAuthor.length ? { author: globalAuthor[0] } : {}),
     },
-    locales: Object.fromEntries(
-      Object.entries(themeData.locales).map(
+    locales: fromEntries(
+      entries(themeData.locales).map(
         ([localePath, { logo, author, copyright }]) => {
           const localeAuthor = getAuthor(author);
 

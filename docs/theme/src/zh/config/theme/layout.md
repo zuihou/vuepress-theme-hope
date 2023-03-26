@@ -128,7 +128,7 @@ tag:
 
 是否在侧边栏显示图标。
 
-### sidebarSorter <Badge text="仅限 Root" />
+### sidebarSorter <Badge text="仅限 Root" type="warning" />
 
 - 类型: `SidebarSorter`
 
@@ -139,6 +139,7 @@ tag:
 
     title: string;
     order: number | null;
+    path?: string | null;
 
     frontmatter: ThemeNormalPageFrontmatter;
     pageData: ThemePageData;
@@ -334,7 +335,7 @@ tag:
 
 ### copyright
 
-- 类型: `string | boolean`
+- 类型: `string | false`
 - 默认值: `"Copyright © <作者>"`
 
 默认的版权信息，设置为 `false` 来默认禁用它。

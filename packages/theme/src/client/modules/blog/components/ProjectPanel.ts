@@ -1,9 +1,10 @@
 import { usePageFrontmatter, withBase } from "@vuepress/client";
 import { isLinkHttp } from "@vuepress/shared";
-import { defineComponent, h, resolveComponent } from "vue";
+import { type VNode, defineComponent, h, resolveComponent } from "vue";
 import { isAbsoluteUrl } from "vuepress-shared/client";
 
-import Icon from "@theme-hope/components/Icon";
+import HopeIcon from "@theme-hope/components/HopeIcon";
+import { useNavigate, usePure } from "@theme-hope/composables/index";
 import {
   ArticleIcon,
   BookIcon,
@@ -11,10 +12,8 @@ import {
   LinkIcon,
   ProjectIcon,
 } from "@theme-hope/modules/blog/components/icons/index";
-import { useNavigate, usePure } from "@theme-hope/composables/index";
 
-import type { VNode } from "vue";
-import type { ThemeBlogHomePageFrontmatter } from "../../../../shared/index.js";
+import { type ThemeBlogHomePageFrontmatter } from "../../../../shared/index.js";
 
 import "../styles/project-panel.scss";
 
@@ -49,7 +48,7 @@ export default defineComponent({
         return h("img", { src: withBase(icon), alt, class: "image" });
 
       // render as icon font
-      return h(Icon, { icon });
+      return h(HopeIcon, { icon });
     };
 
     return (): VNode | null =>

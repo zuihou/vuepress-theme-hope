@@ -1,4 +1,7 @@
 extends:
   - stylelint-config-hope
-ignoreFiles:
-  - packages/md-enhance/src/client/styles/slides/theme/**/*.scss
+rules:
+  declaration-block-no-redundant-longhand-properties:
+    - true
+    - ignoreShorthands:
+        - /inset/

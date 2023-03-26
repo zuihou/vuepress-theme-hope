@@ -1,6 +1,8 @@
+import { type PluginFunction } from "@vuepress/core";
 import { useSassPalettePlugin } from "vuepress-plugin-sass-palette";
 import {
   addViteOptimizeDepsExclude,
+  checkVersion,
   getLocales,
   useCustomDevServer,
 } from "vuepress-shared/node";
@@ -11,17 +13,17 @@ import { generateServiceWorker } from "./generateServiceWorker.js";
 import { appendBase } from "./helper.js";
 import { injectLinksToHead } from "./injectHead.js";
 import { pwaLocales } from "./locales.js";
+import { type PWAOptions } from "./options.js";
 import { prepareConfigFile } from "./prepare.js";
-import { logger } from "./utils.js";
-
-import type { PluginFunction } from "@vuepress/core";
-import type { PWAOptions } from "./options.js";
+import { PLUGIN_NAME, logger } from "./utils.js";
 
 export const pwaPlugin =
   (options: PWAOptions = {}, legacy = true): PluginFunction =>
   (app) => {
     // TODO: Remove this in v2 stable
     if (legacy) convertOptions(options as PWAOptions & Record<string, unknown>);
+    checkVersion(app, PLUGIN_NAME, "2.0.0-beta.61");
+
     if (app.env.isDebug) logger.info("Options:", options);
 
     const { base, shouldPrefetch = true } = app.options;
@@ -40,12 +42,12 @@ export const pwaPlugin =
     useSassPalettePlugin(app, { id: "hope" });
 
     return {
-      name: "vuepress-plugin-pwa2",
+      name: PLUGIN_NAME,
 
       define: () => ({
         PWA_LOCALES: getLocales({
           app,
-          name: "pwa",
+          name: PLUGIN_NAME,
           default: pwaLocales,
           config: options.locales,
         }),

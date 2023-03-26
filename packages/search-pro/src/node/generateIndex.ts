@@ -1,10 +1,17 @@
+import { type App, type Page } from "@vuepress/core";
 import { isArray } from "@vuepress/shared";
-import { load } from "cheerio";
+import { type AnyNode, type Element, load } from "cheerio";
+import { fromEntries, keys } from "vuepress-shared/node";
 
-import type { Page } from "@vuepress/core";
-import type { AnyNode } from "cheerio";
-import type { SearchProCustomFieldOptions } from "./options.js";
-import type { PageHeaderContent, PageIndex } from "../shared/index.js";
+import {
+  type SearchProCustomFieldOptions,
+  type SearchProOptions,
+} from "./options.js";
+import {
+  type PageHeaderContent,
+  type PageIndex,
+  type SearchIndex,
+} from "../shared/index.js";
 
 /**
  * These tags are valid HTML tags which can contain content.
@@ -75,14 +82,35 @@ export const generatePageIndex = (
             result.contents.push(currentHeaderContent);
 
           isContentBeforeFirstHeader = false;
-        } else result.contents.push(currentHeaderContent);
+        } else {
+          result.contents.push(currentHeaderContent);
+        }
+
+        const renderHeader = (node: Element): string =>
+          node.children
+            .map((node) => {
+              if (node.type === "tag") {
+                // drop anchor
+                if (
+                  node.name === "a" &&
+                  node.attribs["class"] === "header-anchor"
+                )
+                  return "";
+
+                return renderHeader(node);
+              }
+
+              if (node.type === "text") return node.data;
+
+              return "";
+            })
+            .join(" ")
+            .replace(/\s+/gu, " ")
+            .trim();
 
         // update header
         currentHeaderContent = {
-          header: node.children
-            .map((node) => (node.type === "text" ? node.data : ""))
-            .join("")
-            .trim(),
+          header: renderHeader(node),
           slug: node.attribs["id"],
           contents: [],
         };
@@ -95,11 +123,12 @@ export const generatePageIndex = (
           currentContent = "";
         }
         node.childNodes.forEach(render);
-      } else if (CONTENT_INLINE_TAGS.includes(node.name))
+      } else if (CONTENT_INLINE_TAGS.includes(node.name)) {
         node.childNodes.forEach(render);
-    } else if (node.type === "text")
+      }
+    } else if (node.type === "text") {
       currentContent += node.data.trim() ? node.data : "";
-    else if (
+    } else if (
       // we are expecting to stop at excerpt marker
       hasExcerpt &&
       !indexContent &&
@@ -114,7 +143,7 @@ export const generatePageIndex = (
   const nodes = $.parseHTML(page.contentRendered);
 
   // get custom fields
-  const customFields = Object.fromEntries(
+  const customFields = fromEntries(
     customFieldsGetter
       .map(({ getter }, index) => {
         const result = getter(page);
@@ -129,7 +158,7 @@ export const generatePageIndex = (
   );
 
   // no content in page and no customFields
-  if (!nodes?.length && !Object.keys(customFields).length) return null;
+  if (!nodes?.length && !keys(customFields).length) return null;
 
   // walk through nodes and extract indexes
   nodes?.forEach((node) => {
@@ -146,6 +175,43 @@ export const generatePageIndex = (
 
   return {
     ...result,
-    ...(Object.keys(customFields).length ? { customFields } : {}),
+    ...(keys(customFields).length ? { customFields } : {}),
   };
+};
+
+export const getSearchIndex = (
+  app: App,
+  options: SearchProOptions
+): SearchIndex => {
+  const pagesSearchIndex = app.pages
+    .map((page) => {
+      const pageIndex = generatePageIndex(
+        page,
+        options.customFields,
+        options.indexContent
+      );
+
+      return pageIndex
+        ? { path: page.path, index: pageIndex, localePath: page.pathLocale }
+        : null;
+    })
+    .filter(
+      (item): item is { path: string; index: PageIndex; localePath: string } =>
+        item !== null
+    );
+
+  return fromEntries(
+    keys(
+      // locales should at least have root locales
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      { "/": {}, ...app.options.locales }
+    ).map((localePath) => [
+      localePath,
+      fromEntries(
+        pagesSearchIndex
+          .filter((item) => item.localePath === localePath)
+          .map((item) => [item.path, item.index])
+      ),
+    ])
+  );
 };

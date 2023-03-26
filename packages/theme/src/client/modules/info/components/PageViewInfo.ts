@@ -1,12 +1,11 @@
 import { withBase } from "@vuepress/client";
 import { isString } from "@vuepress/shared";
-import { defineComponent, h, onMounted, ref, watch } from "vue";
+import { useMutationObserver } from "@vueuse/core";
+import { type VNode, defineComponent, h, ref } from "vue";
 import { useRoute } from "vue-router";
 
 import { EyeIcon, FireIcon } from "@theme-hope/modules/info/components/icons";
 import { useMetaLocale } from "@theme-hope/modules/info/composables/index";
-
-import type { VNode } from "vue";
 
 export default defineComponent({
   name: "PageViewInfo",
@@ -36,29 +35,17 @@ export default defineComponent({
     const route = useRoute();
     const metaLocale = useMetaLocale();
 
+    const pageviewElement = ref<HTMLSpanElement>();
     const pageViews = ref(0);
 
-    // show fire icon depending on the views number
-    const getCount = (): void => {
-      const countElement = document.querySelector(".waline-pageview-count");
-
-      if (countElement) {
-        const count = countElement.textContent;
+    useMutationObserver(
+      pageviewElement,
+      () => {
+        const count = pageviewElement.value!.textContent;
 
         if (count && !isNaN(Number(count))) pageViews.value = Number(count);
-        else setTimeout(getCount, 500);
-      }
-    };
-
-    onMounted(() => {
-      setTimeout(getCount, 1500);
-    });
-
-    watch(
-      () => [route.path, route.query],
-      () => {
-        setTimeout(getCount, 500);
-      }
+      },
+      { childList: true }
     );
 
     return (): VNode | null =>
@@ -77,7 +64,9 @@ export default defineComponent({
               h(
                 "span",
                 {
+                  ref: pageviewElement,
                   class: "waline-pageview-count",
+                  id: "ArtalkPV",
                   /** visitorID */
                   "data-path": isString(props.pageview)
                     ? props.pageview

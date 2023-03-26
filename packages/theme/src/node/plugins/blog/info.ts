@@ -1,16 +1,16 @@
-import { getDate, timeTransformer } from "vuepress-shared/node";
+import { type Page } from "@vuepress/core";
+import { getDateInfo, timeTransformer } from "vuepress-shared/node";
 
-import { ArticleInfoType } from "../../../shared/index.js";
-
-import type { Page } from "@vuepress/core";
-import type {
-  ThemeBlogHomePageFrontmatter,
-  ThemeNormalPageFrontmatter,
-  ThemePageData,
-  ThemeProjectHomePageFrontmatter,
+import {
+  ArticleInfoType,
+  type ThemeBlogHomePageFrontmatter,
+  type ThemeNormalPageFrontmatter,
+  type ThemePageData,
+  type ThemeProjectHomePageFrontmatter,
 } from "../../../shared/index.js";
 
-export const injectBasicInfo = (
+/** @private */
+export const injectBlogBasicInfo = (
   page: Page<ThemePageData>,
   info: Record<string, unknown>
 ): void => {
@@ -26,17 +26,19 @@ export const injectBasicInfo = (
 
   // resolve date
   if ("date" in frontmatter) {
-    const date = getDate(page.frontmatter.date)?.value;
+    const date = getDateInfo(page.frontmatter.date)?.value;
 
     if (date) {
-      info[ArticleInfoType.date] = frontmatter.date;
+      info[ArticleInfoType.date] = date.getTime();
 
       info[ArticleInfoType.localizedDate] = timeTransformer(date, {
         lang: page.lang,
         type: "date",
       });
     }
-  } else if (createdTime) info[ArticleInfoType.date] = new Date(createdTime);
+  } else if (createdTime) {
+    info[ArticleInfoType.date] = createdTime;
+  }
 
   // resolve category
   if ("category" in frontmatter)

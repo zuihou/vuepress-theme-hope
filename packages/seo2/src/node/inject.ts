@@ -1,10 +1,12 @@
-import type { HeadConfig } from "@vuepress/core";
-import type {
-  ArticleSchema,
-  ArticleSeoContent,
-  BlogPostingSchema,
-  SeoContent,
-  WebPageSchema,
+import { type HeadConfig } from "@vuepress/core";
+import { startsWith } from "vuepress-shared/node";
+
+import {
+  type ArticleSchema,
+  type ArticleSeoContent,
+  type BlogPostingSchema,
+  type SeoContent,
+  type WebPageSchema,
 } from "./typings/index.js";
 
 interface MetaOptions {
@@ -18,7 +20,7 @@ const appendMetaToHead = (
   {
     name,
     content,
-    attribute = ["article:", "og:"].some((type) => name.startsWith(type))
+    attribute = ["article:", "og:"].some((type) => startsWith(name, type))
       ? "property"
       : "name",
   }: MetaOptions

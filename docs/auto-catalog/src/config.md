@@ -3,14 +3,9 @@ title: Options
 icon: gears
 ---
 
-## component
+## Plugin Options
 
-- Type: `string`
-- Default: `"AutoCatalog"`
-
-Catalog component name.
-
-## level
+### level
 
 - Type: `1 | 2 | 3`
 - Default: `3`
@@ -23,34 +18,83 @@ Only available when you use the built-in catalog component.
 
 :::
 
-## exclude
+### index
+
+- Type: `boolean`
+- Default: `false`
+
+Whether show index for catalog
+
+### exclude
 
 - Type: `(RegExp | string)[]`
 - Default: `[]`
 
 Page paths excluding from auto generation.
 
-## frontmatter
+### frontmatter
 
 - Type: `(path: string) => Record<string, any>`
 - Required: No
 
 Page Frontmatter generator.
 
+### titleGetter
+
+- Type: `(page: Page) => string`
+- Default: `(page: Page) => page.title`
+
+Page title getter
+
+### iconGetter
+
+- Type: `(page: Page) => string`
+- Required: No
+
+Page icon getter
+
+### orderGetter
+
+- Type: `(page: Page) => string`
+- Required: No
+
+Page order getter
+
+### shouldIndex
+
+- Type: `(page: Page) => boolean`
+- Default: `() => true`
+
+Whether page should be indexed getter
+
+### component
+
+- Type: `string`
+- Required: No
+
+Catalog component name.
+
+### iconComponent
+
+- Type: `string`
+- Required: No
+
+Icon component name, icon info will be passed to icon props.
+
 ### locales
 
-- Type: `CatalogLocaleConfig`
+- Type: `AutoCatalogLocaleConfig`
 
   ```ts
-  interface CatalogLocaleData {
+  interface AutoCatalogLocaleData {
     /**
      * Catalog title
      */
     title: string;
   }
 
-  interface CatalogLocaleConfig {
-    [localePath: string]: CatalogLocaleData;
+  interface AutoCatalogLocaleConfig {
+    [localePath: string]: AutoCatalogLocaleData;
   }
   ```
 
@@ -77,5 +121,40 @@ Locales config for catalog component.
 - **Turkish** (tr-TR)
 - **Korean** (ko-KR)
 - **Finnish** (fi-FI)
+- **Indonesian** (id-ID)
+- **Dutch** (nl-NL)
 
 :::
+
+## AutoCatalog Component
+
+### Component Props
+
+#### base
+
+- Type: `string`
+- Default: `Current route path base`
+
+Catalog Base
+
+#### level
+
+- Type: `1 | 2 | 3`
+- Default: `3`
+
+Max level of catalog.
+
+#### index
+
+- Type: `boolean`
+- Default: `false`
+
+Whether display index number for catalog.
+
+### Component Slots
+
+#### icon
+
+- Type: `({ icon }: { icon: string }) => VNode`
+
+Icon slot, used to render icon for catalog.

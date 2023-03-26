@@ -1,17 +1,18 @@
+import { type PluginFunction } from "@vuepress/core";
 import { getDirname, path } from "@vuepress/utils";
 import { useSassPalettePlugin } from "vuepress-plugin-sass-palette";
-import { addViteOptimizeDepsExclude } from "vuepress-shared/node";
+import { addViteOptimizeDepsExclude, checkVersion } from "vuepress-shared/node";
 
-import { logger } from "./utils.js";
-
-import type { PluginFunction } from "@vuepress/core";
-import type { LightGalleryOptions } from "./options.js";
+import { type LightGalleryOptions } from "./options.js";
+import { PLUGIN_NAME, logger } from "./utils.js";
 
 const __dirname = getDirname(import.meta.url);
 
 export const lightgalleryPlugin =
   (options: LightGalleryOptions = {}): PluginFunction =>
   (app) => {
+    checkVersion(app, PLUGIN_NAME, "2.0.0-beta.61");
+
     if (app.env.isDebug) logger.info("Options:", options);
 
     const plugins = options.plugins || ["pager", "share", "zoom"];
@@ -19,11 +20,12 @@ export const lightgalleryPlugin =
     useSassPalettePlugin(app, { id: "hope" });
 
     return {
-      name: "vuepress-plugin-lightgallery",
+      name: PLUGIN_NAME,
 
       define: (): Record<string, unknown> => ({
         IMAGE_SELECTOR:
-          options.selector || ".theme-default-content :not(a) > img",
+          options.selector ||
+          ".theme-default-content :not(a) > img:not([no-view])",
         LIGHT_GALLERY_DELAY: options.delay || 800,
         LIGHT_GALLERY_OPTIONS: options.options || {},
         LIGHT_GALLERY_AUTOPLAY: plugins.includes("autoplay"),

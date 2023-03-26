@@ -1,3 +1,5 @@
+import { type App, type Page } from "@vuepress/core";
+import { type GitData } from "@vuepress/plugin-git";
 import {
   ensureEndingSlash,
   isArray,
@@ -6,20 +8,17 @@ import {
   removeLeadingSlash,
 } from "@vuepress/shared";
 import { getDirname, path } from "@vuepress/utils";
-import { deepAssign } from "vuepress-shared/node";
+import { deepAssign, fromEntries, keys, values } from "vuepress-shared/node";
 
-const __dirname = getDirname(import.meta.url);
-
+import {
+  type BaseFeedOptions,
+  type FeedChannelOption,
+  type FeedLinks,
+  type FeedOptions,
+} from "./typings/index.js";
 import { compareDate, resolveUrl } from "./utils/index.js";
 
-import type { App, Page } from "@vuepress/core";
-import type { GitData } from "@vuepress/plugin-git";
-import type {
-  BaseFeedOptions,
-  FeedChannelOption,
-  FeedLinks,
-  FeedOptions,
-} from "./typings/index.js";
+const __dirname = getDirname(import.meta.url);
 
 const TEMPLATE_FOLDER = ensureEndingSlash(
   path.resolve(__dirname, "../../templates")
@@ -45,8 +44,8 @@ export const ensureHostName = (options: Partial<FeedOptions>): boolean => {
 export const checkOutput = (options: Partial<FeedOptions>): boolean =>
   // some locales request output
   (options.locales &&
-    Object.entries(options.locales).some(
-      ([, { atom, json, rss }]) => atom || json || rss
+    values(options.locales).some(
+      ({ atom, json, rss }) => atom || json || rss
     )) ||
   // root option requests output
   Boolean(options.atom || options.json || options.rss);
@@ -55,8 +54,8 @@ export const getFeedOptions = (
   { siteData }: App,
   options: FeedOptions
 ): ResolvedFeedOptionsMap =>
-  Object.fromEntries(
-    Object.keys({
+  fromEntries(
+    keys({
       // root locale must exists
       // eslint-disable-next-line @typescript-eslint/naming-convention
       "/": {},
@@ -174,7 +173,7 @@ export const getFilename = (
   rssXslFilename: `${removeLeadingSlash(prefix)}${
     options.rssXslFilename || "rss.xsl"
   }`,
-  rssXslTemplate: options.rssXslTemplate || `${TEMPLATE_FOLDER}atom.xsl`,
+  rssXslTemplate: options.rssXslTemplate || `${TEMPLATE_FOLDER}rss.xsl`,
 });
 
 export const getFeedLinks = (

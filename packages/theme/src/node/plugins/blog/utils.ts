@@ -1,13 +1,14 @@
+import { type Page } from "@vuepress/core";
+import { type GitData } from "@vuepress/plugin-git";
 import { compareDate } from "vuepress-shared/node";
-import { ArticleInfoType } from "../../../shared/index.js";
 
-import type { Page } from "@vuepress/core";
-import type { GitData } from "@vuepress/plugin-git";
-import type {
-  ArticleInfo,
-  ThemeNormalPageFrontmatter,
+import {
+  type ArticleInfo,
+  ArticleInfoType,
+  type ThemeNormalPageFrontmatter,
 } from "../../../shared/index.js";
 
+/** @private */
 export const defaultPageSorter = (
   pageA: Page<
     { git: GitData },

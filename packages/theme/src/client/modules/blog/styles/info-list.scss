@@ -100,12 +100,14 @@
         position: relative;
         margin: 0 2px;
         font-size: 22px;
-        font-family: var(--font-family-fancy);
+        font-family: var(--font-family-heading);
       }
     }
   }
 
   .sticky-article-list {
+    overflow-y: auto;
+    max-height: 80vh;
     margin: 8px auto;
   }
 
@@ -130,12 +132,16 @@
 
   .category-wrapper {
     .category-list-wrapper {
+      overflow-y: auto;
+      max-height: 80vh;
       margin: 8px auto;
     }
   }
 
   .tag-wrapper {
     .tag-list-wrapper {
+      overflow-y: auto;
+      max-height: 80vh;
       margin: 8px auto;
     }
   }

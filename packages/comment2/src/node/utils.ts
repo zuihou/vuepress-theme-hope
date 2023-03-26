@@ -8,4 +8,8 @@ export const CLIENT_FOLDER = ensureEndingSlash(
   path.resolve(__dirname, "../client")
 );
 
-export const logger = new Logger("vuepress-plugin-comment2");
+export const COMMENT_PROVIDERS = ["Artalk", "Giscus", "Waline", "Twikoo"];
+
+export const PLUGIN_NAME = "vuepress-plugin-comment2";
+
+export const logger = new Logger(PLUGIN_NAME);

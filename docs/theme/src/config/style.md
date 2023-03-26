@@ -27,21 +27,16 @@ Responsive breakpoints:
 - `$tablet`
 - `$mobile`
 
-Code block:
+Code block (Only available with shiki):
 
-- `$code-light-theme`: code block theme in lightmode
-- `$code-dark-theme`: code block theme in darkmode
-
-Content class: `$content-class`
+- `$code-bg-color`: background color for code blocks
+- `$code-color`: font color for code blocks
 
 Color list: `$colors`
 
 ::: details Demo
 
 ```scss
-// modify code theme in lightmode
-$code-light-theme: "coy";
-
 // update pc breakpoint
 $pc: 1920px;
 ```
@@ -50,7 +45,7 @@ $pc: 1920px;
 
 ::: details Default value
 
-@[code{7-}](../../../../packages/theme/templates/config.scss)
+@[code{7-}](../../../../packages/theme/templates/palette/config.scss)
 
 :::
 
@@ -98,7 +93,7 @@ $border-color: (
 
 ::: details Default value
 
-@[code{4-60}](../../../../packages/theme/templates/color.scss)
+@[code{4-60}](../../../../packages/theme/templates/palette/color.scss)
 
 :::
 
@@ -128,11 +123,11 @@ Content:
 Fonts:
 
 - `$font-family`: font family used on normal text
-- `$font-family-fancy:` font family used on fancy elements
+- `$font-family-heading:` font family used on heading elements
 
 Code:
 
-- `$font-family-code`: font family used on code
+- `$font-family-mono`: font family used on code
 - `$line-numbers-width`: width of line number in code blocks
 
 Transition:
@@ -154,7 +149,7 @@ $font-family: 'Georgia, -apple-system, "Nimbus Roman No9 L", "PingFang SC", "Hir
 
 ::: details Default value
 
-@[code](../../../../packages/theme/templates/layout.scss)
+@[code](../../../../packages/theme/templates/palette/layout.scss)
 
 :::
 

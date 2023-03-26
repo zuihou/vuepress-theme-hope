@@ -1,13 +1,10 @@
 /* eslint-disable vue/no-unused-properties */
-import { defineComponent, h, onMounted } from "vue";
+import { type VNode, defineComponent, h, onMounted } from "vue";
 import { useLocaleConfig } from "vuepress-shared/client";
 
-import { useSize } from "../composables/size.js";
-import { getLink } from "../utils/getLink.js";
-import { viewPDF } from "../utils/pdf.js";
-
-import type { VNode } from "vue";
-import type { PDFLocaleConfig } from "../../shared/locales.js";
+import { type PDFLocaleConfig } from "../../shared/locales.js";
+import { useSize } from "../composables/index.js";
+import { getLink, viewPDF } from "../utils/index.js";
 
 import "../styles/pdf.scss";
 

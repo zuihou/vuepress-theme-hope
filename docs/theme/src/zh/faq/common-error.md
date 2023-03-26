@@ -5,7 +5,71 @@ category:
   - FAQ
 ---
 
-## `TypeError: Invalid value used as weak map key`
+## `useXXX() is called without provider`
+
+此类错误通常是因为项目中错误的含有多个 `@vue/xxx`, `@vuepress/xxx`, `vue` 或 `vue-router` 版本引起的。
+
+请确保你正在使用最新的 `vuepress` 和 `vuepress-theme-hope` 版本:
+
+::: code-tabs#shell
+
+@tab pnpm
+
+```bash
+pnpm add @vuepress/client@next vuepress@next vuepress-theme-hope vue@latest -E
+```
+
+@tab yarn
+
+```bash
+yarn add vuepress@next vuepress-theme-hope@latest -E
+```
+
+@tab npm
+
+```bash
+npm i vuepress@next vuepress-theme-hope@latest -E
+```
+
+:::
+
+同时，升级依赖以确保你的项目只包含单个版本的相关包:
+
+::: code-tabs#shell
+
+@tab pnpm
+
+```bash
+pnpm dlx vp-update
+```
+
+@tab yarn
+
+```bash
+yarn dlx vp-update
+```
+
+@tab npm
+
+```bash
+npx vp-update
+```
+
+:::
+
+::: warning
+
+任何以 `@vuepress/` 开头的官方包应该和 VuePress 保持相同版本。
+
+比如，如果你正在使用 `@vuepress/plugin-search` 和 `@vuepress/utils`，你应该确保他们和 `vuepress` 版本相同。
+
+另外，`vuepress-theme-hope` 仓库的插件应与 `vuepress-theme-hope` 版本相同。
+
+此外，如果你使用了其他第三方插件，请确保它兼容你要升级到的 VuePress 版本。
+
+:::
+
+## `[Vue warn]: Failed to resolve component: XXX`
 
 如果你遇到这样的错误，你可能在项目中使用了非标准标签。
 
@@ -38,6 +102,31 @@ CloudFlare 的 Auto Minify 会错误的对 HTML 的空格和换行进行处理�
 
 - 如果你在所有页面都遇到了这个问题，请同样按照上一步检查你在布局或全局组件中添加的组件。
 
+## `FATAL ERROR: XXX - JavaScript heap out of memory`
+
+这意味着您的 Node.js 的 `max_old_space_size` 设置太小而无法构建此应用程序。 您可以尝试通过设置 `NODE_OPTIONS` 环境变量来增加 `max_old_space_size`。
+
+`max_old_space_size` 以 MB 为单位，默认情况下 `max_old_space_size` 是机器内存大小的一半。该值可以大于您机器的实际内存大小。
+
+- 对于小型项目，通常不会超过 2GB (2048MB)。
+- 对于大型项目，通常不会超过 4GB (4048MB)
+- 如果您在大型网站上同时启用博客功能和大量 Markdown 增强功能，通常不会超过 8GB (8192MB)
+
+::: details 增加方法
+
+使用 GitHub 工作流时，在您的工作流文件中设置 `env`:
+
+```diff
+  - name: Build project
++   env:
++     NODE_OPTIONS: --max_old_space_size=8192
+    run: pnpm run build
+```
+
+在 Windows，你可以参考 [此指南](https://blog.csdn.net/weixin_37204973/article/details/82504570).
+
+:::
+
 ## `xxx isn’t assign with a lang, and will return 'en-US' instead.`
 
 如果你在开发进程启动时看到 `xxx is not assign with a lang, and will return 'en-US'.`，请检查是否为每种语言设置了语言。
@@ -52,68 +141,6 @@ CloudFlare 的 Auto Minify 会错误的对 HTML 的空格和换行进行处理�
 - 如果你想在当前路由中禁用侧边栏，请在 frontmatter 中设置 `sidebar: false`。
 - 如果要在当前文件夹中禁用侧边栏，请在侧边栏配置中添加 `[当前文件夹路由]: false`。
 - 如果你想告诉主题你仅在设置的路由中需要侧边栏，请在侧边栏配置中添加 `[当前语言根路径]: false` 以告诉主题侧边栏配置默认禁用。
-
-## `useXXX() is called without provider`
-
-此类错误通常是因为项目中错误的含有多个 `@vue/xxx`, `@vuepress/xxx`, `vue` 或 `vue-router` 版本引起的。
-
-请确保你正在使用最新的 `vuepress` 和 `vuepress-theme-hope` 版本:
-
-::: code-tabs#shell
-
-@tab pnpm
-
-```bash
-pnpm add @vuepress/client@next vuepress@next vuepress-theme-hope vue@latest -E
-```
-
-@tab yarn
-
-```bash
-yarn add vuepress@next vuepress-theme-hope -E
-```
-
-@tab npm
-
-```bash
-npm i vuepress@next vuepress-theme-hope -E
-```
-
-:::
-
-同时，升级依赖以确保你的项目只包含单个版本的相关包:
-
-::: code-tabs#shell
-
-@tab pnpm
-
-```bash
-pnpm i && pnpm up
-```
-
-@tab yarn
-
-```bash
-yarn && yarn upgrade
-```
-
-@tab npm
-
-```bash
-npm i && npm update
-```
-
-:::
-
-::: warning
-
-任何以 `@vuepress/` 开头的官方包应该和 VuePress 保持相同版本。
-
-比如，如果你正在使用 `@vuepress/plugin-search` 和 `@vuepress/utils`，你应该确保他们和 `vuepress` 版本相同
-
-另外，如果你使用了其他第三方插件，请确保它兼容你要升级到的 VuePress 版本。
-
-:::
 
 ## 热更新在开发服务器中不工作
 

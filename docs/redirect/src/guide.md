@@ -59,6 +59,101 @@ redirect({
 
 :::
 
+## Redirecting Locales
+
+The plugin can automatically handle multilingual redirection for site.
+
+### Auto Locales
+
+The plugin can automatically redirect non-multilingual links to the multilingual pages the user needs based on the user's language preference.
+
+To achieve this, you need to leave the default language directory (`/`) blank and set `autoLocale: true` in plugin options. The plugin will automatically redirect to the correct page according to the user's language.
+
+I.E.: you need to set the following directory structure:
+
+```
+.
+├── en
+│   ├── ...
+│   ├── page.md
+│   └── README.md
+├── zh
+│   ├── ...
+│   ├── page.md
+│   └── README.md
+└── other_languages
+    ├── ...
+    ├── page.md
+    └── README.md
+```
+
+And set `locales` in theme options with:
+
+```js
+export default {
+  locales: {
+    "/en/": {
+      lang: "en-US",
+      // ...
+    },
+    "/zh/": {
+      lang: "zh-CN",
+      // ...
+    },
+    // other languages
+  },
+  // ...
+};
+```
+
+So when a user accesses `/` or `/page.html`, they are automatically redirected to `/en/` `/en/page.html` and `/en/` `/en/page.html` based on current browser language.
+
+::: info Customizing fallback behavior
+
+Sometimes, users may add more than one language to the system settings. By default, when a site supports a preferred language, but the page not exists for the preferred language, the plugin attempts to match the alternate language set by the user.
+
+If you don't need to fallback to the user's alternate language, but directly match the user's preferred language, set `localeFallback: false` in the plugin options.
+
+:::
+
+::: info Customizing missing behavior
+
+Sometimes, when a user visits a page, the document does not yet contain the language version the user needs (a common case is that the current page has not been localized in the relevant language), so the plugin needs to perform a default action, which you can customize by `defaultBehavior` in the plugin options:
+
+- `"defaultLocale"`: Redirect to default language or first available language page (default behavior)
+- `"homepage"`: redirect to the home page in the current language (only available if the document contains the user's language)
+- `"404"`: Redirect to page 404 in current language (only available if the document contains the user's language)
+
+:::
+
+::: info Customizing default locale path
+
+You can customize the default locale path by setting `defaultLocale` in the plugin options. By default, the plugin uses the first locale key in `locales` as the default language.
+
+:::
+
+### Automatically switch languages
+
+The plugin supports automatically switching the link to the multilingual page that the user needs according to the user's language preference when opening a multilingual document. In order to achieve this, you need to set `switchLocale` in the plugin options, which can be the following two values:
+
+- `direct`: switch directly to the user language preference page without asking
+- `modal`: When the user's language preference is different from the current page language, show a modal asking whether to switch language
+
+### Customizing Locale Settings
+
+By default, the plugin generates a locale setting by reading `locale path` and `lang` from the site's `locales` option. Sometimes, you may want multiple languages to hit the same path, in which case you should set `localeConfig` in plugin options.
+
+For example, you might want all English users to match to `/en/` and Chinese Traditional users to `/zh/`, then you can set:
+
+```js
+redirect({
+  localeConfig: {
+    "/en/": ["en-US", "en-UK", "en"],
+    "/zh/": ["zh-CN", "zh-TW", "zh"],
+  },
+});
+```
+
 ## Redirecting Sites
 
 Sometimes you may change `base` or use new domain for your site, so you may want the original site automatically redirects to the new one.

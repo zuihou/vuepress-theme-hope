@@ -55,9 +55,14 @@ If the theme you are using has a switching animation, it is recommended to confi
   ```ts
   interface CopyCodeLocaleData {
     /**
-     * Copy button label text
+     * Copy text
      */
     copy: string;
+
+    /**
+     * Copied text
+     */
+    copied: string;
 
     /**
      * Success message text after content is copied
@@ -93,5 +98,7 @@ Locales config for copy code plugin.
 - **Turkish** (tr-TR)
 - **Korean** (ko-KR)
 - **Finnish** (fi-FI)
+- **Indonesian** (id-ID)
+- **Dutch** (nl-NL)
 
 :::

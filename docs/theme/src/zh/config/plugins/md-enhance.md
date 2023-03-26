@@ -170,6 +170,13 @@ interface ImageMarkOptions {
 
 是否启用图片尺寸支持。
 
+### obsidianImgSize
+
+- 类型: `boolean`
+- 默认值: `false`
+
+是否启用 obsidian 图片尺寸支持。
+
 ### tasklist
 
 - 类型: `TaskListOptions | boolean`
@@ -227,7 +234,7 @@ interface TaskListOptions {
 - 类型: `boolean`
 - 默认值: `false`
 
-是否启用 [Mermaid](https://mermaid-js.github.io/mermaid/#/) 支持。
+是否启用 [Mermaid](https://mermaid.js.org/) 支持。
 
 ### stylize
 
@@ -409,13 +416,6 @@ interface TaskListOptions {
   ```ts
   interface VuePlaygroundOptions {
     /**
-     * 是否在交互演示中显示代码
-     *
-     * @default false
-     */
-    showCode?: boolean;
-
-    /**
      * 指定 vue 版本
      */
     vueVersion?: string;
@@ -465,9 +465,9 @@ interface TaskListOptions {
     /**
      * 布局
      *
-     * @default 'vertical'
+     * @default 'horizontal'
      */
-    layout?: "vertical" | "horizontal";
+    layout?: "horizontal" | "vertical";
 
     /**
      * `vue/compiler-sfc` 配置项

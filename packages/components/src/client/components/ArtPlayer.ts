@@ -1,16 +1,20 @@
 /* eslint-disable vue/no-unused-properties */
 import { usePageLang } from "@vuepress/client";
+import type Artplayer from "artplayer";
+import { type Option as ArtPlayerInitOptions } from "artplayer/types/option.js";
 import {
+  type PropType,
+  type VNode,
   camelize,
   defineComponent,
   h,
-  nextTick,
-  onBeforeUnmount,
   onMounted,
-  ref,
+  onUnmounted,
 } from "vue";
+import { keys } from "vuepress-shared/client";
 
-import { useSize } from "../composables/size.js";
+import { type ArtPlayerOptions } from "../../shared/index.js";
+import { useSize } from "../composables/index.js";
 import {
   SUPPORTED_VIDEO_TYPES,
   getTypeByUrl,
@@ -18,11 +22,6 @@ import {
   registerMseFlv,
   registerMseHls,
 } from "../utils/mse.js";
-
-import type Artplayer from "artplayer";
-import type { Option as ArtPlayerInitOptions } from "artplayer/types/option.js";
-import type { PropType, VNode } from "vue";
-import type { ArtPlayerOptions } from "../../shared/index.js";
 
 const BOOLEAN_TRUE_ATTRS = [
   "no-fullscreen",
@@ -83,13 +82,13 @@ declare const ART_PLAYER_OPTIONS: ArtPlayerOptions;
 
 const getLang = (lang: string): string => {
   const langCode = lang.toLowerCase();
-  const langName = lang.split("-")[0]!;
+  const langName = langCode.split("-")[0]!;
 
-  return SUPPORTED_LANG_NAME.includes(langName)
-    ? langName
-    : SUPPORTED_LANG_CODE.includes(langCode)
+  return SUPPORTED_LANG_CODE.includes(langCode)
     ? langCode
-    : langCode === "zh"
+    : SUPPORTED_LANG_NAME.includes(langName)
+    ? langName
+    : langName === "zh"
     ? "zh-cn"
     : "en";
 };
@@ -198,8 +197,6 @@ export default defineComponent({
     const lang = usePageLang();
     const { el, width, height } = useSize<HTMLDivElement>(props, 0);
 
-    const template = ref("Loading...");
-
     let artPlayerInstance: Artplayer;
 
     const getInitOptions = (): ArtPlayerInitOptions => {
@@ -213,11 +210,11 @@ export default defineComponent({
         type: props.type || getTypeByUrl(props.src),
         lang: getLang(lang.value),
         ...props.config,
-        // this option must be set true to avoid problems
-        useSSR: true,
+        // this option must be set false to avoid problems
+        useSSR: false,
       };
 
-      const attrsKeys = Object.keys(attrs);
+      const attrsKeys = keys(attrs);
 
       BOOLEAN_TRUE_ATTRS.forEach((config) => {
         if (attrsKeys.includes(config))
@@ -234,7 +231,7 @@ export default defineComponent({
       if (initOptions.type) {
         const customType = (initOptions.customType ??= {});
 
-        if (SUPPORTED_VIDEO_TYPES.includes(initOptions.type.toLowerCase())) {
+        if (SUPPORTED_VIDEO_TYPES.includes(initOptions.type.toLowerCase()))
           switch (initOptions.type) {
             case "m3u8":
             case "hls":
@@ -271,7 +268,7 @@ export default defineComponent({
                 });
               break;
           }
-        } else
+        else
           console.warn(
             `[components]: ArtPlayer does not support current file type ${initOptions.type}!`
           );
@@ -281,30 +278,30 @@ export default defineComponent({
     };
 
     // FIXME: Related issue https://github.com/zhw2590582/ArtPlayer/issues/450
-    onMounted(() => {
-      void import("artplayer").then(async ({ default: Artplayer }) => {
-        template.value = Artplayer.html;
+    onMounted(async () => {
+      const { default: Artplayer } = await import(
+        /* webpackChunkName: "artplayer" */ "artplayer"
+      );
+      const player = new Artplayer(getInitOptions());
 
-        return nextTick().then(async () => {
-          const player = new Artplayer(getInitOptions());
-
-          artPlayerInstance = (await props.customPlayer(player)) || player;
-        });
-      });
+      artPlayerInstance = (await props.customPlayer(player)) || player;
     });
 
-    onBeforeUnmount(() => {
+    onUnmounted(() => {
       artPlayerInstance?.destroy();
     });
 
     return (): VNode =>
-      h("div", {
-        ref: el,
-        style: {
-          width: width.value,
-          height: height.value,
+      h(
+        "div",
+        {
+          ref: el,
+          style: {
+            width: width.value,
+            height: height.value,
+          },
         },
-        innerHTML: template.value,
-      });
+        "Loading..."
+      );
   },
 });

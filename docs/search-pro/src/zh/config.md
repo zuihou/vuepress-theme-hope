@@ -117,6 +117,13 @@ export default defineUserConfig({
      * @default false
      */
     shift?: boolean;
+
+    /**
+     * 是否同时按下 `event.metaKey`
+     *
+     * @default false
+     */
+    meta?: boolean;
   }
   ```
 
@@ -126,12 +133,19 @@ export default defineUserConfig({
 
 当热键被按下时，搜索框的输入框会被聚焦，设置为空数组以禁用热键。
 
-## historyCount
+## queryHistoryCount
 
 - 类型: `number`
 - 默认值: `5`
 
-存储历史项目的最大数量
+存储搜索查询词历史的最大数量，可以设置为 `0` 以禁用。
+
+## resultHistoryCount
+
+- 类型: `number`
+- 默认值: `5`
+
+存储搜索结果历史的最大数量，可以设置为 `0` 以禁用。
 
 ## delay
 
@@ -145,6 +159,13 @@ export default defineUserConfig({
 有大量内容时，进行客户端搜素可能会很慢，在这种情况下你可能需要增加此值来确保开始搜索时用户已完成输入。
 
 :::
+
+## worker
+
+- 类型: `string`
+- 默认值: `search-pro.worker.js`
+
+输出的 Worker 文件名称
 
 ## hotReload
 

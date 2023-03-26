@@ -19,6 +19,10 @@ body {
 body {
   color: var(--text-color);
   font-family: var(--font-family);
+
+  @media (min-width: hope-config.$pc) {
+    font-size: 18px;
+  }
 }
 
 a {
@@ -26,13 +30,13 @@ a {
 }
 
 kbd {
-  border-color: var(--grey14);
-  background: var(--bg-color-light);
-  font-family: var(--font-family-code);
+  border-color: var(--border-color-dark);
+  background: var(--bg-color-secondary);
+  font-family: var(--font-family-mono);
 }
 
 code {
-  font-family: var(--font-family-code);
+  font-family: var(--font-family-mono);
   transition: background var(--color-transition), color var(--color-transition);
 
   #{hope-config.$dark-selector} & {
@@ -73,20 +77,14 @@ hr {
 }
 
 tr {
-  border-color: var(--grey14);
-
   &:nth-child(2n) {
-    background: var(--bg-color-light);
-
-    #{hope-config.$dark-selector} & {
-      background: #252322;
-    }
+    background: var(--bg-color-secondary);
   }
 }
 
 th,
 td {
-  border-color: var(--grey14);
+  border-color: var(--border-color-dark);
 }
 
 @media print {

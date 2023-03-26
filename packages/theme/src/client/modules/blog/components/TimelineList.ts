@@ -1,12 +1,12 @@
-import { computed, defineComponent, h } from "vue";
+import { type VNode, computed, defineComponent, h } from "vue";
 import { RouterLink } from "vue-router";
 
 import DropTransition from "@theme-hope/components/transitions/DropTransition";
+import { useNavigate, useThemeLocaleData } from "@theme-hope/composables/index";
 import { TimelineIcon } from "@theme-hope/modules/blog/components/icons/index";
 import { useTimelines } from "@theme-hope/modules/blog/composables/index";
-import { useNavigate, useThemeLocaleData } from "@theme-hope/composables/index";
 
-import type { VNode } from "vue";
+import { ArticleInfoType } from "../../../../shared/index.js";
 
 import "../styles/timeline-list.scss";
 
@@ -60,7 +60,7 @@ export default defineComponent({
                               class: "timeline-title",
                               to: path,
                             },
-                            () => info.title
+                            () => info[ArticleInfoType.title]
                           ),
                         ])
                       )

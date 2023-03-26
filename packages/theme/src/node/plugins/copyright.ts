@@ -1,14 +1,21 @@
+import { type Page, type Plugin } from "@vuepress/core";
 import { isPlainObject } from "@vuepress/shared";
-import { copyrightPlugin } from "vuepress-plugin-copyright2";
+import {
+  type CopyrightOptions,
+  copyrightPlugin,
+} from "vuepress-plugin-copyright2";
 import { getAuthor } from "vuepress-shared/node";
 
-import type { Page, Plugin } from "@vuepress/core";
-import type { CopyrightOptions } from "vuepress-plugin-copyright2";
-import type {
-  ThemeData,
-  ThemeNormalPageFrontmatter,
+import {
+  type ThemeData,
+  type ThemeNormalPageFrontmatter,
 } from "../../shared/index.js";
 
+/**
+ * @private
+ *
+ * Resolve options for vuepress-plugin-copyright
+ */
 export const getCopyrightPlugin = (
   themeData: ThemeData,
   options?: Partial<CopyrightOptions> | boolean,

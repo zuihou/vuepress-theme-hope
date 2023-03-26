@@ -1,4 +1,4 @@
-import type { NavbarOptions } from "../../navbar.js";
+import { type NavbarOptions } from "../../navbar.js";
 
 export interface NavbarLocaleData {
   /**
@@ -46,13 +46,13 @@ export interface NavbarLocaleOptions {
    *
    * @description Set to `false` to disable navbar in current locale
    *
-   * @see https://theme-hope.vuejs.vuepress/guide/layout/navbar.html
+   * @see https://theme-hope.vuejs.press/guide/layout/navbar.html
    *
    * 导航栏配置
    *
    * @description 设置 `false` 以在当前语言中禁用导航栏
    *
-   * @see https://theme-hope.vuejs.vuepress/v2/zh/guide/layout/navbar.html
+   * @see https://theme-hope.vuejs.press/v2/zh/guide/layout/navbar.html
    */
   navbar?: NavbarOptions | false;
 

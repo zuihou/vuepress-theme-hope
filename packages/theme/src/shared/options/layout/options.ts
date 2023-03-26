@@ -1,11 +1,10 @@
-import type { FooterLocaleOptions } from "./footer.js";
-import type { DocsRepoLocaleOptions } from "./info.js";
-import type { MetaLocaleOptions, MetaLocateData } from "./meta.js";
-import type { NavbarLocaleData, NavbarLocaleOptions } from "./navbar.js";
-import type { SidebarLocaleOptions, SidebarSorter } from "./sidebar.js";
-import type { RouteLocaleData } from "./route.js";
-
-import type { PageInfo } from "../../info.js";
+import { type FooterLocaleOptions } from "./footer.js";
+import { type DocsRepoLocaleOptions } from "./info.js";
+import { type MetaLocaleOptions, type MetaLocateData } from "./meta.js";
+import { type NavbarLocaleData, type NavbarLocaleOptions } from "./navbar.js";
+import { type RouteLocaleData } from "./route.js";
+import { type SidebarLocaleOptions, type SidebarSorter } from "./sidebar.js";
+import { type PageInfo } from "../../info.js";
 
 export interface LayoutLocaleData {
   /**
@@ -72,11 +71,11 @@ export interface LayoutLocaleOptions
   /**
    * Article Info display configuration
    *
-   * @see https://theme-hope.vuejs.vuepress/guide/feature/page-info.html
+   * @see https://theme-hope.vuejs.press/guide/feature/page-info.html
    *
    * 文章信息配置
    *
-   * @see https://theme-hope.vuejs.vuepress/zh/guide/feature/page-info.html
+   * @see https://theme-hope.vuejs.press/zh/guide/feature/page-info.html
    *
    * @default ["Author", "Original", "Date", "PageView", "ReadingTime", "Category", "Tag"]
    */
@@ -158,7 +157,7 @@ export interface LayoutOptions {
    *
    * @default 1440
    */
-  wideBreakPoint?: number;
+  pcBreakPoint?: number;
 
   /**
    * Sorter of structure sidebar
@@ -172,5 +171,5 @@ export interface LayoutOptions {
 
 export type LayoutConfig = Pick<
   LayoutOptions,
-  "mobileBreakPoint" | "wideBreakPoint"
+  "mobileBreakPoint" | "pcBreakPoint"
 >;

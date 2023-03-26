@@ -1,27 +1,18 @@
+import { type UserConfig } from "@vuepress/cli";
 import { isFunction, isPlainObject } from "@vuepress/shared";
 import { colors } from "@vuepress/utils";
+
 import { convertThemeOptions } from "./theme.js";
 import { deprecatedMsg } from "./utils.js";
+import {
+  type NavbarOptions,
+  type SidebarArrayOptions,
+  type SidebarObjectOptions,
+  type SidebarOptions,
+  type ThemeOptions,
+} from "../../shared/index.js";
 import { hopeTheme } from "../theme.js";
 import { logger } from "../utils.js";
-
-import type { ThemeFunction } from "@vuepress/core";
-import type { UserConfig } from "@vuepress/cli";
-import type {
-  NavbarOptions,
-  SidebarArrayOptions,
-  SidebarObjectOptions,
-  SidebarOptions,
-  ThemeOptions,
-} from "../../shared/index.js";
-
-/**
- * import and use `hopeTheme` instead
- *
- * @description This function will be removed in v2 future release and is only available before v2 touch stable
- */
-export const hopeThemeLegacy = (themeOptions: ThemeOptions): ThemeFunction =>
-  hopeTheme(themeOptions, true);
 
 /**
  * @deprecated use `import { navbar } from "vuepress-theme-hope";` instead
@@ -119,12 +110,11 @@ export default {
   );
 
   // check themeConfig
-  if ("themeConfig" in config && isPlainObject(config["themeConfig"])) {
-    config.theme = hopeThemeLegacy(config["themeConfig"] as ThemeOptions);
-  }
+  if ("themeConfig" in config && isPlainObject(config["themeConfig"]))
+    config.theme = hopeTheme(config["themeConfig"] as ThemeOptions);
 
   // check theme
-  if (!isFunction(config.theme)) config.theme = hopeThemeLegacy({});
+  if (!isFunction(config.theme)) config.theme = hopeTheme({});
 
   return config;
 };

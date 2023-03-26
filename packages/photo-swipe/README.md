@@ -1,15 +1,15 @@
 <!-- markdownlint-disable -->
 <p align="center">
-  <img width="240" src="ttps://plugin-photo-swipe.vuejs.vuepress/logo.svg" style="text-align: center;">
+  <img width="240" src="ttps://plugin-photo-swipe.vuejs.press/logo.svg" style="text-align: center;">
 </p>
 <h1 align="center">vuepress-plugin-photo-swipe</h1>
 <h4 align="center">VuePress photo preview plugin🖼️ / VuePress图片预览插件🖼️</h4>
 
-[![Version](https://img.shields.io/npm/v/vuepress-plugin-photo-swipe.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/vuepress-plugin-photo-swipe.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/vuepress-plugin-photo-swipe?style=flat-square&logo=npm)](https://www.npmjs.com/package/vuepress-plugin-photo-swipe)
+[![Version](https://img.shields.io/npm/v/vuepress-plugin-photo-swipe.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/vuepress-plugin-photo-swipe.svg?style=flat-square&logo=npm(https://www.npmjs.com/package/vuepress-plugin-photo-swipe)
 
 <!-- markdownlint-restore -->
 
-## [Official Docs](https://plugin-photo-swipe.vuejs.vuepress/) | [官方文档](https://plugin-photo-swipe.vuejs.vuepress/zh/)
+## [Official Docs](https://plugin-photo-swipe.vuejs.press/) | [官方文档](https://plugin-photo-swipe.vuejs.press/zh/)
 
 ## Install
 

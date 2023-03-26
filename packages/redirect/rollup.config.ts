@@ -1,24 +1,17 @@
-import { rollupTypescript } from "../../scripts/rollup.js";
+import { bundle } from "../../scripts/rollup.js";
 
 export default [
-  ...rollupTypescript("cli/index", {
-    dts: false,
-    external: [
-      "node:module",
-      "@vuepress/cli",
-      "@vuepress/core",
-      "@vuepress/shared",
-      "@vuepress/utils",
-      "cac",
-    ],
-    preserveShebang: true,
+  ...bundle("cli/index", {
+    external: ["@vuepress/cli", "cac"],
   }),
-  ...rollupTypescript("node/index", {
-    external: [
-      "@vuepress/core",
-      "@vuepress/shared",
-      "@vuepress/utils",
-      "vuepress-shared/node",
-    ],
-  }),
+  ...bundle(
+    {
+      base: "client",
+      files: ["config"],
+    },
+    {
+      copy: [["client/styles", "client"]],
+    }
+  ),
+  ...bundle("node/index"),
 ];

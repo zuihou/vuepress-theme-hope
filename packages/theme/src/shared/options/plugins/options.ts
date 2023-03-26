@@ -1,18 +1,19 @@
-import type { GitPluginOptions } from "@vuepress/plugin-git";
-import type { AutoCatalogOptions } from "vuepress-plugin-auto-catalog";
-import type { CommentOptions } from "vuepress-plugin-comment2";
-import type { ComponentOptions } from "vuepress-plugin-components";
-import type { CopyCodeOptions } from "vuepress-plugin-copy-code2";
-import type { CopyrightOptions } from "vuepress-plugin-copyright2";
-import type { FeedOptions } from "vuepress-plugin-feed2";
-import type { MarkdownEnhanceOptions } from "vuepress-plugin-md-enhance";
-import type { PhotoSwipeOptions } from "vuepress-plugin-photo-swipe";
-import type { PWAOptions } from "vuepress-plugin-pwa2";
-import type { ReadingTimeOptions } from "vuepress-plugin-reading-time2";
-import type { SitemapOptions } from "vuepress-plugin-sitemap2";
-import type { SeoOptions } from "vuepress-plugin-seo2";
+import { type GitPluginOptions } from "@vuepress/plugin-git";
+import { type AutoCatalogOptions } from "vuepress-plugin-auto-catalog";
+import { type CommentOptions } from "vuepress-plugin-comment2";
+import { type ComponentOptions } from "vuepress-plugin-components";
+import { type CopyCodeOptions } from "vuepress-plugin-copy-code2";
+import { type CopyrightOptions } from "vuepress-plugin-copyright2";
+import { type FeedOptions } from "vuepress-plugin-feed2";
+import { type MarkdownEnhanceOptions } from "vuepress-plugin-md-enhance";
+import { type PhotoSwipeOptions } from "vuepress-plugin-photo-swipe";
+import { type PWAOptions } from "vuepress-plugin-pwa2";
+import { type ReadingTimeOptions } from "vuepress-plugin-reading-time2";
+import { type SeoOptions } from "vuepress-plugin-seo2";
+import { type SitemapOptions } from "vuepress-plugin-sitemap2";
 
-import type { BlogPluginOptions } from "./blog.js";
+import { type BlogPluginOptions } from "./blog.js";
+import { type PrismjsOptions } from "./prism.js";
 
 export interface PluginsOptions {
   /**
@@ -136,7 +137,36 @@ export interface PluginsOptions {
    *
    * @see https://plugin-md-enhance.vuejs.press/zh/config/
    */
-  mdEnhance?: MarkdownEnhanceOptions | false;
+  mdEnhance?:
+    | (Omit<MarkdownEnhanceOptions, "container"> & {
+        /**
+         * Whether to enable custom container including
+         *
+         * - info
+         * - note
+         * - tip
+         * - warning
+         * - danger
+         * - details
+         *
+         * ⚠ The last 4 items conflict with default theme and will override it’s style.
+         *
+         * 是否启用自定义容器
+         *
+         * - info
+         * - note
+         * - tip
+         * - warning
+         * - danger
+         * - details
+         *
+         * ⚠ 最后四个会和默认主题冲突，且会覆盖默认主题的样式与行为。
+         *
+         * @default true
+         */
+        container?: boolean;
+      })
+    | false;
 
   /**
    * Enable @vuepress/nprogress or not
@@ -169,7 +199,7 @@ export interface PluginsOptions {
    *
    * @default true
    */
-  prismjs?: boolean;
+  prismjs?: PrismjsOptions | boolean;
 
   /**
    * PWA plugin options

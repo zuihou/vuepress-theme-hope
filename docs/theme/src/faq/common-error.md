@@ -5,7 +5,47 @@ category:
   - FAQ
 ---
 
-## `TypeError: Invalid value used as weak map key`
+## `useXXX() is called without provider`
+
+Such errors are usually caused by incorrectly containing multiple versions of `@vue/xxx`, `@vuepress/xxx`, `vue` or `vue-router` in the project.
+
+Make sure you are using the latest `vuepress` and `vuepress-theme-hope` versions and all related packages. You can use `vp-update` helper for that
+
+::: code-tabs#shell
+
+@tab pnpm
+
+```bash
+pnpm dlx vp-update
+```
+
+@tab yarn
+
+```bash
+yarn dlx vp-update
+```
+
+@tab npm
+
+```bash
+npx vp-update
+```
+
+:::
+
+::: warning
+
+Any official packages starting with `@vuepress/` should be upgrade to the same version as VuePress.
+
+I.E.: if you are using `@vuepress/plugin-search` and `@vuepress/utils` , you should ensure they have the same version number as `vuepress`.
+
+Besides, any plugin inside `vuepress-theme-hope` should be the same version as vuepress-theme-hope.
+
+Further more, if you're using another third-party plugin, make sure it's compatible with the version of VuePress you're upgrading to.
+
+:::
+
+## `[Vue warn]: Failed to resolve component: XXX`
 
 If you are facing error like this, you are probably using non-standard tags in your project.
 
@@ -38,6 +78,33 @@ Also you can check these:
 
 - If you have this problem in all pages, please also follow the previous step to check the components you added in the layout or global components.
 
+## `FATAL ERROR: XXX - JavaScript heap out of memory`
+
+This means that your `max_old_space_size` setting of Node.js is too small to build this application. You can try to increase the `max_old_space_size` by setting the `NODE_OPTIONS` environment variable.
+
+`max_old_space_size` is in unit of MB, by default it is half size of your machine memory.
+
+This value can be greater than the actual memory size of your machine.
+
+- For small projects, usually it won't take more that 2GB (2048MB).
+- For large projects, usually it won't take more that 4GB (4048MB)
+- If you are enabling blog feature together with lots of markdown enhance features on large sites, usually it won't take more that 8GB (8192MB)
+
+::: details Ways of increasing
+
+With GitHub workflow, set `env` in your workflow file.
+
+```diff
+  - name: Build project
++   env:
++     NODE_OPTIONS: --max_old_space_size=8192
+    run: pnpm run build
+```
+
+On windows, you can follow [this guide](https://www.technewstoday.com/how-to-set-windows-environment-variables/).
+
+:::
+
 ## `xxx isn’t assign with a lang, and will return 'en-US' instead.`
 
 If you see `xxx isn’t assign with a lang, and will return 'en-US' instead.` while the dev process is starting up, please check whether you set lang for every language.
@@ -52,68 +119,6 @@ Using object format sidebar config means you want to set different sidebar based
 - If you want to disable sidebar in current route, set `sidebar: false` in frontmatter.
 - If you want to disable sidebar in current folder, add `[currentFolderRoute]: false` in sidebar config.
 - If you want to tell theme that you only want sidebar in routes you set, add `[rootLocalePath]: false` in sidebar config to tell theme sidebar config is disabled by default.
-
-## `useXXX() is called without provider`
-
-Such errors are usually caused by incorrectly containing multiple versions of `@vue/xxx`, `@vuepress/xxx`, `vue` or `vue-router` in the project.
-
-Make sure you are using the latest `vuepress` and `vuepress-theme-hope` versions:
-
-::: code-tabs#shell
-
-@tab pnpm
-
-```bash
-pnpm add @vuepress/client@next vuepress@next vuepress-theme-hope vue@latest -E
-```
-
-@tab yarn
-
-```bash
-yarn add vuepress@next vuepress-theme-hope -E
-```
-
-@tab npm
-
-```bash
-npm i vuepress@next vuepress-theme-hope -E
-```
-
-:::
-
-Also, upgrade dependencies to ensure your project only contains a single version of the relevant package:
-
-::: code-tabs#shell
-
-@tab pnpm
-
-```bash
-pnpm i && pnpm up
-```
-
-@tab yarn
-
-```bash
-yarn && yarn upgrade
-```
-
-@tab npm
-
-```bash
-npm i && npm update
-```
-
-:::
-
-::: warning
-
-Any official packages starting with `@vuepress/` should be upgrade to the same version as VuePress.
-
-I.E.: if you are using `@vuepress/plugin-search` and `@vuepress/utils` , you should ensure they have the same version number as `vuepress`.
-
-Also, if you're using another third-party plugin, make sure it's compatible with the version of VuePress you're upgrading to.
-
-:::
 
 ## HotReload not working in DevServer
 

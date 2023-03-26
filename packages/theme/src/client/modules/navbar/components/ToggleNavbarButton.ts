@@ -1,6 +1,4 @@
-import { h } from "vue";
-
-import type { FunctionalComponent, VNode } from "vue";
+import { type FunctionalComponent, type VNode, h } from "vue";
 
 import "../styles/toggle-navbar-button.scss";
 
@@ -15,6 +13,7 @@ const ToggleNavbarButton: FunctionalComponent<
   h(
     "button",
     {
+      type: "button",
       class: ["toggle-navbar-button", { "is-active": active }],
       "aria-label": "Toggle Navbar",
       "aria-expanded": active,

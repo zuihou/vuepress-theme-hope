@@ -1,4 +1,4 @@
-import type { WalineLocaleConfig } from "../shared/index.js";
+import { type WalineLocaleConfig } from "../shared/index.js";
 
 /**
  * Default locale config for Waline
@@ -79,11 +79,25 @@ export const walineLocales: WalineLocaleConfig = {
 
   "/ko/": {
     placeholder:
-      "댓글을 남겨주세요 (답변이 있을 경우 이메일로 알림을 받으려면 이메일 주소를 입력하세요)",
+      "댓글을 남겨주세요 (답글이 달렸을 때 이메일로 알림을 받으려면 이메일 주소를 입력하세요)",
   },
 
   "/fi/": {
     placeholder:
       "Kirjoita kommentti tähän (täytä sähköpostiosoite saadaksesi sähköposti-ilmoituksen vastauksesta)",
+  },
+  "/hu/": {
+    placeholder:
+      "Írj kommentet itt! (Töltsd ki az email címet, hogy értesítést kapj, amikor válaszolnak.)",
+  },
+
+  "/id/": {
+    placeholder:
+      "Tulis komentar di sini (Isi alamat email untuk menerima notifikasi jika komentar kamu telah dibalas orang lain)",
+  },
+
+  "/nl/": {
+    placeholder:
+      "Schrijf een opmerking hier (Vul je emailadres in om een email-notificatie te ontvangen wanneer er gereageerd wordt.",
   },
 };

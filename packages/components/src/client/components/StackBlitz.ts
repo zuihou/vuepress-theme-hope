@@ -2,15 +2,21 @@
 /**
  * @see https://developer.stackblitz.com/platform/api/javascript-sdk
  */
-import sdk, { UiThemeOption } from "@stackblitz/sdk";
-import { computed, defineComponent, h, onMounted } from "vue";
-import { useSize } from "../composables/index.js";
+import sdk, { type UiThemeOption, type UiViewOption } from "@stackblitz/sdk";
+import {
+  type PropType,
+  type VNode,
+  computed,
+  defineComponent,
+  h,
+  onMounted,
+} from "vue";
 
-import type { UiViewOption } from "@stackblitz/sdk";
-import type { PropType, VNode } from "vue";
+import { useSize } from "../composables/index.js";
 
 import "../styles/stack-blitz.scss";
 
+// FIXME: This is an issue of ts NodeNext
 const stackblitzSDK = sdk as unknown as typeof sdk.default;
 
 export default defineComponent({
@@ -188,11 +194,10 @@ export default defineComponent({
     }));
 
     onMounted(() => {
-      if (props.embed) {
+      if (props.embed)
         void stackblitzSDK[
           props.type === "github" ? "embedGithubProject" : "embedProjectId"
         ](el.value!, props.id, options.value);
-      }
     });
 
     return (): VNode =>
@@ -211,6 +216,7 @@ export default defineComponent({
             h(
               "button",
               {
+                type: "button",
                 class: "stackblitz-button",
                 onClick: () => {
                   stackblitzSDK[

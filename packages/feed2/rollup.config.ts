@@ -1,12 +1,5 @@
-import { rollupTypescript } from "../../scripts/rollup.js";
+import { bundle } from "../../scripts/rollup.js";
 
-export default rollupTypescript("node/index", {
-  external: [
-    "@vuepress/shared",
-    "@vuepress/utils",
-    "vuepress-shared/node",
-    "cheerio",
-    "xml-js",
-  ],
-  dtsExternal: ["vuepress-shared/node"],
+export default bundle("node/index", {
+  external: ["cheerio", "xml-js"],
 });

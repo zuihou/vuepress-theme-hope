@@ -1,7 +1,8 @@
+import { type App, type Page } from "@vuepress/core";
 import { path } from "@vuepress/utils";
+import { startsWith } from "vuepress-shared/node";
 
-import type { App, Page } from "@vuepress/core";
-import type { SidebarSorterFunction } from "../../../shared/index.js";
+import { type SidebarSorterFunction } from "../../../shared/index.js";
 
 export interface FileInfo {
   type: "file";
@@ -24,11 +25,17 @@ export interface ThemeSidebarInfoOptions {
   nestingDepth?: number;
 }
 
-export const getStructure = (pages: Page[], scope: string): StructureInfo[] => {
+/**
+ * @private
+ */
+export const getStructureInfo = (
+  pages: Page[],
+  scope: string
+): StructureInfo[] => {
   const relatedPages = pages.filter(
     ({ filePathRelative, pathLocale }) =>
       // generated from file and inside current scope
-      filePathRelative?.startsWith(scope) &&
+      startsWith(filePathRelative, scope) &&
       // root dir should filter other locales
       (scope !== "" || pathLocale === "/")
   );
@@ -53,8 +60,9 @@ export const getStructure = (pages: Page[], scope: string): StructureInfo[] => {
 
     levels.forEach((level, index) => {
       // already gets filename
-      if (index === levels.length - 1)
+      if (index === levels.length - 1) {
         currentDir.push({ type: "file", filename, path: relativePath });
+      }
       // still generating dir
       else {
         const result = currentDir.find<DirInfo>(
@@ -62,7 +70,9 @@ export const getStructure = (pages: Page[], scope: string): StructureInfo[] => {
             item.type === "dir" && item.dirname === level
         );
 
-        if (result) currentDir = result.children;
+        if (result) {
+          currentDir = result.children;
+        }
         // we shall create this dir
         else {
           const dirInfo: DirInfo = {

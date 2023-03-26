@@ -5,7 +5,7 @@
 <h1 align="center">vuepress-plugin-comment2</h1>
 <h4 align="center">VuePress2 comment plugin💬 / VuePress2 评论插件💬</h4>
 
-[![Version](https://img.shields.io/npm/v/vuepress-plugin-comment2.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/vuepress-plugin-comment2.svg?style=flat-square&logo=npm) ![Size](https://img.shields.io/bundlephobia/min/vuepress-plugin-comment2?style=flat-square&logo=npm)](https://www.npmjs.com/package/vuepress-plugin-comment2)
+[![Version](https://img.shields.io/npm/v/vuepress-plugin-comment2.svg?style=flat-square&logo=npm) ![Downloads](https://img.shields.io/npm/dm/vuepress-plugin-comment2.svg?style=flat-square&logo=npm(https://www.npmjs.com/package/vuepress-plugin-comment2)
 
 <!-- markdownlint-restore -->
 
@@ -26,8 +26,7 @@ yarn add -D vuepress-plugin-comment2
 
 ## Feature
 
-- PageInfo components
-- Support Giscus, Twikoo and Waline.
+- Support Artalk, Giscus, Twikoo and Waline.
 
 ---
 
@@ -44,5 +43,4 @@ yarn add -D vuepress-plugin-comment2
 
 ## 特性
 
-- 页面信息组件
-- 支持 Giscus, Twikoo 和 Waline
+- 支持 Artalk, Giscus, Twikoo 和 Waline

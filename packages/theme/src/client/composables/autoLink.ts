@@ -1,8 +1,7 @@
 import { useRouter } from "vue-router";
 import { resolveRouteWithRedirect } from "vuepress-shared/client";
 
-import { ArticleInfoType } from "../../shared/index.js";
-import type { AutoLinkOptions } from "../../shared/index.js";
+import { ArticleInfoType, type AutoLinkOptions } from "../../shared/index.js";
 
 /**
  * Resolve AutoLink props from string
@@ -25,7 +24,7 @@ export const useAutoLink = (
     text:
       !preferFull && meta[ArticleInfoType.shortTitle]
         ? meta[ArticleInfoType.shortTitle]
-        : meta.title || item,
+        : meta[ArticleInfoType.title] || item,
     link: name === "404" ? item : fullPath,
     ...(meta[ArticleInfoType.icon] ? { icon: meta[ArticleInfoType.icon] } : {}),
   };

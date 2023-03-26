@@ -84,7 +84,7 @@ Components:
 - `@theme-hope/components/FeaturePanel`: homepage features
 - `@theme-hope/components/HeroInfo`: homepage logo and introduction
 - `@theme-hope/components/HomePage`: home page
-- `@theme-hope/components/Icon`: icon
+- `@theme-hope/components/HopeIcon`: icon
 - `@theme-hope/components/MarkdownContent`: Markdown content
 - `@theme-hope/components/NormalPage`: normal page
 - `@theme-hope/components/PageFooter`: page footer
@@ -280,26 +280,30 @@ import HopeHomePage from "vuepress-theme-hope/components/HomePage.js";
 
 Components that provide slots are as follows:
 
-**theme**:
+**Theme**:
 
 - `AutoLink`: `default`, `before`, `after`
-- `CommonWrapper`: `default`, `navbarStartBefore`, `navbarStartAfter`, `navbarCenterBefore`, `navbarCenterAfter`, `navbarEndBegin`, `navbarEndAfter`, `navScreenTop`, `navScreenBottom`, `sidebar`, `sidebarTop`, `sidebarBottom`
+- `CommonWrapper`: `default`, `navbarStartBefore`, `navbarStartAfter`, `navbarCenterBefore`, `navbarCenterAfter`, `navbarEndBefore`, `navbarEndAfter`, `navScreenTop`, `navScreenBottom`, `sidebar`, `sidebarTop`, `sidebarBottom`
 - `HeroInfo`: `heroImage`, `heroInfo`
 - `HomePage`: `top`, `center`, `bottom`
-- `NormalPage`: `top`, `contentBefore`, `contentAfter`, `bottom`
+- `NormalPage`: `top`, `contentBefore`, `contentAfter`, `bottom`, `tocBefore`, `tocAfter`
 
-**Navigation Bar**:
+**NavBar**:
 
 - `DropdownLink`: `title`
 - `NavActions`: `before`, `after`
-- `Navbar`: `startBefore`, `startAfter`, `centerBefore`, `centerAfter`, `endBegin`, `endAfter`
+- `Navbar`: `startBefore`, `startAfter`, `centerBefore`, `centerAfter`, `endBefore`, `endAfter`
 - `NavbarBrand`: `default`
 - `NavScreen`: `before`, `after`
 - `NavScreenDropdown`: `before`, `after`
 
-**Sidebar**:
+**SideBar**:
 
 - `Sidebar`: `top`, `default`, `bottom`
+
+**TOC**:
+
+- `TOC`: `before`, `after`
 
 ::: tip
 

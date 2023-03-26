@@ -1,12 +1,13 @@
+import { type PluginFunction, type PluginObject } from "@vuepress/core";
 import { colors } from "@vuepress/utils";
+import { checkVersion } from "vuepress-shared/node";
+
 import { convertOptions } from "./compact/index.js";
-import { checkOutput, ensureHostName, getFeedOptions } from "./options.js";
 import { FeedGenerator } from "./generator/index.js";
 import { injectLinksToHead } from "./injectHead.js";
-import { logger } from "./utils/index.js";
-
-import type { PluginFunction, PluginObject } from "@vuepress/core";
-import type { FeedOptions } from "./typings/index.js";
+import { checkOutput, ensureHostName, getFeedOptions } from "./options.js";
+import { type FeedOptions } from "./typings/index.js";
+import { FEED_GENERATOR, logger } from "./utils/index.js";
 
 export const feedPlugin =
   (options: FeedOptions, legacy = true): PluginFunction =>
@@ -14,10 +15,12 @@ export const feedPlugin =
     // TODO: Remove this in v2 stable
     if (legacy)
       convertOptions(options as FeedOptions & Record<string, unknown>);
+    checkVersion(app, FEED_GENERATOR, "2.0.0-beta.61");
+
     if (app.env.isDebug) logger.info("Options:", options);
 
     const plugin: PluginObject = {
-      name: "vuepress-plugin-feed2",
+      name: FEED_GENERATOR,
     };
 
     if (!ensureHostName(options)) {
@@ -39,8 +42,7 @@ export const feedPlugin =
 
       onPrepared: (app): void => injectLinksToHead(app, feedOptions),
 
-      onGenerated: async (app): Promise<void> => {
-        await new FeedGenerator(app, feedOptions).generateFeed();
-      },
+      onGenerated: (app): Promise<void> =>
+        new FeedGenerator(app, feedOptions).generateFeed(),
     };
   };

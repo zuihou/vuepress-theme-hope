@@ -1,8 +1,9 @@
-import type { LocaleConfig, Page } from "@vuepress/core";
-import type {
-  SearchProCustomFieldFormatter,
-  SearchProHotKeyOptions,
-  SearchProLocaleData,
+import { type LocaleConfig, type Page } from "@vuepress/core";
+
+import {
+  type SearchProCustomFieldFormatter,
+  type SearchProHotKeyOptions,
+  type SearchProLocaleData,
 } from "../shared/index.js";
 
 export interface SearchProCustomFieldOptions {
@@ -42,13 +43,30 @@ export interface SearchProOptions {
   indexContent?: boolean;
 
   /**
-   * Max stored history item count
+   * Max stored query history count
    *
-   * 存储历史项目的最大数量
+   * @description You can set it to `0` to disable it
+   *
+   * 存储查询历史的最大数量
+   *
+   * @description 可以将其设置为 `0` 来禁用
    *
    * @default 5
    */
-  historyCount?: number;
+  queryHistoryCount?: number;
+
+  /**
+   * Max stored matched result history count
+   *
+   * @description You can set it to `0` to disable it
+   *
+   * 存储结果历史的最大数量
+   *
+   * @description 可以将其设置为 `0` 来禁用
+   *
+   * @default 5
+   */
+  resultHistoryCount?: number;
 
   /**
    * Delay to start searching after input
@@ -76,6 +94,15 @@ export interface SearchProOptions {
    * @default [{key: "k", ctrl: true}]
    */
   hotKeys?: SearchProHotKeyOptions[];
+
+  /**
+   * Output worker filename
+   *
+   * Worker 输出文件名
+   *
+   * @default "search-pro.worker.js"
+   */
+  worker?: string;
 
   /**
    * Whether enable hmr

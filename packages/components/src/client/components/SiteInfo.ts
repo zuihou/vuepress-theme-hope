@@ -1,19 +1,24 @@
 import { withBase } from "@vuepress/client";
-import { isLinkHttp } from "@vuepress/shared";
-import { computed, defineComponent, h, resolveComponent } from "vue";
+import {
+  type VNode,
+  computed,
+  defineComponent,
+  h,
+  resolveComponent,
+} from "vue";
 import {
   BitbucketIcon,
   GitHubIcon,
+  GitLabIcon,
   GiteeIcon,
-  GitlabIcon,
   SourceIcon,
   resolveRepoType,
   useLocaleConfig,
 } from "vuepress-shared/client";
 
-import type { VNode } from "vue";
-import type { SiteInfoLocaleConfig } from "../../shared/index.js";
+import { type SiteInfoLocaleConfig } from "../../shared/index.js";
 
+import "balloon-css/balloon.css";
 import "../styles/site-info.scss";
 
 declare const SITE_INFO_LOCALES: SiteInfoLocaleConfig;
@@ -25,7 +30,7 @@ export default defineComponent({
     BitbucketIcon,
     GiteeIcon,
     GitHubIcon,
-    GitlabIcon,
+    GitLabIcon,
     SourceIcon,
   },
 
@@ -93,26 +98,26 @@ export default defineComponent({
 
   setup(props) {
     const locale = useLocaleConfig(SITE_INFO_LOCALES);
-    const background = computed(() =>
-      isLinkHttp(props.preview) ? props.preview : withBase(props.preview)
-    );
     const repoType = computed(() =>
       props.repo ? resolveRepoType(props.repo) : null
     );
 
     return (): VNode =>
       h(
-        "a",
+        "div",
         {
           class: "site-info",
-          href: props.url,
-          target: "_blank",
+          onClick: () => {
+            window.open(props.url, "_blank");
+          },
         },
         [
           h("div", {
             class: "site-info-preview",
             style: {
-              background: `url(${background.value}) center/cover no-repeat`,
+              background: `url(${withBase(
+                props.preview
+              )}) center/cover no-repeat`,
             },
           }),
           h("div", { class: "site-info-detail" }, [
@@ -121,6 +126,7 @@ export default defineComponent({
                   class: "site-info-logo",
                   src: props.logo,
                   loading: "lazy",
+                  "no-view": "",
                 })
               : null,
             h("div", { class: "site-info-name" }, props.name),

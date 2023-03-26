@@ -2,16 +2,6 @@
   --notice-width: 250px;
 }
 
-@keyframes notice-fade-in {
-  from {
-    opacity: 0.2;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
 .notice-fade-enter-active,
 .notice-fade-leave-active {
   transition: opacity 0.5s;
@@ -30,8 +20,6 @@
 
   width: 100vw;
   height: 100vh;
-
-  animation: 0.25s notice-fade-in;
 
   backdrop-filter: blur(10px);
 
@@ -54,24 +42,22 @@
   width: var(--notice-width);
   border-radius: 8px;
 
-  background: var(--c-bg, #fff);
+  background: var(--vp-bg);
   box-shadow: 0 2px 6px 0 var(--card-shadow);
 
   @media print {
     display: none;
   }
 
-  #{hope-config.$rtl-selector} & {
+  #{hope-config.$rtl-selector} &:not(.fullscreen) {
     right: unset;
     left: 20px;
   }
 
   &.fullscreen {
-    position: fixed;
     top: 50vh;
     right: 50vw;
     left: unset;
-
     transform: translate(50%, -50%);
   }
 }
@@ -82,7 +68,7 @@
   margin: 0;
   padding: 8px 12px;
 
-  background: var(--c-brand, #3eaf7c);
+  background: var(--vp-tc);
   color: var(--white);
 
   font-weight: 500;
@@ -132,21 +118,21 @@
   border: none;
   border-radius: 8px;
 
-  background-color: var(--c-bg-lighter, #eaecef);
-  color: var(--c-text, #2c3e50);
+  background-color: var(--vp-bglt);
+  color: var(--vp-c);
 
   cursor: pointer;
 
   &:hover {
-    background-color: var(--c-bg-light, #f3f4f5);
+    background-color: var(--vp-bgl);
   }
 
   &.primary {
-    background-color: var(--c-brand, #3eaf7c);
+    background-color: var(--vp-tc);
     color: var(--white);
 
     &:hover {
-      background-color: var(--c-brand-light, #4abf8a);
+      background-color: var(--vp-tcl);
     }
   }
 }

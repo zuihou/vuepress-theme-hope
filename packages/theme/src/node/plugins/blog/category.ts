@@ -1,16 +1,18 @@
-import { defaultPageSorter } from "./utils.js";
-import { ArticleInfoType } from "../../../shared/index.js";
+import { type GitData } from "@vuepress/plugin-git";
+import { isArray } from "@vuepress/shared";
+import { type BlogCategoryOptions } from "vuepress-plugin-blog2";
 
-import type { BlogCategoryOptions } from "vuepress-plugin-blog2";
-import type { GitData } from "@vuepress/plugin-git";
-import type {
-  ArticleInfo,
-  BlogPluginOptions,
-  ThemeData,
-  ThemeNormalPageFrontmatter,
+import { defaultPageSorter } from "./utils.js";
+import {
+  type ArticleInfo,
+  ArticleInfoType,
+  type BlogPluginOptions,
+  type ThemeData,
+  type ThemeNormalPageFrontmatter,
 } from "../../../shared/index.js";
 
-export const getCategoryCategory = (
+/** @private */
+export const getBlogCategoryCategory = (
   options: BlogPluginOptions,
   themeData: ThemeData
 ): BlogCategoryOptions<
@@ -26,25 +28,32 @@ export const getCategoryCategory = (
     >
   >{
     key: "category",
-    getter: ({ routeMeta }) => routeMeta[ArticleInfoType.category] || [],
+    getter: ({ routeMeta }) => {
+      const category = routeMeta[ArticleInfoType.category];
+
+      return isArray(category) ? category : category ? [category] : [];
+    },
     sorter: defaultPageSorter,
     path: options.category,
     layout: "BlogCategory",
     frontmatter: (localePath) => ({
       title: themeData.locales[localePath].blogLocales.category,
+      index: false,
       feed: false,
       sitemap: false,
     }),
     itemPath: options.categoryItem,
     itemFrontmatter: (name, localePath) => ({
       title: `${name} ${themeData.locales[localePath].blogLocales.category}`,
+      index: false,
       feed: false,
       sitemap: false,
     }),
     itemLayout: "BlogCategory",
   };
 
-export const getTagCategory = (
+/** @private */
+export const getBlogTagCategory = (
   options: BlogPluginOptions,
   themeData: ThemeData
 ): BlogCategoryOptions<
@@ -60,12 +69,17 @@ export const getTagCategory = (
     >
   >{
     key: "tag",
-    getter: ({ routeMeta }) => routeMeta[ArticleInfoType.tag] || [],
+    getter: ({ routeMeta }) => {
+      const tag = routeMeta[ArticleInfoType.tag];
+
+      return isArray(tag) ? tag : tag ? [tag] : [];
+    },
     sorter: defaultPageSorter,
     path: options.tag,
     layout: "BlogCategory",
     frontmatter: (localePath) => ({
       title: themeData.locales[localePath].blogLocales.tag,
+      index: false,
       feed: false,
       sitemap: false,
     }),
@@ -73,6 +87,7 @@ export const getTagCategory = (
     itemLayout: "BlogCategory",
     itemFrontmatter: (name, localePath) => ({
       title: `${name} ${themeData.locales[localePath].blogLocales.tag}`,
+      index: false,
       feed: false,
       sitemap: false,
     }),

@@ -1,4 +1,4 @@
-import type { BackToTopLocaleConfig } from "../../shared/index.js";
+import { type BackToTopLocaleConfig } from "../../shared/index.js";
 
 export const backToTopLocales: BackToTopLocaleConfig = {
   "/en/": {
@@ -67,5 +67,16 @@ export const backToTopLocales: BackToTopLocaleConfig = {
 
   "/fi/": {
     backToTop: "Takaisin ylös",
+  },
+  "/hu/": {
+    backToTop: "Vissza a tetejére",
+  },
+
+  "/id/": {
+    backToTop: "Kembali ke atas",
+  },
+
+  "/nl/": {
+    backToTop: "Ga terug naar boven",
   },
 };

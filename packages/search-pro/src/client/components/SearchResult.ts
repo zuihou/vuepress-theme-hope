@@ -1,19 +1,19 @@
-import { useRouteLocale } from "@vuepress/client";
+import { usePageData, useRouteLocale } from "@vuepress/client";
 import { isPlainObject, isString } from "@vuepress/shared";
 import { useEventListener } from "@vueuse/core";
-import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock";
 import {
+  type VNode,
   computed,
   defineComponent,
   h,
-  onBeforeUnmount,
-  onMounted,
   ref,
   toRef,
+  watch,
 } from "vue";
-import { RouterLink, useRoute, useRouter } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import { useLocaleConfig } from "vuepress-shared/client";
 
+import { SearchLoading } from "./SearchLoading.js";
 import {
   CloseIcon,
   HeadingIcon,
@@ -21,14 +21,16 @@ import {
   HistoryIcon,
   TitleIcon,
 } from "./icons.js";
-import { useSearchHistory, useSearchResults } from "../composables/index.js";
+import {
+  useSearchQueryHistory,
+  useSearchResultHistory,
+  useWorkerSearch,
+} from "../composables/index.js";
 import {
   searchProClientCustomFiledConfig,
   searchProLocales,
 } from "../define.js";
-
-import type { VNode } from "vue";
-import type { MatchedItem, Word } from "../utils/index.js";
+import { type MatchedItem, type Word } from "../utils/index.js";
 
 import "../styles/search-result.scss";
 
@@ -47,43 +49,41 @@ export default defineComponent({
     },
   },
 
-  emits: {
-    close: () => true,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    updateQuery: (_query: string) => true,
-  },
+  emits: ["close", "updateQuery"],
 
   setup(props, { emit }) {
+    const page = usePageData();
     const router = useRouter();
-    const route = useRoute();
     const routeLocale = useRouteLocale();
     const locale = useLocaleConfig(searchProLocales);
-    const { history, addHistory, removeHistory } = useSearchHistory();
+    const { addQueryHistory } = useSearchQueryHistory();
+    const { enabled, resultHistory, addResultHistory, removeResultHistory } =
+      useSearchResultHistory();
 
     const query = toRef(props, "query");
-    const searchResults = useSearchResults(query);
+    const { results, searching } = useWorkerSearch(query);
 
     const activatedResultIndex = ref(0);
     const activatedResultContentIndex = ref(0);
-    const searchResult = ref<HTMLElement>();
 
-    const hasResults = computed(() => searchResults.value.length > 0);
+    const hasHistory = computed(() => resultHistory.value.length > 0);
+    const hasResults = computed(() => results.value.length > 0);
     const activatedResult = computed(
-      () => searchResults.value[activatedResultIndex.value] || null
+      () => results.value[activatedResultIndex.value] || null
     );
 
     const activePreviousResult = (): void => {
       activatedResultIndex.value =
         activatedResultIndex.value > 0
           ? activatedResultIndex.value - 1
-          : searchResults.value.length - 1;
+          : results.value.length - 1;
       activatedResultContentIndex.value =
         activatedResult.value.contents.length - 1;
     };
 
     const activeNextResult = (): void => {
       activatedResultIndex.value =
-        activatedResultIndex.value < searchResults.value.length - 1
+        activatedResultIndex.value < results.value.length - 1
           ? activatedResultIndex.value + 1
           : 0;
       activatedResultContentIndex.value = 0;
@@ -131,30 +131,37 @@ export default defineComponent({
       emit("close");
     };
 
-    onMounted(() => {
-      useEventListener("keydown", (event: KeyboardEvent) => {
-        if (!hasResults.value) return;
+    useEventListener("keydown", (event: KeyboardEvent) => {
+      if (!hasResults.value) return;
 
-        if (event.key === "ArrowUp") activePreviousResultContent();
-        else if (event.key === "ArrowDown") activeNextResultContent();
-        else if (event.key === "Enter") {
-          const item =
-            activatedResult.value.contents[activatedResultContentIndex.value];
+      if (event.key === "ArrowUp") {
+        activePreviousResultContent();
+      } else if (event.key === "ArrowDown") {
+        activeNextResultContent();
+      } else if (event.key === "Enter") {
+        const item =
+          activatedResult.value.contents[activatedResultContentIndex.value];
 
-          if (route.path !== item.path) {
-            addHistory(item);
-            void router.push(item.path);
-            resetSearchResult();
-          }
+        if (page.value.path !== item.path) {
+          addQueryHistory(props.query);
+          addResultHistory(item);
+          void router.push(item.path);
+          resetSearchResult();
         }
-      });
-
-      disableBodyScroll(searchResult.value!, { reserveScrollBarGap: true });
+      }
     });
 
-    onBeforeUnmount(() => {
-      clearAllBodyScrollLocks();
-    });
+    watch(
+      [activatedResultIndex, activatedResultContentIndex],
+      () => {
+        document
+          .querySelector(
+            ".search-pro-result-list-item.active .search-pro-result-item.active"
+          )
+          ?.scrollIntoView(false);
+      },
+      { flush: "post" }
+    );
 
     return (): VNode =>
       h(
@@ -163,16 +170,13 @@ export default defineComponent({
           class: [
             "search-pro-result",
             {
-              empty:
-                query.value === ""
-                  ? history.value.length === 0
-                  : !hasResults.value,
+              empty: query.value ? !hasResults.value : !hasHistory.value,
             },
           ],
-          ref: searchResult,
+          id: "search-pro-results",
         },
         query.value === ""
-          ? history.value.length
+          ? hasHistory.value
             ? h(
                 "ul",
                 { class: "search-pro-result-list" },
@@ -182,7 +186,7 @@ export default defineComponent({
                     { class: "search-pro-result-title" },
                     locale.value.history
                   ),
-                  history.value.map((item, historyIndex) =>
+                  resultHistory.value.map((item, historyIndex) =>
                     h(
                       RouterLink,
                       {
@@ -196,7 +200,6 @@ export default defineComponent({
                           },
                         ],
                         onClick: () => {
-                          console.log("click");
                           resetSearchResult();
                         },
                       },
@@ -215,7 +218,7 @@ export default defineComponent({
                             onClick: (event: Event) => {
                               event.preventDefault();
                               event.stopPropagation();
-                              removeHistory(historyIndex);
+                              removeResultHistory(historyIndex);
                             },
                           },
                           h(CloseIcon)
@@ -225,12 +228,16 @@ export default defineComponent({
                   ),
                 ])
               )
-            : locale.value.emptyHistory
+            : enabled
+            ? locale.value.emptyHistory
+            : locale.value.emptyResult
+          : searching.value
+          ? h(SearchLoading, { hint: locale.value.searching })
           : hasResults.value
           ? h(
               "ul",
               { class: "search-pro-result-list" },
-              searchResults.value.map(({ title, contents }, index) => {
+              results.value.map(({ title, contents }, index) => {
                 const isCurrentResultActive =
                   activatedResultIndex.value === index;
 
@@ -265,7 +272,8 @@ export default defineComponent({
                             },
                           ],
                           onClick: () => {
-                            addHistory(item);
+                            addQueryHistory(props.query);
+                            addResultHistory(item);
                             resetSearchResult();
                           },
                         },

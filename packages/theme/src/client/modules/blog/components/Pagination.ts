@@ -1,10 +1,9 @@
-import { computed, defineComponent, h, onMounted, ref } from "vue";
+import { type VNode, computed, defineComponent, h, onMounted, ref } from "vue";
 import { Message } from "vuepress-shared/client";
 
 import { useThemeLocaleData } from "@theme-hope/composables/index";
 
-import type { VNode } from "vue";
-
+import "vuepress-shared/client/styles/message.scss";
 import "../styles/pagination.scss";
 
 export default defineComponent({
@@ -33,10 +32,7 @@ export default defineComponent({
     current: { type: Number, default: 1 },
   },
 
-  emits: {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    updateCurrentPage: (_page: number) => true,
-  },
+  emits: ["updateCurrentPage"],
 
   setup(props, { emit }) {
     let message: Message;

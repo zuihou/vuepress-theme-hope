@@ -3,14 +3,9 @@ title: 选项
 icon: gears
 ---
 
-## component
+## 插件选项
 
-- 类型: `string`
-- 默认值: `"AutoCatalog"`
-
-目录组件名称。
-
-## level
+### level
 
 - 类型: `1 | 2 | 3`
 - 默认值: `3`
@@ -23,34 +18,83 @@ icon: gears
 
 :::
 
-## exclude
+### index
+
+- 类型: `boolean`
+- 默认值: `false`
+
+目录是否显示索引
+
+### exclude
 
 - 类型: `(RegExp | string)[]`
 - 默认值: `[]`
 
 不会自动生成的页面路径。
 
-## frontmatter
+### frontmatter
 
 - 类型: `(path: string) => Record<string, any>`
 - 必填: 否
 
 控制页面 Frontmatter。
 
+### titleGetter
+
+- 类型: `(page: Page) => string`
+- 默认值: `(page: Page) => page.title`
+
+页面标题获取器
+
+### iconGetter
+
+- 类型: `(page: Page) => string`
+- 必填: 否
+
+页面图标获取器
+
+### orderGetter
+
+- 类型: `(page: Page) => string`
+- 必填: 否
+
+页面顺序获取器
+
+### shouldIndex
+
+- 类型: `(page: Page) => boolean`
+- 默认值: `() => true`
+
+页面是否应该被索引
+
+### component
+
+- 类型: `string`
+- 必填: 否
+
+使用的目录组件名称。
+
+### iconComponent
+
+- 类型: `string`
+- 必填: 否
+
+使用的图标组件名称，图标信息会作为 `icon` 属性传入相关组件进行渲染。
+
 ### locales
 
-- 类型: `CatalogLocaleConfig`
+- 类型: `AutoCatalogLocaleConfig`
 
   ```ts
-  interface CatalogLocaleData {
+  interface AutoCatalogLocaleData {
     /**
      * 目录标题
      */
     title: string;
   }
 
-  interface CatalogLocaleConfig {
-    [localePath: string]: CatalogLocaleData;
+  interface AutoCatalogLocaleConfig {
+    [localePath: string]: AutoCatalogLocaleData;
   }
   ```
 
@@ -77,5 +121,42 @@ icon: gears
 - **土耳其语** (tr-TR)
 - **韩语** (ko-KR)
 - **芬兰语** (fi-FI)
+- **印尼语** (id-ID)
+- **荷兰语** (nl-NL)
+- **印尼语** (id-ID)
+- **荷兰语** (nl-NL)
 
 :::
+
+## AutoCatalog 组件
+
+### 组件属性
+
+#### base
+
+- 类型: `string`
+- 必填: `当前路由的基础路径`
+
+目录基础路径
+
+#### level
+
+- 类型: `1 | 2 | 3`
+- 默认值: `3`
+
+Catalog 的最大层级
+
+#### index
+
+- 类型: `boolean`
+- 默认值: `false`
+
+是否在目录列表中显示索引
+
+### 组件插槽
+
+#### icon
+
+- 类型: `({ icon }: { icon: string }) => VNode`
+
+图标插槽，用于为目录渲染图标。

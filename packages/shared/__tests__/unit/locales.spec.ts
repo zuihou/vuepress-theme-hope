@@ -2,8 +2,9 @@
 import { createBaseApp } from "@vuepress/core";
 import { path } from "@vuepress/utils";
 import { describe, expect, it } from "vitest";
-import { getLocales } from "../../src/node/locales/index.js";
+
 import { emptyTheme } from "./__fixtures__/theme/empty.js";
+import { getLocales } from "../../src/node/locales/helpers.js";
 
 const defaultLocaleConfig = {
   "/en/": {
@@ -22,6 +23,14 @@ const defaultLocaleConfig = {
     text: "Test",
     fallback: "Test",
   },
+  "/id/": {
+    text: "Indonesia",
+    fallback: "Indonesia",
+  },
+  "/nl/": {
+    text: "Dutch",
+    fallback: "Dutch",
+  },
 };
 
 describe("generate locale", () => {
@@ -30,7 +39,9 @@ describe("generate locale", () => {
       locales: {
         "/": { lang: "zh-CN" },
         "/en/": { lang: "en-US" },
+        "/nl/": { lang: "nl-NL" },
         "/ja/": { lang: "ja-JP" },
+        "/id/": { lang: "id-ID" },
       },
       source: path.resolve(__dirname, "./__fixtures__/src"),
       bundler: {} as any,
@@ -50,6 +61,14 @@ describe("generate locale", () => {
         text: "日本",
         fallback: "日本",
       },
+      "/id/": {
+        text: "Indonesia",
+        fallback: "Indonesia",
+      },
+      "/nl/": {
+        text: "Dutch",
+        fallback: "Dutch",
+      },
     });
   });
 
@@ -59,6 +78,8 @@ describe("generate locale", () => {
         "/": { lang: "zh-CN" },
         "/en-us/": { lang: "en-US" },
         "/ja-jp/": { lang: "ja-JP" },
+        "/id-id/": { lang: "id-ID" },
+        "/nl/": { lang: "nl-NL" },
       },
       source: path.resolve(__dirname, "./__fixtures__/src"),
       bundler: {} as any,
@@ -78,6 +99,14 @@ describe("generate locale", () => {
         text: "日本",
         fallback: "日本",
       },
+      "/id-id/": {
+        text: "Indonesia",
+        fallback: "Indonesia",
+      },
+      "/nl/": {
+        text: "Dutch",
+        fallback: "Dutch",
+      },
     });
   });
 
@@ -87,6 +116,8 @@ describe("generate locale", () => {
         "/": { lang: "zh-CN" },
         "/en/": { lang: "en-US" },
         "/ja/": { lang: "ja-JP" },
+        "/id/": { lang: "id-ID" },
+        "/nl/": { lang: "nl-NL" },
       },
       source: path.resolve(__dirname, "./__fixtures__/src"),
       bundler: {} as any,
@@ -96,6 +127,8 @@ describe("generate locale", () => {
     const config = {
       "/": { text: "简体中文" },
       "/en/": { text: "English (US)" },
+      "/id/": { text: "Indonesia" },
+      "/nl/": { text: "Dutch" },
     };
 
     const locales = getLocales({ app, default: defaultLocaleConfig, config });
@@ -113,6 +146,14 @@ describe("generate locale", () => {
         text: "日本",
         fallback: "日本",
       },
+      "/id/": {
+        text: "Indonesia",
+        fallback: "Indonesia",
+      },
+      "/nl/": {
+        text: "Dutch",
+        fallback: "Dutch",
+      },
     });
   });
 
@@ -123,6 +164,8 @@ describe("generate locale", () => {
           "/": { lang: "zh-CN" },
           "/en/": { lang: "en-US" },
           "/ja/": { lang: "ja-JP" },
+          "/id/": { lang: "id-ID" },
+          "/nl/": { lang: "nl-NL" },
           "/unknown/": { lang: "unknown-Language" },
         },
         source: path.resolve(__dirname, "./__fixtures__/src"),
@@ -145,6 +188,14 @@ describe("generate locale", () => {
           text: "日本",
           fallback: "日本",
         },
+        "/id/": {
+          text: "Indonesia",
+          fallback: "Indonesia",
+        },
+        "/nl/": {
+          text: "Dutch",
+          fallback: "Dutch",
+        },
         "/unknown/": {
           text: "中文",
           fallback: "中文",
@@ -158,6 +209,8 @@ describe("generate locale", () => {
           "/en/": { lang: "en-US" },
           "/zh/": { lang: "zh-CN" },
           "/ja/": { lang: "ja-JP" },
+          "/id/": { lang: "id-ID" },
+          "/nl/": { lang: "nl-NL" },
           "/unknown/": { lang: "unknown-Language" },
         },
         source: path.resolve(__dirname, "./__fixtures__/src"),
@@ -184,6 +237,14 @@ describe("generate locale", () => {
           text: "日本",
           fallback: "日本",
         },
+        "/id/": {
+          text: "Indonesia",
+          fallback: "Indonesia",
+        },
+        "/nl/": {
+          text: "Dutch",
+          fallback: "Dutch",
+        },
         "/unknown/": {
           text: "English",
           fallback: "English",
@@ -199,6 +260,8 @@ describe("generate locale", () => {
           "/": { lang: "zh-CN" },
           "/en/": { lang: "en-US" },
           "/ja/": { lang: "ja-JP" },
+          "/id/": { lang: "id-ID" },
+          "/nl/": { lang: "nl-NL" },
           "/test/": { lang: "test-Language" },
         },
         source: path.resolve(__dirname, "./__fixtures__/src"),
@@ -221,6 +284,14 @@ describe("generate locale", () => {
           text: "日本",
           fallback: "日本",
         },
+        "/id/": {
+          text: "Indonesia",
+          fallback: "Indonesia",
+        },
+        "/nl/": {
+          text: "Dutch",
+          fallback: "Dutch",
+        },
         "/test/": {
           text: "Test",
           fallback: "Test",
@@ -234,6 +305,8 @@ describe("generate locale", () => {
           "/": { lang: "zh-CN" },
           "/en/": { lang: "en-US" },
           "/ja/": { lang: "ja-JP" },
+          "/id/": { lang: "id-ID" },
+          "/nl/": { lang: "nl-NL" },
           "/unknown/": { lang: "unknown-Language" },
         },
         source: path.resolve(__dirname, "./__fixtures__/src"),
@@ -259,6 +332,14 @@ describe("generate locale", () => {
         "/ja/": {
           text: "日本",
           fallback: "日本",
+        },
+        "/id/": {
+          text: "Indonesia",
+          fallback: "Indonesia",
+        },
+        "/nl/": {
+          text: "Dutch",
+          fallback: "Dutch",
         },
         "/unknown/": {
           text: "Unknown",

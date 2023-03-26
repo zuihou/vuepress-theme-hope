@@ -1,18 +1,20 @@
 import { isArray, isString } from "@vuepress/shared";
 import { hashSync } from "bcrypt-ts/node";
+import { entries, fromEntries } from "vuepress-shared/node";
+
+import { type EncryptConfig, type EncryptOptions } from "../../shared/index.js";
 import { logger } from "../utils.js";
 
-import type { EncryptConfig, EncryptOptions } from "../../shared/index.js";
-
+/** @private */
 export const getEncryptConfig = (
   encrypt: EncryptOptions = {}
 ): EncryptConfig => {
   const result: EncryptConfig = {};
 
-  if (encrypt.global) result.global = true;
-
   // handle global token
-  if (encrypt.admin)
+  if (encrypt.admin) {
+    if (encrypt.global) result.global = true;
+
     if (isString(encrypt.admin)) result.admin = [hashSync(encrypt.admin)];
     else if (isArray(encrypt.admin))
       result.admin = encrypt.admin
@@ -32,10 +34,11 @@ export const getEncryptConfig = (
         
         Please check "admin" in your "themeConfig.encrypt" config. It can be string or string[], but you are providing ${typeof encrypt.admin}. Please fix it!`
       );
+  }
 
   if (encrypt.config)
-    result.config = Object.fromEntries(
-      Object.entries(encrypt.config)
+    result.config = fromEntries(
+      entries(encrypt.config)
         .map<[string, string[]] | null>(([key, tokens]) => {
           if (isString(tokens)) return [key, [hashSync(tokens)]];
 

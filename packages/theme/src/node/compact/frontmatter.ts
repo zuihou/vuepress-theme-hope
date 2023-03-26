@@ -1,13 +1,13 @@
-import { deprecatedLogger, droppedLogger } from "./utils.js";
-import { logger } from "../utils.js";
-
-import type { ThemePageFrontmatter } from "../../shared/index.js";
 import { colors } from "@vuepress/utils";
+
+import { deprecatedLogger, droppedLogger } from "./utils.js";
+import { type ThemePageFrontmatter } from "../../shared/index.js";
+import { logger } from "../utils.js";
 
 const DEPRECATED_FRONTMATTER_OPTIONS: [string, string][] = [
   ["authors", "author"],
   ["categories", "category"],
-  ["tags", "tags"],
+  ["tags", "tag"],
   ["time", "date"],
   ["visitor", "pageview"],
   ["sidebarDepth", "headerDepth"],
@@ -35,7 +35,7 @@ const DROPPED_FRONTMATTER_OPTIONS: [string, string][] = [
  */
 export const convertFrontmatter = (
   frontmatter: Record<string, unknown>,
-  filePathRelative = ""
+  filePathRelative: string | null = null
 ): ThemePageFrontmatter & Record<string, unknown> => {
   DEPRECATED_FRONTMATTER_OPTIONS.forEach(([deprecatedOption, newOption]) =>
     deprecatedLogger({
@@ -102,7 +102,7 @@ export const convertFrontmatter = (
     }
 
     // check project homepage
-    if (!("layout" in frontmatter)) {
+    if (!("layout" in frontmatter))
       DEPRECATED_HOME_FRONTMATTER_OPTIONS.forEach(
         ([deprecatedOption, newOption]) =>
           deprecatedLogger({
@@ -112,19 +112,6 @@ export const convertFrontmatter = (
             scope: `${filePathRelative || ""} frontmatter`,
           })
       );
-
-      if ("title" in frontmatter && !("heroText" in frontmatter)) {
-        logger.warn(
-          `${colors.magenta(
-            "title"
-          )} in frontmatter is deprecated, please use ${colors.magenta(
-            "heroText"
-          )} instead.${filePathRelative ? `Found in ${filePathRelative}` : ""}`
-        );
-
-        frontmatter["heroText"] = frontmatter["title"];
-      }
-    }
   }
 
   return frontmatter;

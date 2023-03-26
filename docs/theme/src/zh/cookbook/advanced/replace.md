@@ -86,7 +86,7 @@ export default {
 - `@theme-hope/components/FeaturePanel` 主页特性
 - `@theme-hope/components/HeroInfo` 主页 Logo 及介绍
 - `@theme-hope/components/HomePage` 主页
-- `@theme-hope/components/Icon` 图标
+- `@theme-hope/components/HopeIcon` 图标
 - `@theme-hope/components/MarkdownContent` Markdown 内容
 - `@theme-hope/components/NormalPage` 常规页面
 - `@theme-hope/components/PageFooter` 页脚
@@ -146,7 +146,7 @@ export default {
 
 ::: details 信息组件别名
 
-Components:
+组件:
 
 - `@theme-hope/modules/info/components/AuthorInfo` 作者信息
 - `@theme-hope/modules/info/components/CategoryInfo` 分类信息
@@ -212,6 +212,8 @@ Components:
 :::
 
 ::: details 外观模块组件别名
+
+组件:
 
 - `@theme-hope/modules/outlook/components/AppearanceMode` 主题外观模式
 - `@theme-hope/modules/outlook/components/AppearanceSwitch` 主题外观开关
@@ -286,16 +288,16 @@ import HopeHomePage from "vuepress-theme-hope/components/HomePage.js";
 **主题**:
 
 - `AutoLink`: `default`, `before`, `after`
-- `CommonWrapper`: `default`, `navbarStartBefore`, `navbarStartAfter`, `navbarCenterBefore`, `navbarCenterAfter`, `navbarEndBegin`, `navbarEndAfter`, `navScreenTop`, `navScreenBottom`, `sidebar`, `sidebarTop`, `sidebarBottom`
+- `CommonWrapper`: `default`, `navbarStartBefore`, `navbarStartAfter`, `navbarCenterBefore`, `navbarCenterAfter`, `navbarEndBefore`, `navbarEndAfter`, `navScreenTop`, `navScreenBottom`, `sidebar`, `sidebarTop`, `sidebarBottom`
 - `HeroInfo`: `heroImage`, `heroInfo`
 - `HomePage`: `top`, `center`, `bottom`
-- `NormalPage`: `top`, `contentBefore`, `contentAfter`, `bottom`
+- `NormalPage`: `top`, `contentBefore`, `contentAfter`, `bottom`, `tocBefore`, `tocAfter`
 
 **导航栏**:
 
 - `DropdownLink`: `title`
 - `NavActions`: `before`, `after`
-- `Navbar`: `startBefore`, `startAfter`, `centerBefore`, `centerAfter`, `endBegin`, `endAfter`
+- `Navbar`: `startBefore`, `startAfter`, `centerBefore`, `centerAfter`, `endBefore`, `endAfter`
 - `NavbarBrand`: `default`
 - `NavScreen`: `before`, `after`
 - `NavScreenDropdown`: `before`, `after`
@@ -303,6 +305,10 @@ import HopeHomePage from "vuepress-theme-hope/components/HomePage.js";
 **侧边栏**:
 
 - `Sidebar`: `top`, `default`, `bottom`
+
+**TOC**:
+
+- `TOC`: `before`, `after`
 
 ::: tip
 

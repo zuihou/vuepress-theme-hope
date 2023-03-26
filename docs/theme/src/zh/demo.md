@@ -25,6 +25,13 @@ docs:
     repo: https://github.com/Mereithhh/vanblog/tree/master/docs
     preview: /assets/image/vanblog.jpg
 
+  - name: Crawlab
+    desc: 网络爬虫管理平台（WCMP）
+    logo: https://docs.crawlab.cn/logo.svg
+    url: https://docs.crawlab.cn/zh/guide/
+    repo: https://github.com/crawlab-team/crawlab-docs
+    preview: /assets/image/crawlab-zh.jpg
+
   - name: DynamicTp
     desc: 基于配置中心的轻量级动态可监控线程池
     logo: https://dynamictp.cn/logo.png
@@ -67,6 +74,13 @@ docs:
     repo: https://github.com/dotnetcore/FreeSql/tree/master/docs
     preview: /assets/image/free-sql.jpg
 
+  - name: JT-framework
+    desc: 基于 spring-boot-2.x 的 JT/T-808 服务端
+    logo: https://hylexus.github.io/jt-framework/logo-dark.png
+    url: https://hylexus.github.io/jt-framework/
+    repo: https://github.com/hylexus/jt-framework
+    preview: /assets/image/jt-framework.jpg
+
   - name: 胡桃工具箱
     desc: 一个实用的多功能原神工具箱
     url: https://hut.ao/
@@ -83,10 +97,52 @@ docs:
 
   - name: JavaPark
     desc: 「Java 自学指南」Java 学习保姆级教程、面试总结、计算机基础、数据库、实战实践、效率工具、资源分享、程序人生。
-    logo: https://cunyu1943.site/JavaPark/logo.png
-    url: https://cunyu1943.site/JavaPark/
+    logo: https://cunyu1943.github.io/JavaPark/JavaPark.svg
+    url: https://cunyu1943.github.io/JavaPark/
     repo: https://github.com/cunyu1943/JavaPark
     preview: /assets/image/java-park.jpg
+
+  - name: 计算机应试全家桶
+    desc: 磨刀不误砍柴工、读完硕士再打工...
+    logo: https://408.142vip.cn/assets/408_logo.png
+    url: https://408.142vip.cn/
+    repo: https://github.com/142vip/408CSFamily
+    preview: /assets/image/cs.jpg
+
+  - name: CSView
+    desc: 一个互联网面试内容汇总和八股文学习的网站，让互联网面试不再成为困难~
+    logo: https://www.csview.cn/logo.png
+    url: https://www.csview.cn/
+    repo: https://github.com/zijing2333/CSView
+    preview: /assets/image/csview.jpg
+
+  - name: LuckyTool
+    desc: 对 ColorOS 系统进行的扩展优化的 Xposed 模块
+    logo: https://luckyzyx.github.io/LuckyTool/logo.png
+    url: https://luckyzyx.github.io/LuckyTool/
+    repo: https://github.com/luckyzyx/LuckyTool
+    preview: /assets/image/lucky-tool.jpg
+
+  - name: 数据和计算科学知识库
+    desc: 分享机器学习系统、数据管理、数据科学原创内容
+    logo: https://lulaoshi.info/logo.svg
+    url: https://lulaoshi.info/
+    repo: https://github.com/luweizheng/lulaoshi.info
+    preview: /assets/image/lulaoshi.jpg
+
+  - name: MapstructPlus
+    desc: 可能是最简单最强大的 Java Bean 转换工具
+    logo: https://mapstruct.plus/logo.svg
+    url: https://mapstruct.plus/
+    repo: https://github.com/linpeilie/mapstruct-plus
+    preview: /assets/image/mapstruct-plus.jpg
+
+  - name: 云崽 Yunzai-Bot
+    desc: 基于 nodejs 的原神 QQ 群机器人
+    logo: https://docs.yunzai.org/logo.png
+    url: https://docs.yunzai.org/
+    repo: https://github.com/Xm798/Yunzai-Bot-Docs
+    preview: /assets/image/yunzai.jpg
 
   - name: 鲤鱼监控
     desc: 基于茗伊监控的配置文件
@@ -95,19 +151,26 @@ docs:
     repo: https://github.com/dunhuixiao/LiyuTargetMon
     preview: /assets/image/liyu.jpg
 
-  - name: 云崽 Yunzai-Bot
-    desc: 基于 nodejs 的原神 QQ 群机器人
-    logo: https://docs.yunzai.org/logo.webp
-    url: https://docs.yunzai.org/
-    repo: https://github.com/Xm798/Yunzai-Bot-Docs
-    preview: /assets/image/yunzai.jpg
-
   - name: VOJ
     desc: 基于分布式、前后端分离的高性能在线评测系统
     logo: https://docs.voj.mobi/logo.png
     url: https://docs.voj.mobi/
     repo: https://github.com/simplefanC/voj
     preview: /assets/image/voj.jpg
+
+  - name: 小派蒙
+    desc: 基于 NoneBot2 的原神多功能QQ机器人
+    logo: https://s1.ax1x.com/2023/02/05/pS62DJK.png
+    url: https://docs.paimon.cherishmoon.fun/
+    repo: https://github.com/CMHopeSunshine/LittlePaimon-Docs
+    preview: /assets/image/paimon.jpg
+
+  - name: SForum
+    desc: 基于 PHP Swoole 开发的高性能组件化论坛程序
+    logo: https://www.sforum.cn/logo.svg
+    url: https://www.sforum.cn
+    repo: https://github.com/zhuchunshu/sforum-docs
+    preview: /assets/image/sforum.png
 
 blog:
   - name: Mr.Hope’s Blog
@@ -116,6 +179,13 @@ blog:
     url: https://mrhope.site
     repo: https://github.com/Mister-Hope/Mister-Hope.github.io
     preview: /assets/image/mrhope.jpg
+
+  - name: 墨七
+    desc: 简单快乐，理应如此。
+    logo: https://file.mo7.cc/static/lxh_gif/lxh_71.gif
+    url: https://blog.mo7.cc
+    repo: https://github.com/mo7cc/BlogSource.git
+    preview: https://file.mo7.cc/disk/blog_preview.png
 
   - name: Learn Data
     logo: https://newzone.top/logo.svg
@@ -176,8 +246,29 @@ blog:
     desc: Welcome to the pit!
     logo: https://www.hestudio.org/logo.svg
     url: https://www.hestudio.org/
-    repo: https://gitee.com/heStudio/blog-source.git
+    repo: https://gitlab.com/heStudio/blog-source.git
     preview: /assets/image/hestudio.jpg
+
+  - name: 赵斌的小站
+    desc: 赵斌的博客和笔记
+    logo: https://zhaobc.site/logo.svg
+    url: https://zhaobc.site
+    repo: https://github.com/FuckDoctors/notes2
+    preview: /assets/image/zhaobc.jpg
+
+  - name: Bing🐣
+    desc: 记录日常开发问题。
+    logo: https://liubing.me/logo.svg
+    url: https://liubing.me/
+    repo: https://github.com/liub1934/liubing.me
+    preview: /assets/image/bing.jpg
+
+  - name: Oragekk's Blog
+    desc: 到最后，竟庆幸于夕阳仍留在身上？无聊的思考总是能给人启发，多经历，多记录，多理解
+    logo: https://oragekk.me/logo.svg
+    url: https://oragekk.me/
+    repo: https://github.com/OrageKK/oragekk.github.io
+    preview: /assets/image/oragekk.jpg
 ---
 
 ## 在线案例

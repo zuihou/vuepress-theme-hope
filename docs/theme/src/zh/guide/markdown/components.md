@@ -16,10 +16,10 @@ tag:
 - AudioPlayer
 - Badge
 - BiliBili
-- Catalog
 - CodePen
 - FontIcon
 - PDF
+- Replit
 - SiteInfo
 - StackBlitz
 - VideoPlayer
@@ -49,9 +49,9 @@ export default defineUserConfig({
           "AudioPlayer",
           "Badge",
           "BiliBili",
-          "Catalog",
           "CodePen",
           "PDF",
+          "Replit",
           "StackBlitz",
           "VideoPlayer",
           "YouTube",
@@ -77,9 +77,9 @@ export default {
           "AudioPlayer",
           "Badge",
           "BiliBili",
-          "Catalog",
           "CodePen",
           "PDF",
+          "Replit",
           "StackBlitz",
           "VideoPlayer",
           "YouTube",
@@ -232,26 +232,6 @@ export default {
 
 有关可用属性，请参阅 <ProjectLink name="components" path="/zh/guide/bilibili.html">BiliBili</ProjectLink> 页面。
 
-## Catalog
-
-一个展示目录的组件。
-
-主页目录:
-
-<!-- markdownlint-disable MD033 -->
-
-<div class="catalog-display-container">
-  <Catalog base='/zh/' />
-</div>
-
-<!-- markdownlint-enable MD033 -->
-
-```md
-<Catalog base='/zh/' />
-```
-
-有关可用属性，请参阅 <ProjectLink name="components" path="/zh/guide/catalog.html">Catalog</ProjectLink> 页面。
-
 ## CodePen
 
 一个允许你嵌入 CodePen 演示的组件。
@@ -335,6 +315,32 @@ PDF 浏览器组件。
 ```
 
 有关可用属性，请参阅 <ProjectLink name="components" path="/zh/guide/pdf.html">PDF</ProjectLink> 页面。
+
+## Replit
+
+一个嵌入的 repl:
+
+<Replit user="FuckDoctors" repl="Java-Test" />
+
+```md
+<Replit user="FuckDoctors" repl="Java-Test" />
+```
+
+一个嵌入的 repl，并且显示指定的文件:
+
+<Replit user="FuckDoctors" repl="Java-Test" file="Main.java" />
+
+```md
+<Replit user="FuckDoctors" repl="Java-Test" file="Main.java" />
+```
+
+一个 repl 链接:
+
+<Replit user="FuckDoctors" repl="Java-Test" plain />
+
+```md
+<Replit user="FuckDoctors" repl="Java-Test" plain />
+```
 
 ## SiteInfo
 

@@ -1,12 +1,19 @@
-import { useEventListener, useThrottleFn } from "@vueuse/core";
 import { usePageData, usePageFrontmatter } from "@vuepress/client";
 import {
+  useEventListener,
+  useScrollLock,
+  useThrottleFn,
+  useToggle,
+} from "@vueuse/core";
+import {
+  type ComponentOptions,
   Transition,
+  type VNode,
   computed,
   defineComponent,
   h,
-  onBeforeUnmount,
   onMounted,
+  onUnmounted,
   ref,
   resolveComponent,
   watch,
@@ -23,10 +30,9 @@ import Navbar from "@theme-hope/modules/navbar/components/Navbar";
 import Sidebar from "@theme-hope/modules/sidebar/components/Sidebar";
 import { useSidebarItems } from "@theme-hope/modules/sidebar/composables/index";
 
-import type { DefineComponent, VNode } from "vue";
-import type {
-  ThemeNormalPageFrontmatter,
-  ThemeProjectHomePageFrontmatter,
+import {
+  type ThemeNormalPageFrontmatter,
+  type ThemeProjectHomePageFrontmatter,
 } from "../../shared/index.js";
 
 import "../styles/common.scss";
@@ -57,7 +63,12 @@ export default defineComponent({
       ThemeProjectHomePageFrontmatter | ThemeNormalPageFrontmatter
     >();
     const themeLocale = useThemeLocaleData();
-    const { isMobile, isWide } = useWindowSize();
+    const { isMobile, isPC } = useWindowSize();
+
+    const [isMobileSidebarOpen, toggleMobileSidebar] = useToggle(false);
+    const [isDesktopSidebarCollapsed, toggleDesktopSidebar] = useToggle(false);
+
+    const sidebarItems = useSidebarItems();
 
     // navbar
     const hideNavbar = ref(false);
@@ -79,9 +90,6 @@ export default defineComponent({
       );
     });
 
-    // sidebar
-    const sidebarItems = useSidebarItems();
-
     const enableSidebar = computed(() => {
       if (props.noSidebar) return false;
 
@@ -91,17 +99,6 @@ export default defineComponent({
         !frontmatter.value.home
       );
     });
-
-    const isMobileSidebarOpen = ref(false);
-    const isDesktopSidebarCollapsed = ref(false);
-    const toggleMobileSidebar = (value?: boolean): void => {
-      isMobileSidebarOpen.value =
-        typeof value === "boolean" ? value : !isMobileSidebarOpen.value;
-    };
-    const toggleDesktopSidebar = (value?: boolean): void => {
-      isDesktopSidebarCollapsed.value =
-        typeof value === "boolean" ? value : !isDesktopSidebarCollapsed.value;
-    };
 
     const touchStart = { x: 0, y: 0 };
     const onTouchStart = (e: TouchEvent): void => {
@@ -116,10 +113,9 @@ export default defineComponent({
         // horizontal swipe
         Math.abs(dx) > Math.abs(dy) * 1.5 &&
         Math.abs(dx) > 40
-      ) {
+      )
         if (dx > 0 && touchStart.x <= 80) toggleMobileSidebar(true);
         else toggleMobileSidebar(false);
-      }
     };
 
     const enableToc = computed(() =>
@@ -137,7 +133,6 @@ export default defineComponent({
       0;
 
     // close sidebar after navigation
-    let unregisterRouterHook: () => void;
     let lastDistance = 0;
 
     useEventListener(
@@ -146,12 +141,12 @@ export default defineComponent({
         () => {
           const distance = getScrollTop();
 
-          // scroll down
-          if (lastDistance < distance && distance > 58) {
-            if (!isMobileSidebarOpen.value) hideNavbar.value = true;
-          }
-          // scroll up
-          else hideNavbar.value = false;
+          // at top or scroll up
+          if (distance <= 58 || distance < lastDistance)
+            hideNavbar.value = false;
+          // scroll down > 200px and sidebar is not opened
+          else if (lastDistance + 200 < distance && !isMobileSidebarOpen.value)
+            hideNavbar.value = true;
 
           lastDistance = distance;
         },
@@ -165,19 +160,26 @@ export default defineComponent({
     });
 
     onMounted(() => {
-      unregisterRouterHook = router.afterEach((): void => {
+      const isLocked = useScrollLock(document.body);
+
+      watch(isMobileSidebarOpen, (value) => {
+        isLocked.value = value;
+      });
+
+      const unregisterRouterHook = router.afterEach((): void => {
         toggleMobileSidebar(false);
       });
-    });
 
-    onBeforeUnmount(() => {
-      unregisterRouterHook();
+      onUnmounted(() => {
+        isLocked.value = false;
+        unregisterRouterHook();
+      });
     });
 
     return (): VNode =>
       h(
         hasGlobalComponent("GlobalEncrypt")
-          ? <DefineComponent>resolveComponent("GlobalEncrypt")
+          ? <ComponentOptions>resolveComponent("GlobalEncrypt")
           : RenderDefault,
         () =>
           h(
@@ -199,7 +201,7 @@ export default defineComponent({
                   "hide-navbar": hideNavbar.value,
                   "sidebar-collapsed":
                     !isMobile.value &&
-                    !isWide.value &&
+                    !isPC.value &&
                     isDesktopSidebarCollapsed.value,
                   "sidebar-open": isMobile.value && isMobileSidebarOpen.value,
                 },
@@ -219,7 +221,7 @@ export default defineComponent({
                       startAfter: () => slots["navbarStartAfter"]?.(),
                       centerBefore: () => slots["navbarCenterBefore"]?.(),
                       centerAfter: () => slots["navbarCenterAfter"]?.(),
-                      endBegin: () => slots["navbarEndBegin"]?.(),
+                      endBefore: () => slots["navbarEndBefore"]?.(),
                       endAfter: () => slots["navbarEndAfter"]?.(),
                       screenTop: () => slots["navScreenTop"]?.(),
                       screenBottom: () => slots["navScreenBottom"]?.(),

@@ -332,7 +332,7 @@ interface IncludeOptions {
    *
    * @default (path) => path
    */
-  getPath?: (path: string) => string;
+  resolvePath?: (path: string, cwd: string) => string;
 
   /**
    * Whether deep include files in included Markdown files
@@ -361,7 +361,7 @@ export default {
     mdEnhancePlugin({
       // Add `@src` alias support
       include: {
-        getPath: (file) => {
+        resolvePath: (file) => {
           if (file.startsWith("@src"))
             return file.replace("@src", path.resolve(__dirname, ".."));
 
@@ -387,7 +387,7 @@ export default {
     mdEnhancePlugin({
       // Add `@src` alias support
       include: {
-        getPath: (file) => {
+        resolvePath: (file) => {
           if (file.startsWith("@src"))
             return file.replace("@src", path.resolve(__dirname, ".."));
 
@@ -407,11 +407,13 @@ Also, to place your Markdown files directly besides your actual files, but donâ€
 
 @tab TS
 
-```ts {5}
+```ts {6-7}
 // .vuepress/config.ts
+import { defineConfig } from "vuepress";
 import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
-export default {
+export default defineConfig({
+  // now any file with `.snippet.md` extension will not be rendered as a page
   pagePatterns: ["**/*.md", "!*.snippet.md", "!.vuepress", "!node_modules"],
 
   plugins: [
@@ -419,16 +421,17 @@ export default {
       include: true,
     }),
   ],
-};
+});
 ```
 
 @tab JS
 
-```js {5}
+```js {5-6}
 // .vuepress/config.js
 import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
+  // now any file with `.snippet.md` extension will not be rendered as a page
   pagePatterns: ["**/*.md", "!*.snippet.md", "!.vuepress", "!node_modules"],
 
   plugins: [

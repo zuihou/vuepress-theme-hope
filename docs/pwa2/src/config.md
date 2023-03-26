@@ -295,5 +295,7 @@ Locales config for pwa plugin.
 - **Turkish** (tr-TR)
 - **Korean** (ko-KR)
 - **Finnish** (fi-FI)
+- **Indonesian** (id-ID)
+- **Dutch** (nl-NL)
 
 :::

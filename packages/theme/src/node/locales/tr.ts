@@ -1,4 +1,4 @@
-import type { ThemeLocaleData } from "../../shared/index.js";
+import { type ThemeLocaleData } from "../../shared/index.js";
 
 export const trLocale: ThemeLocaleData = {
   lang: "tr-TR",
@@ -23,6 +23,7 @@ export const trLocale: ThemeLocaleData = {
     lastUpdated: "Son Güncelleme",
     contributors: "Katkıda Bulunanlar",
     editLink: "Bu sayfayı düzenle",
+    print: "Yazdır",
   },
 
   blogLocales: {

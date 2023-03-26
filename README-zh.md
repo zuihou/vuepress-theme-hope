@@ -13,6 +13,10 @@
 
 ## [在线案例](https://stackblitz.com/fork/vuepress-theme-hope)
 
+## 特别捐献者
+
+[![Grey Software](https://vuepress-theme-hope.github.io/grey-software.svg)](https://grey.software/)
+
 ## 联系
 
 我们建议你使用 [issues](https://github.com/vuepress-theme-hope/vuepress-theme-hope/issues) 和 [discussions](https://github.com/vuepress-theme-hope/vuepress-theme-hope/discussions) 联系，但也欢迎你加入我们的 [QQ 群](https://jq.qq.com/?_wv=1027&k=rATJyxGK) (群号: 1003437555)
@@ -20,7 +24,7 @@
 
 ## 详情
 
-V2 基于 _VuePress2_， 带有 _Vite2_ / _Webpack5_ 和 _Vue3_ 的强大功能。
+V2 基于 [_VuePress2_](https://v2.vuepress.vuejs.org/zh/)， 带有 [_Vite4_](https://cn.vitejs.dev/) / [_Webpack5_](https://webpack.docschina.org/) 和 [_Vue3_](https://cn.vuejs.org/) 的强大功能。
 
 V2 完全重写，包括:
 
@@ -32,5 +36,5 @@ V2 也有更好的性能 🚀:
 - DevServer 冷启动时间减少 **50%**
 - 构建内存减小 **65%**
 - 构建时间减少 **30%**
-- 输出大小降低 **25%**
+- 输出尺寸减少 **35%**
 - 网页性能提高 **70%**

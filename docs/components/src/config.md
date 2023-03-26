@@ -13,10 +13,11 @@ icon: gears
     | "AudioPlayer"
     | "Badge"
     | "BiliBili"
-    | "Catalog"
     | "CodePen"
     | "FontIcon"
     | "PDF"
+    | "Replit"
+    | "Share"
     | "StackBlitz"
     | "SiteInfo"
     | "VideoPlayer"
@@ -34,10 +35,11 @@ Available component names:
 - `"AudioPlayer"`
 - `"Badge"`
 - `"BiliBili"`
-- `"Catalog"`
 - `"CodePen"`
 - `"FontIcon"`
 - `"PDF"`
+- `"Replit"`
+- `"Share"`
 - `"StackBlitz"`
 - `"SiteInfo"`
 - `"VideoPlayer"`
@@ -55,19 +57,39 @@ Global config for components.
 - Details:
   - [Guide → ArtPlayer](./guide/artplayer.md#global-config)
 
+### componentsOptions.share.services
+
+- Type: `(string | ShareService)[]`
+- Details:
+  - [Guide → Share → Setting component](./guide/share.md#setting-component)
+
+Share services
+
+### componentsOptions.share.twitterUserName
+
+- Type: `string`
+- Required: No
+
+Twitter username.
+
 ### componentsOptions.fontIcon.assets
 
 - Type: `FontIconAssets`
 
   ```ts
-  type Link = `//${string}` | `http://${string}` | `https://${string}`;
+  type Link =
+    | `/${string}`
+    | `//${string}`
+    | `http://${string}`
+    | `https://${string}`;
 
-  type FontIconAssets =
+  type BuiltInFontIcon =
+    | "iconify"
     | "iconfont"
     | "fontawesome"
-    | "fontawesome-with-brands"
-    | Link
-    | Link[];
+    | "fontawesome-with-brands";
+
+  type FontIconAssets = BuiltInFontIcon | Link | (BuiltInFontIcon | Link)[];
   ```
 
 - Required: No
@@ -220,27 +242,6 @@ Component locales.
 
 Locales config for BackToTop button.
 
-### locales.catalog
-
-- Type: `CatalogLocaleConfig`
-
-  ```ts
-  interface CatalogLocaleData {
-    /**
-     * Catalog title
-     */
-    title: string;
-  }
-
-  interface CatalogLocaleConfig {
-    [localePath: string]: CatalogLocaleData;
-  }
-  ```
-
-- Required: No
-
-Locales config for catalog component.
-
 ### locales.pdf
 
 - Type: `PDFLocaleConfig`
@@ -284,5 +285,7 @@ Locales config for pdf component.
 - **Turkish** (tr-TR)
 - **Korean** (ko-KR)
 - **Finnish** (fi-FI)
+- **Indonesian** (id-ID)
+- **Dutch** (nl-NL)
 
 :::

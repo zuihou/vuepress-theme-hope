@@ -1,6 +1,17 @@
-import { computed, defineComponent, h, onMounted, ref } from "vue";
-import { atou } from "vuepress-shared/client";
-import { CODEPEN_SVG, JSFIDDLE_SVG, LoadingIcon } from "./icons.js";
+import { useToggle } from "@vueuse/core";
+import {
+  type PropType,
+  type VNode,
+  computed,
+  defineComponent,
+  h,
+  onMounted,
+  ref,
+} from "vue";
+import { LoadingIcon, atou } from "vuepress-shared/client";
+
+import { CODEPEN_SVG, JSFIDDLE_SVG } from "./icons.js";
+import { type CodeDemoOptions } from "../../shared/index.js";
 import { loadNormal, loadReact, loadVue } from "../composables/index.js";
 import {
   getCode,
@@ -10,9 +21,6 @@ import {
   injectCSS,
   injectScript,
 } from "../utils/index.js";
-
-import type { PropType, VNode } from "vue";
-import type { CodeDemoOptions } from "../../shared/index.js";
 
 import "balloon-css/balloon.css";
 import "../styles/code-demo.scss";
@@ -75,7 +83,7 @@ export default defineComponent({
   },
 
   setup(props, { slots }) {
-    const isExpanded = ref(false);
+    const [isExpanded, toggleIsExpand] = useToggle(false);
     const demoWrapper = ref<HTMLDivElement>();
     const codeContainer = ref<HTMLDivElement>();
     const height = ref("0");
@@ -119,7 +127,9 @@ export default defineComponent({
         injectScript(props.id, shadowRoot, code.value);
 
         height.value = "0";
-      } else height.value = "auto";
+      } else {
+        height.value = "auto";
+      }
 
       loaded.value = true;
     };
@@ -147,16 +157,18 @@ export default defineComponent({
 
     return (): VNode =>
       h("div", { class: "code-demo-wrapper", id: props.id }, [
-        loaded.value ? null : h("div", { class: "loading" }, h(LoadingIcon)),
         h("div", { class: "code-demo-header" }, [
           code.value.isLegal
             ? h("button", {
+                type: "button",
+                title: "toggle",
+                "aria-hidden": true,
                 class: ["toggle-button", isExpanded.value ? "down" : "end"],
                 onClick: () => {
                   height.value = isExpanded.value
                     ? "0"
                     : `${codeContainer.value!.clientHeight + 13.8}px`;
-                  isExpanded.value = !isExpanded.value;
+                  toggleIsExpand();
                 },
               })
             : null,
@@ -259,7 +271,7 @@ export default defineComponent({
               )
             : null,
         ]),
-
+        loaded.value ? null : h(LoadingIcon, { class: "code-demo-loading" }),
         h("div", {
           ref: demoWrapper,
           class: "code-demo-container",

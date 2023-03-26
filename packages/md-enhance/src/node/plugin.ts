@@ -4,18 +4,23 @@ import { figure } from "@mdit/plugin-figure";
 import { footnote } from "@mdit/plugin-footnote";
 import { imgLazyload } from "@mdit/plugin-img-lazyload";
 import { imgMark } from "@mdit/plugin-img-mark";
-import { imgSize } from "@mdit/plugin-img-size";
+import { imgSize, obsidianImageSize } from "@mdit/plugin-img-size";
 import { include } from "@mdit/plugin-include";
 import { katex } from "@mdit/plugin-katex";
-import { createMathjaxInstance, mathjax } from "@mdit/plugin-mathjax";
 import { mark } from "@mdit/plugin-mark";
+import { createMathjaxInstance, mathjax } from "@mdit/plugin-mathjax";
 import { stylize } from "@mdit/plugin-stylize";
 import { sub } from "@mdit/plugin-sub";
 import { sup } from "@mdit/plugin-sup";
 import { tasklist } from "@mdit/plugin-tasklist";
+import { type ViteBundlerOptions } from "@vuepress/bundler-vite";
+import { type PluginFunction } from "@vuepress/core";
+import { type MarkdownEnv } from "@vuepress/markdown";
 import { isArray, isPlainObject } from "@vuepress/shared";
+import { type RollupWarning } from "rollup";
 import { useSassPalettePlugin } from "vuepress-plugin-sass-palette";
 import {
+  MATHML_TAGS,
   addChainWebpack,
   addCustomElement,
   addViteConfig,
@@ -23,12 +28,11 @@ import {
   addViteOptimizeDepsInclude,
   addViteSsrExternal,
   addViteSsrNoExternal,
+  checkVersion,
   deepAssign,
   getBundlerName,
   getLocales,
 } from "vuepress-shared/node";
-
-import { logger } from "./utils.js";
 
 import { checkLinks, getCheckLinksStatus } from "./checkLink.js";
 import {
@@ -58,19 +62,14 @@ import {
   vueDemo,
   vuePlayground,
 } from "./markdown-it/index.js";
+import { type MarkdownEnhanceOptions } from "./options.js";
 import {
   prepareConfigFile,
   prepareMathjaxStyleFile,
   prepareRevealPluginFile,
 } from "./prepare/index.js";
-import { MATHML_TAGS } from "./utils.js";
-
-import type { PluginFunction } from "@vuepress/core";
-import type { MarkdownEnv } from "@vuepress/markdown";
-import type { ViteBundlerOptions } from "@vuepress/bundler-vite";
-import type { RollupWarning } from "rollup";
-import type { MarkdownEnhanceOptions } from "./options.js";
-import type { KatexOptions } from "./typings/index.js";
+import { type KatexOptions } from "./typings/index.js";
+import { PLUGIN_NAME, logger } from "./utils.js";
 
 export const mdEnhancePlugin =
   (
@@ -83,6 +82,9 @@ export const mdEnhancePlugin =
       convertOptions(
         options as MarkdownEnhanceOptions & Record<string, unknown>
       );
+
+    checkVersion(app, PLUGIN_NAME, "2.0.0-beta.61");
+
     if (app.env.isDebug) logger.info("Options:", options);
 
     const getStatus = (
@@ -95,7 +97,7 @@ export const mdEnhancePlugin =
 
     const locales = getLocales({
       app,
-      name: "md-enhance",
+      name: PLUGIN_NAME,
       default: markdownEnhanceLocales,
       config: options.locales,
     });
@@ -105,6 +107,7 @@ export const mdEnhancePlugin =
     const flowchartEnable = getStatus("flowchart");
     const footnoteEnable = getStatus("footnote", true);
     const imgMarkEnable = getStatus("imgMark", true);
+    const includeEnable = getStatus("include");
     const tasklistEnable = getStatus("tasklist", true);
     const mermaidEnable = getStatus("mermaid");
     const presentationEnable = getStatus("presentation");
@@ -145,7 +148,7 @@ export const mdEnhancePlugin =
     let isAppInitialized = false;
 
     return {
-      name: "vuepress-plugin-md-enhance",
+      name: PLUGIN_NAME,
 
       define: (): Record<string, unknown> => ({
         MARKDOWN_ENHANCE_DELAY: options.delay || 800,
@@ -196,9 +199,9 @@ export const mdEnhancePlugin =
           "vuepress-shared",
         ]);
 
-        if (katexEnable && katexOptions.output !== "html")
+        if (katexEnable && katexOptions.output !== "html") {
           addCustomElement(bundlerOptions, app, MATHML_TAGS);
-        else if (mathjaxEnable) {
+        } else if (mathjaxEnable) {
           addCustomElement(bundlerOptions, app, /^mjx-/);
           if (mathjaxInstance?.documentOptions.enableAssistiveMml)
             addCustomElement(bundlerOptions, app, MATHML_TAGS);
@@ -223,7 +226,7 @@ export const mdEnhancePlugin =
         }
 
         if (mermaidEnable) {
-          addViteOptimizeDepsExclude(bundlerOptions, app, "mermaid");
+          addViteOptimizeDepsInclude(bundlerOptions, app, "mermaid");
           addViteSsrExternal(bundlerOptions, app, "mermaid");
         }
 
@@ -265,7 +268,9 @@ export const mdEnhancePlugin =
             imgMark,
             isPlainObject(options.imgMark) ? options.imgMark : {}
           );
+
         if (getStatus("imgSize")) md.use(imgSize);
+        if (getStatus("obsidianImgSize")) md.use(obsidianImageSize);
         if (getStatus("sup")) md.use(sup);
         if (getStatus("sub")) md.use(sub);
         if (footnoteEnable) md.use(footnote);
@@ -282,14 +287,30 @@ export const mdEnhancePlugin =
           legacy
         )
           md.use(vPre);
-        if (katexEnable) md.use(katex, katexOptions);
-        else if (mathjaxEnable) md.use(mathjax, mathjaxInstance!);
+        if (katexEnable) {
+          md.use(katex, katexOptions);
+        } else if (mathjaxEnable) {
+          md.use(mathjax, mathjaxInstance!);
+          // reset after each render
+          md.use((md) => {
+            const originalRender = md.render.bind(md);
 
-        if (getStatus("include"))
+            md.render = (src: string, env: unknown): string => {
+              const result = originalRender(src, env);
+
+              mathjaxInstance!.reset();
+
+              return result;
+            };
+          });
+        }
+
+        if (includeEnable)
           md.use(include, {
             currentPath: (env: MarkdownEnv) => env.filePath,
             ...(isPlainObject(options.include) ? options.include : {}),
           });
+
         if (getStatus("stylize"))
           md.use(stylize, {
             config: options.stylize,
@@ -336,6 +357,8 @@ export const mdEnhancePlugin =
 
       extendsPage: (page, app): void => {
         if (shouldCheckLinks && isAppInitialized) checkLinks(page, app);
+        if (includeEnable)
+          page.deps.push(...(<string[]>page.markdownEnv["includedFiles"]));
       },
 
       onInitialized: (app): void => {
@@ -344,7 +367,7 @@ export const mdEnhancePlugin =
           app.pages.forEach((page) => checkLinks(page, app));
       },
 
-      onPrepared: async (app): Promise<void> =>
+      onPrepared: (app): Promise<void> =>
         Promise.all([
           mathjaxEnable
             ? prepareMathjaxStyleFile(app, mathjaxInstance!)

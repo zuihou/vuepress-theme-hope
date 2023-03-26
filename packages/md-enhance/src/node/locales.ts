@@ -1,4 +1,4 @@
-import type { MarkdownEnhanceLocaleConfig } from "./typings/index.js";
+import { type MarkdownEnhanceLocaleConfig } from "./typings/index.js";
 
 export const markdownEnhanceLocales: MarkdownEnhanceLocaleConfig = {
   "/en/": {
@@ -152,5 +152,32 @@ export const markdownEnhanceLocales: MarkdownEnhanceLocaleConfig = {
     warning: "Varoitus",
     danger: "Vaara",
     details: "Yksityiskohdat",
+  },
+
+  "/hu/": {
+    info: "Információ",
+    note: "Megjegyzés",
+    tip: "Tipp",
+    warning: "Figyelem",
+    danger: "Veszély",
+    details: "Részletek",
+  },
+
+  "/id/": {
+    info: "Pemberitahuan",
+    note: "Catatan",
+    tip: "Tips",
+    warning: "Penting",
+    danger: "Peringatan",
+    details: "Rincian",
+  },
+
+  "/nl/": {
+    info: "Info",
+    note: "Notitie",
+    tip: "Tips",
+    warning: "Notitie",
+    danger: "Waarschuwing",
+    details: "Details",
   },
 };

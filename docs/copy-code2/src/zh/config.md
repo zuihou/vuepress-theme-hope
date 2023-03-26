@@ -55,9 +55,14 @@ icon: gears
   ```ts
   interface CopyCodeLocaleData {
     /**
-     * 复制按钮文字
+     * 复制文字
      */
     copy: string;
+
+    /**
+     * 已复制文字
+     */
+    copied: string;
 
     /**
      * 复制成功提示消息文字
@@ -93,5 +98,7 @@ icon: gears
 - **土耳其语** (tr-TR)
 - **韩语** (ko-KR)
 - **芬兰语** (fi-FI)
+- **印尼语** (id-ID)
+- **荷兰语** (nl-NL)
 
 :::

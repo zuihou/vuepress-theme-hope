@@ -1,22 +1,24 @@
+import { type Plugin, type PluginFunction } from "@vuepress/core";
 import { colors } from "@vuepress/utils";
+import { checkVersion } from "vuepress-shared/node";
 
 import { convertOptions } from "./compact/index.js";
-import { appendSEO, generateRobotsTxt } from "./seo.js";
 import { generateDescription } from "./description.js";
-import { logger } from "./utils.js";
-
-import type { Plugin, PluginFunction } from "@vuepress/core";
-import type { SeoOptions } from "./options.js";
-import type { ExtendPage } from "./typings/index.js";
+import { type SeoOptions } from "./options.js";
+import { appendSEO, generateRobotsTxt } from "./seo.js";
+import { type ExtendPage } from "./typings/index.js";
+import { PLUGIN_NAME, logger } from "./utils.js";
 
 export const seoPlugin =
   (options: SeoOptions, legacy = true): PluginFunction =>
   (app) => {
     // TODO: Remove this in v2 stable
     if (legacy) convertOptions(options as SeoOptions & Record<string, unknown>);
+    checkVersion(app, PLUGIN_NAME, "2.0.0-beta.61");
+
     if (app.env.isDebug) logger.info("Options:", options);
 
-    const plugin: Plugin = { name: "vuepress-plugin-seo2" };
+    const plugin: Plugin = { name: PLUGIN_NAME };
 
     if (!options.hostname) {
       logger.error(`Option ${colors.magenta("hostname")} is required!`);
@@ -28,7 +30,8 @@ export const seoPlugin =
       ...plugin,
 
       extendsPage: (page: ExtendPage): void => {
-        generateDescription(page, options.autoDescription !== false);
+        if (page.frontmatter.seo !== false)
+          generateDescription(page, options.autoDescription !== false);
       },
 
       onInitialized: (app): void => {

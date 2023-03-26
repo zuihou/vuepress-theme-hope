@@ -1,10 +1,10 @@
 /* eslint-disable vue/no-unused-properties */
 import { usePageLang } from "@vuepress/client";
-import { computed, defineComponent, h } from "vue";
+import { type VNode, computed, defineComponent, h } from "vue";
+import { startsWith } from "vuepress-shared/client";
 
 import { useSize } from "../composables/index.js";
-
-import type { VNode } from "vue";
+import { videoIframeAllow } from "../utils/index.js";
 
 import "../styles/youtube.scss";
 
@@ -191,7 +191,7 @@ export default defineComponent({
         ? `${props.id}?`
         : props.listType === "playlist" && props.list
         ? `?listType=playlist&list=${
-            props.list.startsWith("PL") ? props.list : `PL${props.list}`
+            startsWith(props.list, "PL") ? props.list : `PL${props.list}`
           }&`
         : null
     );
@@ -239,8 +239,7 @@ export default defineComponent({
               src: videoLink.value,
               title: props.title,
               class: "youtube-iframe",
-              allow:
-                "accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture",
+              allow: videoIframeAllow,
               style: {
                 width: width.value,
                 height: height.value,

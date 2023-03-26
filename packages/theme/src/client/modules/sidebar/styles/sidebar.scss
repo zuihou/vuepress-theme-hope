@@ -6,7 +6,9 @@
   // NOTE: Compatible with Android Wechat
   // inset-inline-start: 0;
   left: 0;
-  z-index: 125;
+
+  // this prevents footer issue on tablet
+  z-index: 1;
 
   overflow-y: auto;
 
@@ -17,7 +19,7 @@
   background: var(--sidebar-bg-color);
   box-shadow: 2px 0 8px var(--card-shadow);
 
-  font-size: 15px;
+  font-size: 0.94rem;
 
   transition: background var(--color-transition),
     box-shadow var(--color-transition), padding var(--transform-transition),
@@ -28,11 +30,13 @@
   scrollbar-width: thin;
 
   @media (max-width: hope-config.$pad) {
-    font-size: 14px;
+    font-size: 0.86em;
   }
 
   // on mobile
   @media (max-width: hope-config.$tablet) {
+    z-index: 125;
+
     // a collapsed sidebar should not have box shadow
     box-shadow: none;
 
@@ -45,7 +49,10 @@
   }
 
   @media (min-width: hope-config.$pc) {
+    // this value should be greater than footer height, and users should manually override it
+    padding-bottom: 3rem;
     box-shadow: none;
+    font-size: 1rem;
   }
 
   @media print {

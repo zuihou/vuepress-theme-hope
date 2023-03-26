@@ -1,9 +1,12 @@
 import { logger } from "./utils.js";
-import type { CommentOptions } from "../shared/index.js";
+import { type CommentOptions } from "../shared/index.js";
 
 /** @deprecated */
 export const convertOptions = (
-  options: CommentOptions & Record<string, unknown>
+  options: CommentOptions & {
+    /** @deprecated */
+    type?: "waline" | "giscus" | "twikoo" | "none";
+  }
 ): void => {
   // v2 changes
   if ("type" in options) {
@@ -66,7 +69,7 @@ export const convertOptions = (
           `"${option}" is no longer supported in @waline/client@v2.`
         );
 
-        // @ts-ignore
+        // @ts-expect-error
         delete options[option];
       }
     });

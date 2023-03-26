@@ -1,4 +1,4 @@
-import type { ThemeLocaleData } from "../../shared/index.js";
+import { type ThemeLocaleData } from "../../shared/index.js";
 
 export const zhLocale: ThemeLocaleData = {
   lang: "zh-CN",
@@ -23,6 +23,7 @@ export const zhLocale: ThemeLocaleData = {
     lastUpdated: "上次编辑于",
     contributors: "贡献者",
     editLink: "编辑此页",
+    print: "打印",
   },
 
   blogLocales: {

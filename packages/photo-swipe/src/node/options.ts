@@ -1,7 +1,8 @@
-import type { LocaleConfig } from "@vuepress/core";
-import type {
-  PhotoSwipeInitOptions,
-  PhotoSwipeLocaleData,
+import { type LocaleConfig } from "@vuepress/core";
+
+import {
+  type PhotoSwipeInitOptions,
+  type PhotoSwipeLocaleData,
 } from "../shared/index.js";
 
 export interface PhotoSwipeOptions {
@@ -10,7 +11,7 @@ export interface PhotoSwipeOptions {
    *
    * 图片选择器
    *
-   * @default ".theme-default-content :not(a) > img"
+   * @default ".theme-default-content :not(a) > img:not([no-view])"
    */
   selector?: string | string[];
 

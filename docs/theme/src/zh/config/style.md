@@ -27,21 +27,16 @@ tag:
 - `$tablet`
 - `$mobile`
 
-代码块:
+代码块 (仅限 shiki):
 
-- `$code-light-theme`: 日间模式代码块主题
-- `$code-dark-theme`: 夜间模式代码块主题
-
-内容类名: `$content-class`
+- `$code-bg-color`: 代码块的背景颜色
+- `$code-color`: 代码块的字体颜色
 
 颜色列表: `$colors`
 
 ::: details 例子
 
 ```scss
-// 修改日间模式代码主题
-$code-light-theme: "coy";
-
 // 修改电脑响应式布局断点
 $pc: 1920px;
 ```
@@ -50,7 +45,7 @@ $pc: 1920px;
 
 ::: details 默认值
 
-@[code{7-}](../../../../../packages/theme/templates/config.scss)
+@[code{7-}](../../../../../packages/theme/templates/palette/config.scss)
 
 :::
 
@@ -98,7 +93,7 @@ $border-color: (
 
 ::: details 默认值
 
-@[code{4-60}](../../../../../packages/theme/templates/color.scss)
+@[code{4-60}](../../../../../packages/theme/templates/palette/color.scss)
 
 :::
 
@@ -128,11 +123,11 @@ $border-color: (
 字体:
 
 - `$font-family`: 普通文本上使用的字体
-- `$font-family-fancy:` 用于花哨元素的字体
+- `$font-family-heading:` 用于标题元素的字体
 
 代码:
 
-- `$font-family-code`: 代码上使用的字体
+- `$font-family-mono`: 代码上使用的字体
 - `$line-numbers-width`: 代码块中行号的宽度
 
 过渡:
@@ -154,7 +149,7 @@ $font-family: 'Georgia, -apple-system, "Nimbus Roman No9 L", "PingFang SC", "Hir
 
 ::: details 默认值
 
-@[code](../../../../../packages/theme/templates/layout.scss)
+@[code](../../../../../packages/theme/templates/palette/layout.scss)
 
 :::
 

@@ -1,12 +1,16 @@
-import { commentPlugin } from "vuepress-plugin-comment2";
+import { type PluginObject } from "@vuepress/core";
+import { type CommentOptions, commentPlugin } from "vuepress-plugin-comment2";
+
 import { VERSION } from "../utils.js";
 
-import type { PluginObject } from "@vuepress/core";
-import type { CommentOptions } from "vuepress-plugin-comment2";
-
+/**
+ * @private
+ *
+ * Resolve options for vuepress-plugin-comment2
+ */
 export const getCommentPlugin = (
   options?: Partial<CommentOptions> | false,
-  legacy = true
+  legacy = false
 ): PluginObject | null => {
   if (options === false || !options?.provider) return null;
 

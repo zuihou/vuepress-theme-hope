@@ -14,13 +14,15 @@
 
 - [BiliBili](bilibili.md)
 
-- [Catalog](catalog.md)
-
 - [CodePen](codepen.md)
 
 - [FontIcon](fonticon.md)
 
 - [PDF](pdf.md)
+
+- [Replit](replit.md)
+
+- [Share](share.md)
 
 - [SiteInfo](siteinfo.md)
 

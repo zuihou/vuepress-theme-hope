@@ -1,13 +1,11 @@
-import { useEventListener } from "@vueuse/core";
 import { withBase } from "@vuepress/client";
-import { defineComponent, h, onMounted, ref } from "vue";
+import { useEventListener } from "@vueuse/core";
+import { type VNode, defineComponent, h, onMounted, ref } from "vue";
 import { useLocaleConfig } from "vuepress-shared/client";
 
 import { ArrowLeftIcon, ArrowRightIcon, CloseIcon } from "./icons.js";
+import { type ManifestOption } from "../../shared/index.js";
 import { locales } from "../define.js";
-
-import type { VNode } from "vue";
-import type { ManifestOption } from "../../shared/index.js";
 
 interface InstallPromptEvent extends Event {
   readonly platforms: string;
@@ -27,13 +25,7 @@ export default defineComponent({
     useHint: Boolean,
   },
 
-  emits: {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    canInstall: (_status: boolean) => true,
-    hint: () => true,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    toggle: (_status: boolean) => true,
-  },
+  emits: ["canInstall", "hint", "toggle"],
 
   setup(props, { emit }) {
     const locale = useLocaleConfig(locales);
@@ -137,6 +129,7 @@ export default defineComponent({
             h(
               "button",
               {
+                type: "button",
                 class: "close-button",
                 "aria-label": locale.value.close,
                 onClick: () => emit("toggle", false),
@@ -175,6 +168,7 @@ export default defineComponent({
                     h(
                       "button",
                       {
+                        type: "button",
                         "aria-label": locale.value.prevImage,
                         onClick: scrollToLeft,
                       },
@@ -194,6 +188,7 @@ export default defineComponent({
                     h(
                       "button",
                       {
+                        type: "button",
                         "aria-label": locale.value.nextImage,
                         onClick: scrollToRight,
                       },
@@ -212,16 +207,18 @@ export default defineComponent({
           props.useHint
             ? h("div", { class: "ios-text", onClick: hint }, [
                 h("p", locale.value.iOSInstall),
-                h("button", { class: "success" }, "Got it!"),
+                h("button", { type: "button", class: "success" }, "Got it!"),
               ])
             : h("div", { class: "button-wrapper" }, [
-                h("button", { class: "install-button", onClick: install }, [
-                  locale.value.install,
-                  h("span", manifest.value.short_name),
-                ]),
+                h(
+                  "button",
+                  { type: "button", class: "install-button", onClick: install },
+                  [locale.value.install, h("span", manifest.value.short_name)]
+                ),
                 h(
                   "button",
                   {
+                    type: "button",
                     class: "cancel-button",
                     onClick: () => emit("toggle", false),
                   },

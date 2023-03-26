@@ -6,7 +6,7 @@ We always welcome everyone to contribute! Here is a guide for you.
 
 - [English](https://theme-hope.vuejs.press/contribution.html)
 - [简体中文](https://theme-hope.vuejs.press/zh/contribution.html)
-- [Русский](https://theme-hope.vuejs.press/ru/contribution.html)
+- [Русский](https://theme-hope-ru.vuejs.press/contribution.html)
 
 ## Clone and Install Project
 
@@ -22,7 +22,7 @@ If you have not installed pnpm, please install it using the following command.
 
 ```sh
 corepack enable
-corepack prepare pnpm@7.24.3 --activate
+corepack prepare pnpm@7.28.0 --activate
 ```
 
 ## Project File Structure
@@ -41,6 +41,7 @@ The project is a monorepo, managed by pnpm.
 ├── demo → Demo projects
 │
 ├── docs → document directory
+│ ├── auto-catalog → auto-catalog plugin document
 │ ├── blog → blog2 plugin document
 │ ├── comment → comment2 plugin document
 │ ├── components → components plugin document
@@ -52,6 +53,7 @@ The project is a monorepo, managed by pnpm.
 │ ├── pwa → pwa2 plugin document
 │ ├── reading-time → reading-time2 plugin document
 │ ├── remove-pwa → remove-pwa plugin document
+│ ├── rtl → rtl plugin document
 │ ├── sass-palette → sass-palette plugin document
 │ ├── shared → vuepress-shared document
 │ ├── search-pro → search-pro plugin document
@@ -61,6 +63,7 @@ The project is a monorepo, managed by pnpm.
 ├── docs-shared → common files for docs
 |
 ├── packages → project source code
+│ ├── auto-catalog → auto-catalog plugin
 │ ├── blog2 → blog2 plugin
 │ ├── comment2 → comment2 plugin
 │ ├── components → components plugin
@@ -73,6 +76,7 @@ The project is a monorepo, managed by pnpm.
 │ ├── pwa2 → pwa2 plugin
 │ ├── reading-time2 → reading-time2 plugin
 │ ├── remove-pwa → remove-pwa plugin
+│ ├── rtl → rtl plugin
 │ ├── sass-palette → sass-palette plugin
 │ ├── search-pro → search-pro plugin
 │ ├── seo2 → seo2 plugin

@@ -1,23 +1,27 @@
+import { type App } from "@vuepress/core";
 import {
   ensureEndingSlash,
   isArray,
   isPlainObject,
   removeLeadingSlash,
 } from "@vuepress/shared";
+import { sanitizeFileName } from "@vuepress/utils";
+import { entries, fromEntries } from "vuepress-shared/node";
 
 import { getSidebarInfo } from "./info.js";
-import { getSorter } from "./sorter.js";
+import { getSidebarSorter } from "./sorter.js";
+import {
+  type SidebarArrayOptions,
+  type SidebarGroupItem,
+  type SidebarInfo,
+  type SidebarOptions,
+  type SidebarSorter,
+  type ThemeData,
+} from "../../../shared/index.js";
 import { logger } from "../../utils.js";
 
-import type { App } from "@vuepress/core";
-import type {
-  SidebarArrayOptions,
-  SidebarGroupItem,
-  SidebarInfo,
-  SidebarOptions,
-  SidebarSorter,
-  ThemeData,
-} from "../../../shared/index.js";
+const removeExtension = (path: string): string =>
+  path.replace(/README\.md$/, "").replace(/\.md$/, "");
 
 const getGeneratePaths = (
   sidebarConfig: SidebarArrayOptions,
@@ -51,29 +55,33 @@ const getGeneratePaths = (
 
 const getSidebarItems = (infos: SidebarInfo[]): (SidebarGroupItem | string)[] =>
   infos.map((info) => {
-    if (info.type === "file") return info.filename;
+    if (info.type === "file")
+      return info.path ?? removeExtension(sanitizeFileName(info.filename));
 
     return {
       text: info.title,
-      prefix: `${info.dirname}/`,
+      prefix: `${sanitizeFileName(info.dirname)}/`,
       ...info.groupInfo,
       children: getSidebarItems(info.children),
     };
   });
 
+/**
+ * @private
+ */
 export const getSidebarData = (
   app: App,
   themeData: ThemeData,
   sorter?: SidebarSorter
 ): SidebarOptions => {
   const generatePaths: string[] = [];
-  const sorters = getSorter(sorter);
+  const sorters = getSidebarSorter(sorter);
 
   // exact generate sidebar paths
-  Object.entries(themeData.locales).forEach(([localePath, { sidebar }]) => {
+  entries(themeData.locales).forEach(([localePath, { sidebar }]) => {
     if (isArray(sidebar)) generatePaths.push(...getGeneratePaths(sidebar));
     else if (isPlainObject(sidebar))
-      Object.entries(sidebar).forEach(([prefix, config]) => {
+      entries(sidebar).forEach(([prefix, config]) => {
         if (config === "structure") generatePaths.push(prefix);
         else if (isArray(config))
           generatePaths.push(
@@ -84,7 +92,7 @@ export const getSidebarData = (
     else if (sidebar !== false) generatePaths.push(localePath);
   });
 
-  const sidebarData = Object.fromEntries(
+  const sidebarData = fromEntries(
     generatePaths.map((path) => [
       path,
       getSidebarItems(
@@ -105,6 +113,9 @@ export const getSidebarData = (
   return sidebarData;
 };
 
+/**
+ * @private
+ */
 export const prepareSidebarData = async (
   app: App,
   themeData: ThemeData,

@@ -196,6 +196,13 @@ interface ImageMarkOptions {
 
 Whether enable image size support.
 
+## obsidianImgSize
+
+- Type: `boolean`
+- Default: `false`
+
+Whether enable obsidian image size support.
+
 ## tasklist
 
 - Type: `TaskListOptions | boolean`
@@ -252,7 +259,7 @@ Please see [source code](https://github.com/vuepress-theme-hope/vuepress-theme-h
      *
      * @default (path) => path
      */
-    getPath?: (path: string) => string;
+    resolvePath?: (path: string, cwd: string) => string;
 
     /**
      * Whether deep include files in included Markdown files
@@ -293,7 +300,7 @@ Whether to enable flowchart support
 - Type: `MermaidConfig | boolean`
 - Default: `false`
 
-Whether to enable [Mermaid](https://mermaid-js.github.io/mermaid/#/) support.
+Whether to enable [Mermaid](https://mermaid.js.org/) support.
 
 ## stylize
 
@@ -471,13 +478,6 @@ Playground options.
   ```ts
   interface VuePlaygroundOptions {
     /**
-     * Whether to show code in playground
-     *
-     * @default false
-     */
-    showCode?: boolean;
-
-    /**
      * specify the version of vue
      */
     vueVersion?: string;
@@ -527,9 +527,9 @@ Playground options.
     /**
      * Layout
      *
-     * @default 'vertical'
+     * @default 'horizontal'
      */
-    layout?: "vertical" | "horizontal";
+    layout?: "vertical" |layout?: "horizontal" | "vertical";
 
     /**
      * Options to configure the `vue/compiler-sfc`
@@ -742,5 +742,7 @@ Locales config for Markdown Enhance Plugin.
 - **Turkish** (tr-TR)
 - **Korean** (ko-KR)
 - **Finnish** (fi-FI)
+- **Indonesian** (id-ID)
+- **Dutch** (nl-NL)
 
 :::

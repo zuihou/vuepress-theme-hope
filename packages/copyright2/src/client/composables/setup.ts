@@ -2,14 +2,15 @@ import { usePageData, usePageFrontmatter } from "@vuepress/client";
 import { isLinkHttp, isPlainObject, removeEndingSlash } from "@vuepress/shared";
 import { useEventListener } from "@vueuse/core";
 import { computed, onMounted, watchEffect } from "vue";
-import { useRoute } from "vue-router";
-import { useLocaleConfig } from "vuepress-shared/client";
+import {
+  type RequiredLocaleConfig,
+  useLocaleConfig,
+} from "vuepress-shared/client";
 
-import type { RequiredLocaleConfig } from "vuepress-shared/client";
-import type {
-  CopyrightLocaleData,
-  CopyrightPluginFrontmatter,
-  CopyrightPluginPageData,
+import {
+  type CopyrightLocaleData,
+  type CopyrightPluginFrontmatter,
+  type CopyrightPluginPageData,
 } from "../../shared/index.js";
 
 declare const COPYRIGHT_CANONICAL: string;
@@ -25,7 +26,6 @@ export const setupCopyright = (): void => {
   const frontmatter = usePageFrontmatter<CopyrightPluginFrontmatter>();
   const locale = useLocaleConfig(COPYRIGHT_LOCALES);
   const page = usePageData<CopyrightPluginPageData>();
-  const route = useRoute();
 
   const enabled = computed(
     () =>
@@ -74,7 +74,7 @@ export const setupCopyright = (): void => {
         canonical
           ? `${removeEndingSlash(
               isLinkHttp(canonical) ? canonical : `https://${canonical}`
-            )}${route.path}`
+            )}${page.value.path}`
           : window.location.href
       ),
     ]
@@ -89,11 +89,7 @@ export const setupCopyright = (): void => {
       const textRange = selection.getRangeAt(0);
 
       if (enabled.value) {
-        if (disableCopy.value) {
-          event.preventDefault();
-
-          return;
-        }
+        if (disableCopy.value) return event.preventDefault();
 
         if (textRange.toString().length >= COPYRIGHT_TRIGGER_WORDS) {
           event.preventDefault();

@@ -1,15 +1,28 @@
-import { usePageFrontmatter, useRouteLocale } from "@vuepress/client";
-import { computed, defineComponent, h, onMounted, ref, watch } from "vue";
-import { RouterLink, useRoute, useRouter } from "vue-router";
+import {
+  usePageData,
+  usePageFrontmatter,
+  useRouteLocale,
+} from "@vuepress/client";
+import {
+  type VNode,
+  computed,
+  defineComponent,
+  h,
+  onMounted,
+  ref,
+  watch,
+} from "vue";
+import { RouterLink, useRouter } from "vue-router";
 import { resolveRouteWithRedirect } from "vuepress-shared/client";
 
-import Icon from "@theme-hope/components/Icon";
+import HopeIcon from "@theme-hope/components/HopeIcon";
 import { useThemeLocaleData } from "@theme-hope/composables/index";
 import { getAncestorLinks } from "@theme-hope/utils/index";
-import { ArticleInfoType } from "../../shared/index.js";
 
-import type { VNode } from "vue";
-import type { ThemeNormalPageFrontmatter } from "../../shared/index.js";
+import {
+  ArticleInfoType,
+  type ThemeNormalPageFrontmatter,
+} from "../../shared/index.js";
 
 import "../styles/breadcrumb.scss";
 
@@ -24,21 +37,20 @@ export default defineComponent({
 
   setup() {
     const router = useRouter();
-    const route = useRoute();
+    const page = usePageData();
     const routeLocale = useRouteLocale();
     const frontmatter = usePageFrontmatter<ThemeNormalPageFrontmatter>();
     const themeLocale = useThemeLocaleData();
 
     const config = ref<BreadCrumbConfig[]>([]);
 
-    const enable = computed<boolean>(() => {
-      return (
+    const enable = computed(
+      () =>
         (frontmatter.value.breadcrumb ||
           (frontmatter.value.breadcrumb !== false &&
             themeLocale.value.breadcrumb !== false)) &&
         config.value.length > 1
-      );
-    });
+    );
 
     const iconEnable = computed(
       () =>
@@ -50,13 +62,17 @@ export default defineComponent({
     const getBreadCrumbConfig = (): void => {
       const routes = router.getRoutes();
 
-      const breadcrumbConfig = getAncestorLinks(route, routeLocale.value)
+      const breadcrumbConfig = getAncestorLinks(
+        page.value.path,
+        routeLocale.value
+      )
         .map<BreadCrumbConfig | null>((link) => {
           const route = routes.find((route) => route.path === link);
 
           if (route) {
             const { meta, path } = resolveRouteWithRedirect(router, route.path);
-            const title = meta[ArticleInfoType.shortTitle] || meta.title;
+            const title =
+              meta[ArticleInfoType.shortTitle] || meta[ArticleInfoType.title];
 
             if (title)
               return {
@@ -74,8 +90,9 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      void getBreadCrumbConfig();
-      watch(() => route.path, getBreadCrumbConfig);
+      getBreadCrumbConfig();
+
+      watch(() => page.value.path, getBreadCrumbConfig);
     });
 
     return (): VNode =>
@@ -107,7 +124,9 @@ export default defineComponent({
                       },
                       () => [
                         // icon
-                        iconEnable.value ? h(Icon, { icon: item.icon }) : null,
+                        iconEnable.value
+                          ? h(HopeIcon, { icon: item.icon })
+                          : null,
                         // text
                         h(
                           "span",

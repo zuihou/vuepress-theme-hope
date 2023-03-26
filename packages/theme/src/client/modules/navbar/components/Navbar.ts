@@ -1,4 +1,11 @@
-import { computed, defineComponent, h, ref, resolveComponent } from "vue";
+import {
+  type VNode,
+  computed,
+  defineComponent,
+  h,
+  ref,
+  resolveComponent,
+} from "vue";
 import { hasGlobalComponent } from "vuepress-shared/client";
 
 import {
@@ -6,18 +13,17 @@ import {
   useWindowSize,
 } from "@theme-hope/composables/index";
 import LanguageDropdown from "@theme-hope/modules/navbar/components/LanguageDropdown";
+import NavScreen from "@theme-hope/modules/navbar/components/NavScreen";
 import NavbarBrand from "@theme-hope/modules/navbar/components/NavbarBrand";
 import NavbarLinks from "@theme-hope/modules/navbar/components/NavbarLinks";
-import NavScreen from "@theme-hope/modules/navbar/components/NavScreen";
-import OutlookButton from "@theme-hope/modules/outlook/components/OutlookButton";
+import RepoLink from "@theme-hope/modules/navbar/components/RepoLink";
 import ToggleNavbarButton from "@theme-hope/modules/navbar/components/ToggleNavbarButton";
 import ToggleSidebarButton from "@theme-hope/modules/navbar/components/ToggleSidebarButton";
-import RepoLink from "@theme-hope/modules/navbar/components/RepoLink";
+import OutlookButton from "@theme-hope/modules/outlook/components/OutlookButton";
 
-import type { VNode } from "vue";
-import type {
-  NavbarComponent,
-  NavbarLocaleOptions,
+import {
+  type NavbarComponent,
+  type NavbarLayoutOptions,
 } from "../../../../shared/index.js";
 
 import "../styles/navbar.scss";
@@ -27,9 +33,7 @@ declare const HAS_MULTIPLE_LANGUAGES: boolean;
 export default defineComponent({
   name: "NavBar",
 
-  emits: {
-    toggleSidebar: () => true,
-  },
+  emits: ["toggleSidebar"],
 
   setup(_props, { emit, slots }) {
     const themeLocale = useThemeLocaleData();
@@ -46,11 +50,10 @@ export default defineComponent({
       );
     });
 
-    const navbarLayout = computed<
-      Exclude<NavbarLocaleOptions["navbarLayout"], undefined>
-    >(
+    const navbarLayout = computed(
       () =>
-        themeLocale.value.navbarLayout || {
+        themeLocale.value.navbarLayout ||
+        <NavbarLayoutOptions>{
           start: ["Brand"],
           center: ["Links"],
           end: ["Language", "Repo", "Outlook", "Search"],
@@ -88,7 +91,6 @@ export default defineComponent({
           },
           [
             h("div", { class: "navbar-start" }, [
-              // @ts-ignore
               h(ToggleSidebarButton, {
                 onToggle: () => {
                   if (showScreen.value) showScreen.value = false;
@@ -107,7 +109,7 @@ export default defineComponent({
             ]),
 
             h("div", { class: "navbar-end" }, [
-              slots["endBegin"]?.(),
+              slots["endBefore"]?.(),
               ...(navbarLayout.value.end || []).map((item) => map[item]),
               slots["endAfter"]?.(),
 

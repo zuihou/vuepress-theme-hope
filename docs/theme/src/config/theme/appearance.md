@@ -24,14 +24,19 @@ These options are only valid when setting directly under the theme options, sett
 - Type: `FontIconAssets`
 
   ```ts
-  type Link = `//${string}` | `http://${string}` | `https://${string}`;
+  type Link =
+    | `/${string}`
+    | `//${string}`
+    | `http://${string}`
+    | `https://${string}`;
 
-  export type FontIconAssets =
+  type BuiltInFontIcon =
+    | "iconify"
     | "iconfont"
     | "fontawesome"
-    | "fontawesome-with-brand"
-    | Link
-    | Link[];
+    | "fontawesome-with-brands";
+
+  type FontIconAssets = BuiltInFontIcon | Link | (BuiltInFontIcon | Link)[];
   ```
 
 - Required: No
@@ -98,7 +103,7 @@ You should keep this option same value with `$tablet` in `.vuepress/config.scss`
 
 :::
 
-## wideBreakPoint <Badge text="Root only" type="warning" />
+## pcBreakPoint <Badge text="Root only" type="warning" />
 
 - Type: `number`
 - Default: `1440`
