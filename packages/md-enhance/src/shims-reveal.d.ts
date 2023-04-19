@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 declare module "reveal.js/dist/reveal.esm.js" {
-  export interface RevealOptions {
+  export interface RevealOptions extends Record<string, unknown> {
     /**
      * The "normal" size of the presentation, aspect ratio will be preserved when the presentation is scaled to fit different resolutions.
      *
