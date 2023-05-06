@@ -1,7 +1,7 @@
 import { type App } from "@vuepress/core";
 // import { type AnyNode, type Element, load } from "cheerio";
-
 import MiniSearch from "minisearch";
+import { entries } from "vuepress-shared";
 
 export interface PageSection {
   anchor: string;
@@ -63,18 +63,12 @@ interface IndexObject {
 
 export const generateIndex = async ({
   pages,
-}: App): Promise<Map<string, MiniSearch<IndexObject>>> => {
-  const documentsByLocale = new Map<string, IndexObject[]>();
+}: App): Promise<Record<string, MiniSearch<IndexObject>>> => {
+  const documentsByLocale: Record<string, IndexObject[]> = {};
 
   pages.map(({ contentRendered, data, pathLocale }) => {
     const sections = splitPageIntoSections(contentRendered);
-
-    let documents = documentsByLocale.get(pathLocale);
-
-    if (!documents) {
-      documents = [];
-      documentsByLocale.set(pathLocale, documents);
-    }
+    const documents = (documentsByLocale[pathLocale] ??= []);
 
     documents.push(
       ...sections.map(({ anchor, titles, text }) => ({
@@ -87,18 +81,20 @@ export const generateIndex = async ({
     );
   });
 
-  const indexByLocales = new Map<string, MiniSearch<IndexObject>>();
+  const indexByLocales: Record<string, MiniSearch<IndexObject>> = {};
 
-  for (const [locale, documents] of documentsByLocale) {
-    const index = new MiniSearch<IndexObject>({
-      fields: ["title", "titles", "text"],
-      storeFields: ["title", "titles"],
-    });
+  await Promise.all(
+    entries(documentsByLocale).map(async ([locale, documents]) => {
+      const index = new MiniSearch<IndexObject>({
+        fields: ["title", "titles", "text"],
+        storeFields: ["title", "titles"],
+      });
 
-    await index.addAllAsync(documents);
+      await index.addAllAsync(documents);
 
-    return indexByLocales.set(locale, index);
-  }
+      indexByLocales[locale] = index;
+    })
+  );
 
   return indexByLocales;
 };
