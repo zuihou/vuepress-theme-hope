@@ -3,6 +3,7 @@ import { getLocales } from "vuepress-shared/node";
 
 import { minisearchLocales } from "./locales.js";
 import { type MinisearchOptions } from "./options.js";
+import { prepareIndex } from "./prepare.js";
 import { CLIENT_FOLDER } from "./utils.js";
 
 export const minisearchPlugin =
