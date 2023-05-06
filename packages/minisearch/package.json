@@ -1,21 +1,22 @@
 {
-  "name": "vuepress-plugin-search-pro",
-  "version": "2.0.0-beta.208",
-  "description": "A advanced search plugin in client",
+  "name": "vuepress-plugin-minisearch",
+  "version": "2.0.0-beta.206",
+  "description": "minisearch plugin for VuePress",
   "keywords": [
     "vuepress",
     "vuepress2",
     "vuepress-plugin",
-    "search"
+    "minisearch",
+    "mr-hope"
   ],
-  "homepage": "https://plugin-search-pro.vuejs.press/",
+  "homepage": "https://github.com/vuepress-theme-hope/vuepress-theme-hope/packages/minisearch#readme",
   "bugs": {
     "url": "https://github.com/vuepress-theme-hope/vuepress-theme-hope/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vuepress-theme-hope/vuepress-theme-hope.git",
-    "directory": "packages/search-pro"
+    "directory": "packages/minisearch"
   },
   "license": "MIT",
   "author": {
@@ -26,7 +27,6 @@
   "type": "module",
   "exports": {
     ".": "./lib/node/index.js",
-    "./lib/client/*": "./lib/client/*",
     "./package.json": "./package.json"
   },
   "main": "lib/node/index.js",
@@ -35,7 +35,7 @@
     "lib"
   ],
   "scripts": {
-    "build": "rollup -c rollup.config.ts --configPlugin esbuild",
+    "build": "rollup -c",
     "clean": "rimraf ./lib ./*.tsbuildinfo",
     "copy": "cpx \"src/client/**/*.{vue,scss}\" lib/client",
     "dev": "concurrently \"pnpm dev:copy\" \"pnpm dev:ts\"",
@@ -48,20 +48,17 @@
     "pnpm": ">=7"
   },
   "dependencies": {
+    "@types/mark.js": "^8.11.8",
+    "@vuepress/core": "2.0.0-beta.61",
     "@vuepress/client": "2.0.0-beta.61",
-    "@vuepress/shared": "2.0.0-beta.61",
     "@vuepress/utils": "2.0.0-beta.61",
-    "@vueuse/core": "^10.1.2",
+    "@vueuse/core": "^10.1.0",
     "cheerio": "1.0.0-rc.12",
-    "chokidar": "^3.5.3",
+    "mark.js": "^8.11.1",
     "minisearch": "^6.0.1",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",
-    "vuepress-plugin-sass-palette": "workspace:*",
     "vuepress-shared": "workspace:*"
-  },
-  "devDependencies": {
-    "@vuepress/core": "2.0.0-beta.61"
   },
   "peerDependencies": {
     "sass-loader": "^13.2.2",

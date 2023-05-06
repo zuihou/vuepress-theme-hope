@@ -12,6 +12,7 @@
     { "path": "./packages/feed2/tsconfig.build.json" },
     { "path": "./packages/lightgallery/tsconfig.build.json" },
     { "path": "./packages/md-enhance/tsconfig.build.json" },
+    { "path": "./packages/minisearch/tsconfig.build.json" },
     { "path": "./packages/photo-swipe/tsconfig.build.json" },
     { "path": "./packages/pwa2/tsconfig.build.json" },
     { "path": "./packages/reading-time2/tsconfig.build.json" },
