@@ -5,5 +5,6 @@ import SearchModal from "./components/SearchModal.js";
 export default defineClientConfig({
   enhance: ({ app }) => {
     app.component("SearchModal", SearchModal);
+    app.component("SearchBox", SearchModal);
   },
 });

@@ -44,7 +44,7 @@ import { useLocaleConfig } from "vuepress-shared/client";
 
 // TODO: Add hmr
 import { pagesComponents } from "@internal/pagesComponents";
-import { searchIndex } from "@temp/minisearch/database";
+import searchIndex from "@temp/minisearch/index";
 
 import { enableQueryHistory, minisearchLocales } from "../define.js";
 
@@ -127,22 +127,34 @@ export default defineComponent({
 
     /* Search */
 
-    const searchIndexData = computedAsync(async () =>
-      markRaw(
-        Minisearch.loadJSON<IndexResult & { id: string }>(
-          (await searchIndex.value[routeLocale.value]?.())?.default,
-          {
-            fields: ["title", "titles", "text"],
-            storeFields: ["title", "titles"],
-            searchOptions: {
-              fuzzy: 0.2,
-              prefix: true,
-              boost: { title: 4, text: 2, titles: 1 },
-            },
-          }
-        )
-      )
-    );
+    const searchIndexData = computedAsync(async () => {
+      const localeIndex = (await searchIndex[routeLocale.value]?.())?.default;
+
+      console.log(localeIndex);
+      console.log(
+        Minisearch.loadJSON<IndexResult & { id: string }>(localeIndex, {
+          fields: ["title", "titles", "text"],
+          storeFields: ["title", "titles"],
+          searchOptions: {
+            fuzzy: 0.2,
+            prefix: true,
+            boost: { title: 4, text: 2, titles: 1 },
+          },
+        })
+      );
+
+      return markRaw(
+        Minisearch.loadJSON<IndexResult & { id: string }>(localeIndex, {
+          fields: ["title", "titles", "text"],
+          storeFields: ["title", "titles"],
+          searchOptions: {
+            fuzzy: 0.2,
+            prefix: true,
+            boost: { title: 4, text: 2, titles: 1 },
+          },
+        })
+      );
+    });
 
     const results: Ref<
       (Omit<SearchResult, "id"> & IndexResult & { id: string })[]
@@ -151,6 +163,7 @@ export default defineComponent({
     const enableNoResults = ref(false);
 
     watch(filterText, () => {
+      console.log(filterText.value);
       enableNoResults.value = false;
     });
 
@@ -175,6 +188,8 @@ export default defineComponent({
       ) => {
         let canceled = false;
 
+        console.log(index);
+
         onCleanup(() => {
           canceled = true;
         });
@@ -186,6 +201,9 @@ export default defineComponent({
           .search(filterTextValue)
           .slice(0, 16) as (SearchResult & IndexResult)[];
         enableNoResults.value = true;
+
+        // TODO: Remove
+        console.log(filterTextValue, results.value);
 
         // Highlighting
         const componentsData = showDetailedListValue
