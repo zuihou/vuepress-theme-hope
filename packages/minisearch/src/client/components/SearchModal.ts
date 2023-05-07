@@ -5,13 +5,12 @@ import {
   pageHeadTitleSymbol,
   pageLangSymbol,
   pageLayoutSymbol,
-  useLayouts,
-  usePageFrontmatter,
-  usePageHead,
-  usePageHeadTitle,
-  usePageLang,
-  usePageLayout,
+  resolvers,
+  routeLocaleSymbol,
+  siteData,
+  siteLocaleDataSymbol,
   useRouteLocale,
+  withBase,
 } from "@vuepress/client";
 import {
   computedAsync,
@@ -28,6 +27,7 @@ import {
   type ComponentOptions,
   type Ref,
   type VNode,
+  computed,
   createApp,
   defineComponent,
   h,
@@ -39,10 +39,11 @@ import {
   shallowRef,
   watch,
 } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useLocaleConfig } from "vuepress-shared/client";
 
 // TODO: Add hmr
+import { clientConfigs } from "@internal/clientConfigs";
 import { pagesComponents } from "@internal/pagesComponents";
 import searchIndex from "@temp/minisearch/index";
 
@@ -51,6 +52,7 @@ import { enableQueryHistory, minisearchLocales } from "../define.js";
 import "../styles/search-modal.scss";
 
 interface IndexResult {
+  id: string;
   title: string;
   titles: string[];
   text?: string;
@@ -73,7 +75,7 @@ const DOWN_ICON =
 const ENTER_ICON =
   '<svg width="14" height="14" viewBox="0 0 24 24"><g fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m9 10-5 5 5 5"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></g></svg>';
 
-const HEADING_REGEXP = /<h(\d*).*?>.*?<a.*? href="#(.*?)".*?>.*?<\/a><\/h\1>/gi;
+const HEADING_REGEXP = /<h(\d*).*?><a.*? href="#(.*?)".*?>.*?<\/a>.*?<\/h\1>/gi;
 
 const formMarkRegex = (terms: Set<string>): RegExp =>
   new RegExp(
@@ -90,7 +92,7 @@ const formMarkRegex = (terms: Set<string>): RegExp =>
 
 const getComponent = (id: string): ComponentOptions => {
   try {
-    return pagesComponents[id];
+    return pagesComponents[id.split("#")[0]];
   } catch (err) {
     console.error(err);
 
@@ -104,14 +106,10 @@ export default defineComponent({
   emits: ["close"],
 
   setup(_props, { emit }) {
-    const layouts = useLayouts();
-    const frontmatter = usePageFrontmatter();
-    const head = usePageHead();
-    const title = usePageHeadTitle();
-    const lang = usePageLang();
     const routeLocale = useRouteLocale();
-    const layout = usePageLayout();
     const locale = useLocaleConfig(minisearchLocales);
+    const router = useRouter();
+    const route = useRoute();
 
     const el = shallowRef<HTMLElement>();
     const resultsElement = shallowRef<HTMLElement>();
@@ -130,21 +128,8 @@ export default defineComponent({
     const searchIndexData = computedAsync(async () => {
       const localeIndex = (await searchIndex[routeLocale.value]?.())?.default;
 
-      console.log(localeIndex);
-      console.log(
-        Minisearch.loadJSON<IndexResult & { id: string }>(localeIndex, {
-          fields: ["title", "titles", "text"],
-          storeFields: ["title", "titles"],
-          searchOptions: {
-            fuzzy: 0.2,
-            prefix: true,
-            boost: { title: 4, text: 2, titles: 1 },
-          },
-        })
-      );
-
       return markRaw(
-        Minisearch.loadJSON<IndexResult & { id: string }>(localeIndex, {
+        Minisearch.loadJSON<IndexResult>(localeIndex, {
           fields: ["title", "titles", "text"],
           storeFields: ["title", "titles"],
           searchOptions: {
@@ -188,8 +173,6 @@ export default defineComponent({
       ) => {
         let canceled = false;
 
-        console.log(index);
-
         onCleanup(() => {
           canceled = true;
         });
@@ -202,9 +185,6 @@ export default defineComponent({
           .slice(0, 16) as (SearchResult & IndexResult)[];
         enableNoResults.value = true;
 
-        // TODO: Remove
-        console.log(filterTextValue, results.value);
-
         // Highlighting
         const componentsData = showDetailedListValue
           ? results.value.map(({ id }) => ({
@@ -215,7 +195,7 @@ export default defineComponent({
 
         if (canceled) return;
 
-        const c = new Map<string, Map<string, string>>();
+        const excerptMap = new Map<string, Map<string, string>>();
 
         for (const { id, component } of componentsData) {
           const app = createApp(component);
@@ -225,12 +205,57 @@ export default defineComponent({
             // do nothing
           };
 
+          const pageData = await resolvers.resolvePageData(id);
+
+          const layouts = computed(() =>
+            resolvers.resolveLayouts(clientConfigs)
+          );
+          const routeLocale = computed(() =>
+            resolvers.resolveRouteLocale(siteData.value.locales, route.path)
+          );
+          const siteLocaleData = computed(() =>
+            resolvers.resolveSiteLocaleData(siteData.value, routeLocale.value)
+          );
+          const pageFrontmatter = computed(() =>
+            resolvers.resolvePageFrontmatter(pageData)
+          );
+          const pageHeadTitle = computed(() =>
+            resolvers.resolvePageHeadTitle(pageData, siteLocaleData.value)
+          );
+          const pageHead = computed(() =>
+            resolvers.resolvePageHead(
+              pageHeadTitle.value,
+              pageFrontmatter.value,
+              siteLocaleData.value
+            )
+          );
+          const pageLang = computed(() => resolvers.resolvePageLang(pageData));
+          const pageLayout = computed(() =>
+            resolvers.resolvePageLayout(pageData, layouts.value)
+          );
+
+          // provide global computed
           app.provide(layoutsSymbol, layouts);
-          app.provide(pageFrontmatterSymbol, frontmatter);
-          app.provide(pageHeadSymbol, head);
-          app.provide(pageHeadTitleSymbol, title);
-          app.provide(pageLangSymbol, lang);
-          app.provide(pageLayoutSymbol, layout);
+          app.provide(pageFrontmatterSymbol, pageFrontmatter);
+          app.provide(pageHeadTitleSymbol, pageHeadTitle);
+          app.provide(pageHeadSymbol, pageHead);
+          app.provide(pageLangSymbol, pageLang);
+          app.provide(pageLayoutSymbol, pageLayout);
+          app.provide(routeLocaleSymbol, routeLocale);
+          app.provide(siteLocaleDataSymbol, siteLocaleData);
+
+          // provide global helpers
+          Object.defineProperties(app.config.globalProperties, {
+            $frontmatter: { get: () => pageFrontmatter.value },
+            $head: { get: () => pageHead.value },
+            $headTitle: { get: () => pageHeadTitle.value },
+            $lang: { get: () => pageLang.value },
+            $page: { get: () => pageData },
+            $routeLocale: { get: () => routeLocale.value },
+            $site: { get: () => siteData.value },
+            $siteLocale: { get: () => siteLocaleData.value },
+            $withBase: { get: () => withBase },
+          });
 
           const div = document.createElement("div");
 
@@ -242,11 +267,11 @@ export default defineComponent({
 
           sections.shift();
 
-          let map = c.get(id);
+          let map = excerptMap.get(id);
 
           if (!map) {
             map = new Map();
-            c.set(id, map);
+            excerptMap.set(id, map);
           }
 
           for (let i = 0; i < sections.length; i += 3) {
@@ -259,11 +284,13 @@ export default defineComponent({
           if (canceled) return;
         }
 
+        console.log(excerptMap);
+
         const terms = new Set<string>();
 
         results.value = results.value.map((result) => {
           const [id, anchor] = result.id.split("#");
-          const map = c.get(id);
+          const map = excerptMap.get(id);
           const text = map?.get(anchor) ?? "";
 
           for (const term in result["match"]) terms.add(term);
@@ -358,7 +385,17 @@ export default defineComponent({
       void scrollToSelectedResult();
     });
 
-    const router = useRouter();
+    const navigate = (id: string): void => {
+      const [key, anchor] = id.split("#");
+
+      void router.push(
+        router.getRoutes().find((route) => route.name === key)!.path +
+          "#" +
+          anchor
+      );
+
+      emit("close");
+    };
 
     onKeyStroke("Enter", () => {
       const selectedPackage = results.value[selectedIndex.value];
@@ -453,9 +490,10 @@ export default defineComponent({
             [
               ...results.value.map((result, index) =>
                 h(
-                  "a",
+                  "div",
                   {
                     key: result.id,
+                    role: "navigation",
                     class: [
                       "result",
                       { selected: index === selectedIndex.value },
@@ -465,7 +503,10 @@ export default defineComponent({
                     onMouseover: () => {
                       if (!disableMouseOver.value) selectedIndex.value = index;
                     },
-                    onClick: () => emit("close"),
+                    onKeydown: (event: KeyboardEvent) => {
+                      if (event.key === "Enter") navigate(result.id);
+                    },
+                    onClick: () => navigate(result.id),
                   },
                   h("div", [
                     h("div", { class: "titles" }, [

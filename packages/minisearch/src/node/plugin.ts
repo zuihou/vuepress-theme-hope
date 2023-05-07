@@ -1,4 +1,5 @@
 import { type Plugin } from "@vuepress/core";
+import { useSassPalettePlugin } from "vuepress-plugin-sass-palette";
 import { getLocales } from "vuepress-shared/node";
 
 import { minisearchLocales } from "./locales.js";
@@ -9,6 +10,8 @@ import { CLIENT_FOLDER } from "./utils.js";
 export const minisearchPlugin =
   (options: MinisearchOptions): Plugin =>
   (app) => {
+    useSassPalettePlugin(app, { id: "hope" });
+
     return {
       name: "vuepress-plugin-minisearch",
 

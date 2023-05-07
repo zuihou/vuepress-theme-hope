@@ -59,7 +59,7 @@ export const splitPageIntoSections = (
   return sections;
 };
 
-interface IndexObject {
+interface SearchIndex {
   id: string;
   text: string;
   title: string;
@@ -68,8 +68,8 @@ interface IndexObject {
 
 export const generateIndex = async ({
   pages,
-}: App): Promise<Record<string, MiniSearch<IndexObject>>> => {
-  const documentsByLocale: Record<string, IndexObject[]> = {};
+}: App): Promise<Record<string, MiniSearch<SearchIndex>>> => {
+  const documentsByLocale: Record<string, SearchIndex[]> = {};
 
   pages.map(({ title, contentRendered, data, pathLocale }) => {
     const sections = splitPageIntoSections(title, contentRendered);
@@ -85,18 +85,13 @@ export const generateIndex = async ({
     );
   });
 
-  const indexByLocales: Record<string, MiniSearch<IndexObject>> = {};
+  const indexByLocales: Record<string, MiniSearch<SearchIndex>> = {};
 
   await Promise.all(
     entries(documentsByLocale).map(async ([locale, documents]) => {
-      const index = new MiniSearch<IndexObject>({
+      const index = new MiniSearch<SearchIndex>({
         fields: ["title", "titles", "text"],
         storeFields: ["title", "titles"],
-        searchOptions: {
-          fuzzy: 0.2,
-          prefix: true,
-          boost: { title: 4, text: 2, titles: 1 },
-        },
       });
 
       await index.addAllAsync(documents);

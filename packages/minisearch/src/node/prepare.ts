@@ -13,7 +13,7 @@ export const prepareIndex = async (app: App): Promise<void> => {
     entries(searchIndex).map(([locale, documents]) =>
       app.writeTemp(
         `minisearch/${getLocale(locale)}.js`,
-        `export default ${JSON.stringify(documents)};`
+        `export default ${JSON.stringify(JSON.stringify(documents))};`
       )
     )
   );

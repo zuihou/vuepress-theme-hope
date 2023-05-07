@@ -1879,6 +1879,9 @@ importers:
       vuepress:
         specifier: 2.0.0-beta.61
         version: 2.0.0-beta.61(@types/node@18.16.5)(@vuepress/client@2.0.0-beta.61)(sass-loader@13.2.2)(sass@1.62.1)(ts-node@10.9.1)(vue@3.3.0-beta.4)
+      vuepress-plugin-sass-palette:
+        specifier: workspace:*
+        version: link:../sass-palette
       vuepress-shared:
         specifier: workspace:*
         version: link:../shared

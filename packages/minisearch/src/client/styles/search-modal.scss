@@ -8,7 +8,7 @@
 .backdrop {
   position: absolute;
   inset: 0;
-  background: var(--vp-backdrop-bg-color);
+  background: rgba(0, 0, 0, 0.6);
   transition: opacity 0.5s;
 }
 
@@ -19,15 +19,13 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  background: var(--vp-local-search-bg);
+  background: var(--vp-bg);
   width: min(100vw - 60px, 900px);
   height: min-content;
   max-height: min(100vh - 128px, 900px);
   border-radius: 6px;
-}
 
-@media (max-width: 768px) {
-  .shell {
+  @media (max-width: 768px) {
     margin: 0;
     width: 100vw;
     height: 100vh;
@@ -37,7 +35,7 @@
 }
 
 .search-bar {
-  border: 1px solid var(--vp-c-divider);
+  border: 1px solid var(--vp-brc);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -52,15 +50,13 @@
 }
 
 .search-bar:focus-within {
-  border-color: var(--vp-c-brand);
+  border-color: var(--vp-tc);
 }
 
 .search-icon {
   margin: 8px;
-}
 
-@media (max-width: 768px) {
-  .search-icon {
+  @media (max-width: 768px) {
     display: none;
   }
 }
@@ -69,10 +65,8 @@
   padding: 6px 12px;
   font-size: inherit;
   width: 100%;
-}
 
-@media (max-width: 768px) {
-  .search-input {
+  @media (max-width: 768px) {
     padding: 6px 4px;
   }
 }
@@ -80,27 +74,28 @@
 .search-actions {
   display: flex;
   gap: 4px;
-}
 
-@media (any-pointer: coarse) {
-  .search-actions {
+  @media (any-pointer: coarse) {
     gap: 8px;
   }
-}
 
-@media (min-width: 769px) {
-  .search-actions.before {
-    display: none;
+  &.before {
+    @media (min-width: 769px) {
+      display: none;
+    }
+  }
+
+  button {
+    padding: 8px;
+
+    &:hover {
+      color: var(--vp-tc);
+    }
   }
 }
 
-.search-actions button {
-  padding: 8px;
-}
-
-.search-actions button:hover,
 .toggle-layout-button.detailed-list {
-  color: var(--vp-c-brand);
+  color: var(--vp-tc);
 }
 
 .search-keyboard-shortcuts {
@@ -110,30 +105,28 @@
   flex-wrap: wrap;
   gap: 16px;
   line-height: 14px;
-}
 
-.search-keyboard-shortcuts span {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-@media (max-width: 768px) {
-  .search-keyboard-shortcuts {
+  @media (max-width: 768px) {
     display: none;
   }
-}
 
-.search-keyboard-shortcuts kbd {
-  background: rgba(128, 128, 128, 0.1);
-  border-radius: 4px;
-  padding: 3px 6px;
-  min-width: 24px;
-  display: inline-block;
-  text-align: center;
-  vertical-align: middle;
-  border: 1px solid rgba(128, 128, 128, 0.15);
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+  span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  kbd {
+    background: rgba(128, 128, 128, 0.1);
+    border-radius: 4px;
+    padding: 3px 6px;
+    min-width: 24px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid rgba(128, 128, 128, 0.15);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+  }
 }
 
 .results {
@@ -153,17 +146,25 @@
   transition: none;
   line-height: 1rem;
   border: solid 2px var(--vp-local-search-result-border);
-}
 
-.result > div {
-  margin: 12px;
-  width: 100%;
-  overflow: hidden;
-}
+  &.selected {
+    --vp-local-search-result-bg: var(--vp-local-search-result-selected-bg);
+    border-color: var(--vp-local-search-result-selected-border);
 
-@media (max-width: 768px) {
-  .result > div {
-    margin: 8px;
+    .titles,
+    .title-icon {
+      color: var(--vp-tc) !important;
+    }
+  }
+
+  > div {
+    margin: 12px;
+    width: 100%;
+    overflow: hidden;
+
+    @media (max-width: 768px) {
+      margin: 8px;
+    }
   }
 }
 
@@ -180,25 +181,20 @@
   display: flex;
   align-items: center;
   gap: 4px;
-}
 
-.title.main {
-  font-weight: 500;
+  &.main {
+    font-weight: 500;
+  }
+
+  svg {
+    opacity: 0.5;
+  }
 }
 
 .title-icon {
   opacity: 0.5;
   font-weight: 500;
   color: var(--vp-c-brand);
-}
-
-.title svg {
-  opacity: 0.5;
-}
-
-.result.selected {
-  --vp-local-search-result-bg: var(--vp-local-search-result-selected-bg);
-  border-color: var(--vp-local-search-result-selected-border);
 }
 
 .excerpt-wrapper {
@@ -258,11 +254,6 @@
   height: 8px;
   background: linear-gradient(var(--vp-local-search-result-bg), transparent);
   z-index: 1000;
-}
-
-.result.selected .titles,
-.result.selected .title-icon {
-  color: var(--vp-c-brand) !important;
 }
 
 .no-results {
