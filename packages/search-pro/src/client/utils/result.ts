@@ -1,3 +1,4 @@
+import MiniSearch from "minisearch";
 import { entries, keys } from "vuepress-shared/client";
 
 import { type Word, getMatchedContent } from "./matchContent.js";
@@ -108,12 +109,12 @@ export const getResults = (
           ...(suggestions[title] || []),
           {
             type: "heading",
-            path: path + (headerIndex.slug ? `#${headerIndex.slug}` : ""),
+            path: path + (headerIndex.anchor ? `#${headerIndex.anchor}` : ""),
             display: headerContent,
           },
         ];
 
-      for (const content of headerIndex.contents) {
+      for (const content of headerIndex.text) {
         const matchedContent = getMatchedContent(content, queryString);
 
         if (matchedContent)
@@ -122,7 +123,7 @@ export const getResults = (
             {
               type: "content",
               header: headerIndex.header,
-              path: path + (headerIndex.slug ? `#${headerIndex.slug}` : ""),
+              path: path + (headerIndex.anchor ? `#${headerIndex.anchor}` : ""),
               display: matchedContent,
             },
           ];

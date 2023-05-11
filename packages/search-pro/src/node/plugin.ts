@@ -1,5 +1,5 @@
 import { type PluginFunction } from "@vuepress/core";
-import { watch } from "chokidar";
+// import { watch } from "chokidar";
 import { useSassPalettePlugin } from "vuepress-plugin-sass-palette";
 import {
   addViteSsrNoExternal,
@@ -15,8 +15,8 @@ import { searchProLocales } from "./locales.js";
 import { type SearchProOptions } from "./options.js";
 import {
   prepareSearchIndex,
-  removeSearchIndex,
-  updateSearchIndex,
+  // removeSearchIndex,
+  // updateSearchIndex,
 } from "./prepare.js";
 import { CLIENT_FOLDER, PLUGIN_NAME, logger } from "./utils.js";
 
@@ -79,30 +79,30 @@ export const searchProPlugin =
 
       onPrepared: (app): Promise<void> => prepareSearchIndex(app, options),
 
-      onWatched: (app, watchers): void => {
-        const hotReload =
-          "hotReload" in options ? options.hotReload : app.env.isDebug;
+      // onWatched: (app, watchers): void => {
+      //   const hotReload =
+      //     "hotReload" in options ? options.hotReload : app.env.isDebug;
 
-        if (hotReload) {
-          // this ensure the page is generated or updated
-          const searchIndexWatcher = watch("pages/**/*.vue", {
-            cwd: app.dir.temp(),
-            ignoreInitial: true,
-          });
+      //   if (hotReload) {
+      //     // this ensure the page is generated or updated
+      //     const searchIndexWatcher = watch("pages/**/*.vue", {
+      //       cwd: app.dir.temp(),
+      //       ignoreInitial: true,
+      //     });
 
-          searchIndexWatcher.on("add", (path) => {
-            void updateSearchIndex(app, options, path);
-          });
-          searchIndexWatcher.on("change", (path) => {
-            void updateSearchIndex(app, options, path);
-          });
-          searchIndexWatcher.on("unlink", (path) => {
-            void removeSearchIndex(app, options, path);
-          });
+      //     searchIndexWatcher.on("add", (path) => {
+      //       void updateSearchIndex(app, options, path);
+      //     });
+      //     searchIndexWatcher.on("change", (path) => {
+      //       void updateSearchIndex(app, options, path);
+      //     });
+      //     searchIndexWatcher.on("unlink", (path) => {
+      //       void removeSearchIndex(app, options, path);
+      //     });
 
-          watchers.push(searchIndexWatcher);
-        }
-      },
+      //     watchers.push(searchIndexWatcher);
+      //   }
+      // },
 
       onGenerated: (app) => generateWorker(app, options),
     };

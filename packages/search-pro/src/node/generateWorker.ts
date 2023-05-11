@@ -10,7 +10,7 @@ export const generateWorker = async (
   options: SearchProOptions
 ): Promise<void> => {
   const workerFilePath = app.dir.dest(options.worker || "search-pro.worker.js");
-  const searchIndexContent = JSON.stringify(getSearchIndex(app, options));
+  const searchIndexContent = JSON.stringify(await getSearchIndex(app, options));
   const workerPath = `${WORKER_FOLDER}original.js`;
 
   const workerFileContent = await fs.readFile(workerPath, "utf8");

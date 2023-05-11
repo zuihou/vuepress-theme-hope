@@ -1,6 +1,6 @@
 import { database } from "@temp/search-pro/database";
 
-import { type SearchIndex } from "../../shared/index.js";
+import { type LocaleIndex } from "../../shared/index.js";
 import { getResults } from "../utils/index.js";
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -12,7 +12,7 @@ let searchIndex = database;
 // @ts-ignore
 if (__VUEPRESS_DEV__ && (import.meta.webpackHot || import.meta.hot))
   __VUE_HMR_RUNTIME__["updateSearchProDatabase"] = (
-    database: SearchIndex
+    database: LocaleIndex
   ): void => {
     searchIndex = database;
   };

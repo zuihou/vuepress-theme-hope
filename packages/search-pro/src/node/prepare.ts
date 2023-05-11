@@ -1,7 +1,9 @@
 import { type App } from "@vuepress/core";
+import { entries, keys } from "vuepress-shared/node";
 
 import { generatePageIndex, getSearchIndex } from "./generateIndex.js";
 import { type SearchProOptions } from "./options.js";
+import { getLocaleChunkName } from "./utils.js";
 import { type SearchIndex } from "../shared/index.js";
 
 const HMR_CODE = `
@@ -25,18 +27,30 @@ export const prepareSearchIndex = async (
   options: SearchProOptions
 ): Promise<void> => {
   if (app.env.isDev) {
-    const searchIndex = getSearchIndex(app, options);
+    const searchIndex = await getSearchIndex(app, options);
 
     previousSearchIndex = searchIndex;
 
-    // search index file content
-    const content = `\
-export const database = ${JSON.stringify(searchIndex)};
+    await Promise.all(
+      entries(searchIndex).map(([locale, documents]) =>
+        app.writeTemp(
+          `search-pro/${getLocaleChunkName(locale)}.js`,
+          `export default ${JSON.stringify(JSON.stringify(documents))};`
+        )
+      )
+    );
 
-${HMR_CODE}
-`;
-
-    await app.writeTemp("search-pro/database.js", content);
+    await app.writeTemp(
+      `search-pro/index.js`,
+      `export default {${keys(searchIndex)
+        .map(
+          (locale) =>
+            `${JSON.stringify(locale)}: () => import('./${getLocaleChunkName(
+              locale
+            )}.js')`
+        )
+        .join(",")}}`
+    );
   }
 };
 
@@ -59,14 +73,14 @@ export const updateSearchIndex = async (
     )!;
 
     if (page) {
-      const pageIndex = generatePageIndex(
+      const pageIndexes = generatePageIndex(
         page,
         options.customFields,
         options.indexContent
       );
 
       // update index
-      if (pageIndex) {
+      if (pageIndexes) {
         previousSearchIndex[page.pathLocale][page.path] = pageIndex;
 
         // search index file content
