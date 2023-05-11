@@ -2,7 +2,8 @@ import MiniSearch from "minisearch";
 import { entries, keys } from "vuepress-shared/client";
 
 import { type Word, getMatchedContent } from "./matchContent.js";
-import { type LocaleIndex } from "../../shared/index.js";
+import { type IndexItem } from "../../shared/index.js";
+import { SearchResult } from "minisearch";
 
 export interface TitleMatchedItem {
   type: "title";
@@ -57,16 +58,29 @@ const getResultsWeight = (matchedItem: MatchedItem[]): number =>
 
 export const getResults = (
   queryString: string,
-  localeIndex: LocaleIndex
+  localeIndex: MiniSearch<IndexItem>
 ): Result[] => {
   const suggestions = <Record<string, MatchedItem[]>>{};
 
-  for (const [path, pageIndex] of entries(localeIndex)) {
-    const parentPageTitle =
-      localeIndex[path.replace(/\/[^\\]*$/, "")]?.title || "";
-    const title = `${parentPageTitle ? `${parentPageTitle} > ` : ""}${
-      pageIndex.title
-    }`;
+  const results = localeIndex.search(queryString, {
+    fuzzy: 0.2,
+    prefix: true,
+    boost: { header: 4, text: 2, title: 1 },
+  }) as unknown as (SearchResult & IndexItem)[];
+
+  results.forEach((result) => {
+    const { terms } = result;
+
+    if(result.header)
+  });
+
+  for (const [path, pageIndex] of entries(results)) {
+    // const parentPageTitle =
+    //   localeIndex[path.replace(/\/[^\\]*$/, "")]?.title || "";
+    // const title = `${parentPageTitle ? `${parentPageTitle} > ` : ""}${
+    //   pageIndex.title
+    // }`;
+    const title = result;
 
     const titleContent = getMatchedContent(pageIndex.title, queryString);
 
