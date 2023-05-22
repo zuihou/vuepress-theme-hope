@@ -1,25 +1,26 @@
 import { type App } from "@vuepress/core";
+import { fs, path, withSpinner } from "@vuepress/utils";
 import {
+  entries,
+  isAbsoluteUrl,
   isLinkHttp,
   removeEndingSlash,
   removeLeadingSlash,
-} from "@vuepress/shared";
-import { fs, path, withSpinner } from "@vuepress/utils";
-import { entries, isAbsoluteUrl } from "vuepress-shared/node";
+} from "vuepress-shared/node";
 
 import { getLocaleRedirectHTML, getRedirectHTML } from "./utils.js";
 import { type LocaleRedirectConfig } from "../shared/index.js";
 
 export const generateAutoLocaleRedirects = async (
-  app: App,
+  { dir, options, pages }: App,
   localeOptions: LocaleRedirectConfig
 ): Promise<void> => {
-  const rootPaths = app.pages
+  const rootPaths = pages
     .filter(({ pathLocale }) => pathLocale === "/")
     .map(({ path }) => path);
   const localeRedirectMap: Record<string, string[]> = {};
 
-  app.pages
+  pages
     .filter(({ pathLocale }) => pathLocale !== "/")
     .forEach(({ path, pathLocale }) => {
       const rootPath = path
@@ -33,16 +34,22 @@ export const generateAutoLocaleRedirects = async (
   await withSpinner("Generating locale redirect files")(() =>
     Promise.all(
       entries(localeRedirectMap).map(([rootPath, availableLocales]) => {
-        const filePath = app.dir.dest(removeLeadingSlash(rootPath));
+        const filePath = dir.dest(removeLeadingSlash(rootPath));
 
-        return fs
-          .ensureDir(path.dirname(filePath))
-          .then(() =>
-            fs.writeFile(
-              filePath,
-              getLocaleRedirectHTML(localeOptions, availableLocales)
-            )
-          );
+        return fs.existsSync(filePath)
+          ? Promise.resolve()
+          : fs
+              .ensureDir(path.dirname(filePath))
+              .then(() =>
+                fs.writeFile(
+                  filePath,
+                  getLocaleRedirectHTML(
+                    localeOptions,
+                    availableLocales,
+                    options.base
+                  )
+                )
+              );
       })
     )
   );
@@ -67,9 +74,11 @@ export const generateRedirects = async (
           ? `${resolvedHostname}${options.base}${removeLeadingSlash(to)}`
           : to;
 
-        return fs
-          .ensureDir(path.dirname(filePath))
-          .then(() => fs.writeFile(filePath, getRedirectHTML(redirectUrl)));
+        return fs.existsSync(filePath)
+          ? Promise.resolve()
+          : fs
+              .ensureDir(path.dirname(filePath))
+              .then(() => fs.writeFile(filePath, getRedirectHTML(redirectUrl)));
       })
     )
   );

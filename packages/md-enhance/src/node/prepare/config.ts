@@ -21,6 +21,11 @@ export const prepareConfigFile = async (
       ? Boolean(options[key])
       : (gfm && "gfm" in options && options.gfm) || false;
 
+  if (getStatus("card")) {
+    imports.push(`import VPCard from "${CLIENT_FOLDER}components/VPCard.js";`);
+    enhances.push(`app.component("VPCard", VPCard)`);
+  }
+
   if (getStatus("chart")) {
     imports.push(
       `import ChartJS from "${CLIENT_FOLDER}components/ChartJS.js";`
@@ -85,16 +90,25 @@ export const prepareConfigFile = async (
 
   if (getStatus("mermaid")) {
     imports.push(
-      `import Mermaid from "${CLIENT_FOLDER}components/Mermaid.js";`
+      `import Mermaid from "${CLIENT_FOLDER}components/Mermaid.js";`,
+      `import { injectMermaidConfig } from "${CLIENT_FOLDER}/index.js";`
     );
-    enhances.push(`app.component("Mermaid", Mermaid);`);
+    enhances.push(
+      `injectMermaidConfig(app);`,
+      `app.component("Mermaid", Mermaid);`
+    );
   }
 
   if (getStatus("presentation")) {
     imports.push(
-      `import Presentation from "${CLIENT_FOLDER}components/Presentation.js";`
+      `import "${path.resolve(require.resolve("reveal.js/dist/reveal.css"))}";`,
+      `import Presentation from "${CLIENT_FOLDER}components/Presentation.js";`,
+      `import { injectRevealConfig } from "${CLIENT_FOLDER}index.js";`
     );
-    enhances.push(`app.component("Presentation", Presentation);`);
+    enhances.push(
+      `injectRevealConfig(app);`,
+      `app.component("Presentation", Presentation);`
+    );
   }
 
   if (getStatus("playground")) {
@@ -119,9 +133,14 @@ export const prepareConfigFile = async (
     );
 
   if (getStatus("vuePlayground")) {
-    imports.push(`import { defineAsyncComponent } from "vue";`);
-    enhances.push(`app.component("VuePlayground", defineAsyncComponent(() => import("${CLIENT_FOLDER}components/VuePlayground.js")));
-    `);
+    imports.push(
+      `import { defineAsyncComponent } from "vue";`,
+      `import { injectVuePlaygroundConfig } from "${CLIENT_FOLDER}index.js";`
+    );
+    enhances.push(
+      `injectVuePlaygroundConfig(app);`,
+      `app.component("VuePlayground", defineAsyncComponent(() => import("${CLIENT_FOLDER}components/VuePlayground.js")));`
+    );
   }
 
   if (getStatus("mathjax")) imports.push(`import "./mathjax.css";`);

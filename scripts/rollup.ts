@@ -2,11 +2,7 @@ import alias, { type Alias } from "@rollup/plugin-alias";
 import commonjs from "@rollup/plugin-commonjs";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import replace, { type RollupReplaceOptions } from "@rollup/plugin-replace";
-import {
-  type ModuleSideEffectsOption,
-  type RollupOptions,
-  type RollupWarning,
-} from "rollup";
+import { type ModuleSideEffectsOption, type RollupOptions } from "rollup";
 import copy from "rollup-plugin-copy";
 import dts from "rollup-plugin-dts";
 import esbuild from "rollup-plugin-esbuild";
@@ -138,7 +134,7 @@ export const bundle = (
             "vue",
             "vue-router",
             "vuepress-shared/client",
-            /\.s?css$/,
+            /\.s?css(?:\?module)?$/,
           ]
         : (
             typeof filePath === "object"
@@ -162,15 +158,6 @@ export const bundle = (
     treeshake: {
       moduleSideEffects,
       preset: "smallest",
-    },
-
-    onwarn(
-      warning: RollupWarning,
-      warn: (warning: RollupWarning) => void
-    ): void {
-      if (warning.message.includes("Use of eval")) return;
-
-      warn(warning);
     },
   },
   ...(enableDts

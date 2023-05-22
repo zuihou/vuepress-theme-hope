@@ -1,8 +1,8 @@
 import { type Page } from "@vuepress/core";
 import { type GitPluginPageData } from "@vuepress/plugin-git";
-import { isString } from "@vuepress/shared";
 
 import { dayjs, getLocale } from "./dayjs/index.js";
+import { isString } from "../../shared/index.js";
 
 export interface DateDetail {
   year?: number | undefined;
@@ -18,6 +18,9 @@ export interface DateInfo {
   info: DateDetail;
   value: Date | undefined;
 }
+
+const TIME_REG =
+  /(?:(\d{2,4})[/-](\d{1,2})[/-](\d{1,2}))?\s*(?:(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?)?/u;
 
 /**
  * Get Date info
@@ -65,9 +68,7 @@ export const getDateInfo = (
       };
     }
 
-    const timeRegPattern =
-      /(?:(\d{2,4})[/-](\d{1,2})[/-](\d{1,2}))?\s*(?:(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?)?/u;
-    const result = timeRegPattern.exec((<string>date).trim());
+    const result = isString(date) ? TIME_REG.exec(date.trim()) : null;
 
     if (result) {
       const [, year, month, day, hour, minute, second] = result;

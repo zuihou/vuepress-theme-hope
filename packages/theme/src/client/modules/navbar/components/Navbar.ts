@@ -1,4 +1,8 @@
 import {
+  type Component,
+  type ComponentOptions,
+  type FunctionalComponent,
+  type SlotsType,
   type VNode,
   computed,
   defineComponent,
@@ -7,6 +11,7 @@ import {
   resolveComponent,
 } from "vue";
 import { hasGlobalComponent } from "vuepress-shared/client";
+import noopModule from "vuepress-shared/noopModule";
 
 import {
   useThemeLocaleData,
@@ -35,6 +40,20 @@ export default defineComponent({
 
   emits: ["toggleSidebar"],
 
+  slots: Object as SlotsType<{
+    default: () => VNode | VNode[];
+
+    // navbar
+    startBefore?: () => VNode | VNode[];
+    startAfter?: () => VNode | VNode[];
+    centerBefore?: () => VNode | VNode[];
+    centerAfter?: () => VNode | VNode[];
+    endBefore?: () => VNode | VNode[];
+    endAfter?: () => VNode | VNode[];
+    screenTop?: () => VNode | VNode[];
+    screenBottom?: () => VNode | VNode[];
+  }>,
+
   setup(_props, { emit, slots }) {
     const themeLocale = useThemeLocaleData();
     const { isMobile } = useWindowSize();
@@ -60,22 +79,31 @@ export default defineComponent({
         }
     );
 
-    return (): VNode[] => {
-      const map: Record<NavbarComponent, VNode | null> = {
-        Brand: h(NavbarBrand),
-        Language: HAS_MULTIPLE_LANGUAGES ? h(LanguageDropdown) : null,
-        Links: h(NavbarLinks),
-        Repo: h(RepoLink),
-        Outlook: h(OutlookButton),
-        Search: hasGlobalComponent("Docsearch")
-          ? h(resolveComponent("Docsearch"))
-          : hasGlobalComponent("SearchBox")
-          ? h(resolveComponent("SearchBox"))
-          : hasGlobalComponent("SearchBox")
-          ? h(resolveComponent("SearchBox"))
-          : null,
-      };
+    const navbarComponentMap: Record<
+      NavbarComponent | string,
+      Component | string
+    > = {
+      Brand: NavbarBrand,
+      Language: HAS_MULTIPLE_LANGUAGES ? LanguageDropdown : noopModule,
+      Links: NavbarLinks,
+      Repo: RepoLink,
+      Outlook: OutlookButton,
+      Search: hasGlobalComponent("Docsearch")
+        ? resolveComponent("Docsearch")
+        : hasGlobalComponent("SearchBox")
+        ? resolveComponent("SearchBox")
+        : noopModule,
+    };
 
+    const getNavbarComponent = (
+      component: NavbarComponent | string
+    ): Component | string =>
+      navbarComponentMap[component] ??
+      (hasGlobalComponent(component)
+        ? resolveComponent(component)
+        : noopModule);
+
+    return (): VNode[] => {
       return [
         h(
           "header",
@@ -97,21 +125,39 @@ export default defineComponent({
                   emit("toggleSidebar");
                 },
               }),
-              slots["startBefore"]?.(),
-              ...(navbarLayout.value.start || []).map((item) => map[item]),
-              slots["startAfter"]?.(),
+              slots.startBefore?.(),
+              (navbarLayout.value.start || []).map((item) =>
+                h(
+                  <ComponentOptions | FunctionalComponent>(
+                    getNavbarComponent(item)
+                  )
+                )
+              ),
+              slots.startAfter?.(),
             ]),
 
             h("div", { class: "navbar-center" }, [
-              slots["centerBefore"]?.(),
-              ...(navbarLayout.value.center || []).map((item) => map[item]),
-              slots["centerAfter"]?.(),
+              slots.centerBefore?.(),
+              (navbarLayout.value.center || []).map((item) =>
+                h(
+                  <ComponentOptions | FunctionalComponent>(
+                    getNavbarComponent(item)
+                  )
+                )
+              ),
+              slots.centerAfter?.(),
             ]),
 
             h("div", { class: "navbar-end" }, [
-              slots["endBefore"]?.(),
-              ...(navbarLayout.value.end || []).map((item) => map[item]),
-              slots["endAfter"]?.(),
+              slots.endBefore?.(),
+              (navbarLayout.value.end || []).map((item) =>
+                h(
+                  <ComponentOptions | FunctionalComponent>(
+                    getNavbarComponent(item)
+                  )
+                )
+              ),
+              slots.endAfter?.(),
 
               h(ToggleNavbarButton, {
                 active: showScreen.value,
@@ -131,8 +177,8 @@ export default defineComponent({
             },
           },
           {
-            before: () => slots["screenTop"]?.(),
-            after: () => slots["screenBottom"]?.(),
+            before: () => slots.screenTop?.(),
+            after: () => slots.screenBottom?.(),
           }
         ),
       ];

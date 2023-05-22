@@ -105,6 +105,8 @@ export default {
 :::
 ```
 
+你可以在每个选项卡中使用 Vue 语法和组件，并且你可以访问 `value` 和 `isActive`，表示选项卡的绑定值和选项卡是否处于激活状态。
+
 :::: info 一起切换并保持选择
 
 如果你想让一些选项卡组一起切换，你可以使用相同的选项卡 ID 来绑定它们。
@@ -123,16 +125,8 @@ npm 应该与 Node.js 被一同安装。
 
 @tab pnpm
 
-如果你使用的是 Node.js v16+，你可以使用 corepack 来启用 pnpm:
-
 ```bash
-corepack prepare pnpm@7.28.0 --activated
-```
-
-否则，你可以使用 npm 安装它:
-
-```bash
-npm i -g pnpm
+corepack prepare pnpm@latest --activated
 ```
 
 :::

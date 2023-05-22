@@ -1,6 +1,8 @@
 import { tab } from "@mdit/plugin-tab";
 import { type PluginSimple } from "markdown-it";
 
+import { stringifyProp } from "./utils.js";
+
 export const tabs: PluginSimple = (md) => {
   tab(md, {
     name: "tabs",
@@ -8,18 +10,27 @@ export const tabs: PluginSimple = (md) => {
     tabsOpenRenderer: ({ active, data }, tokens, index) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { meta } = tokens[index];
-      const tabData = data.map(({ title, id }) => ({
-        title,
-        ...(id ? { id } : {}),
-      }));
+      const titles = data.map(({ title }) => md.renderInline(title));
+      const tabsData = data.map((item, index) => {
+        const { id = titles[index] } = item;
 
-      return `<Tabs id="${index}" :data='${
-        // single quote will break @vue/compiler-sfc
-        JSON.stringify(tabData).replace(/'/g, "&#39")
-      }'${active !== -1 ? ` :active="${active}"` : ""}${
+        return { id };
+      });
+
+      return `\
+<Tabs id="${index}" :data='${stringifyProp(tabsData)}'${
+        active !== -1 ? ` :active="${active}"` : ""
+      }${
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         meta.id ? ` tab-id="${meta.id as string}"` : ""
       }>
+${titles
+  .map(
+    (title, index) => `\
+<template #title${index}>${title}</template>
+`
+  )
+  .join("")}\
 `;
     },
 
@@ -29,7 +40,7 @@ export const tabs: PluginSimple = (md) => {
 
     tabOpenRenderer: ({ index }) =>
       `\
-<template #tab${index}="{ title, value, isActive }">
+<template #tab${index}="{ isActive }">
 `,
 
     tabCloseRenderer: () => `\

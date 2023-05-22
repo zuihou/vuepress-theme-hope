@@ -1,12 +1,17 @@
 import { type App, type Page } from "@vuepress/core";
+import { getDirname, path } from "@vuepress/utils";
 import {
+  Logger,
   ensureEndingSlash,
+  entries,
+  fromEntries,
+  isAbsoluteUrl,
   isArray,
   isFunction,
+  isLinkHttp,
   isPlainObject,
-} from "@vuepress/shared";
-import { getDirname, path } from "@vuepress/utils";
-import { Logger, fromEntries } from "vuepress-shared/node";
+  removeEndingSlash,
+} from "vuepress-shared/node";
 
 import { type RedirectOptions } from "./options.js";
 import { type RedirectPluginFrontmatterOption } from "./typings/index.js";
@@ -24,6 +29,39 @@ export const logger = new Logger(PLUGIN_NAME);
 
 const normalizePath = (url: string): string =>
   url.replace(/\/$/, "/index.html").replace(/(?:\.html)?$/, ".html");
+
+export const handleRedirectTo = (app: App, options: RedirectOptions): void => {
+  const { base } = app.options;
+
+  app.pages.forEach(({ frontmatter }) => {
+    const { redirectTo } = <RedirectPluginFrontmatterOption>frontmatter;
+
+    if (redirectTo) {
+      const redirectUrl = (
+        isAbsoluteUrl(redirectTo)
+          ? `${
+              options.hostname
+                ? isLinkHttp(options.hostname)
+                  ? removeEndingSlash(options.hostname)
+                  : `https://${removeEndingSlash(options.hostname)}`
+                : ""
+            }${base}${redirectTo}`
+          : redirectTo
+      )
+        .replace(/\.md$/, ".html")
+        .replace(/\/(README|index)\.html/, "/");
+
+      (frontmatter.head ??= []).unshift([
+        "script",
+        {},
+        `{\
+const anchor = window.location.hash.substring(1);\
+location.href=\`${redirectUrl}\${anchor? \`#\${anchor}\`: ""}\`;\
+}`,
+      ]);
+    }
+  });
+};
 
 export const getRedirectMap = (
   app: App,
@@ -52,7 +90,12 @@ export const getRedirectMap = (
         )
         .flat()
     ),
-    ...config,
+    ...fromEntries(
+      entries(config).map(([from, to]) => [
+        normalizePath(from),
+        normalizePath(to),
+      ])
+    ),
   };
 };
 
@@ -63,7 +106,8 @@ export const getLocaleRedirectHTML = (
     defaultLocale,
     localeFallback,
   }: LocaleRedirectConfig,
-  availableLocales: string[]
+  availableLocales: string[],
+  base: string
 ): string => `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,6 +116,7 @@ export const getLocaleRedirectHTML = (
   <title>Redirecting...</title>
   <script>
     const { hash, origin, pathname } = window.location;
+    const routePath = pathname.substring(${base.length});
     const { languages } = window.navigator;
     const anchor = hash.substring(1);
 
@@ -104,11 +149,15 @@ ${
           }
     
     // default link
-    const defaultLink = defaultLocale? \`\${origin}\${defaultLocale}\${pathname.substring(1)}\${anchor?\`#\${anchor}\`:""}\`: null;
+    const defaultLink = defaultLocale? \`\${origin}${removeEndingSlash(
+      base
+    )}\${defaultLocale}\${routePath}\${anchor? \`#\${anchor}\`: ""}\`: null;
 
     // a locale matches
     if (matchedLocalePath) {
-      const localeLink = \`\${origin}\${matchedLocalePath}\${pathname.substring(1)}\${anchor?\`#\${anchor}\`:""}\`;
+      const localeLink = \`\${origin}${removeEndingSlash(
+        base
+      )}\${matchedLocalePath}\${routePath}\${anchor? \`#\${anchor}\`: ""}\`;
 
       if (availableLocales.includes(matchedLocalePath)) {
         location.href = localeLink;
@@ -117,7 +166,9 @@ ${
       else {
         // locale homepage
         if (defaultBehavior === "homepage") {
-          location.href = \`\${origin}\${matchedLocalePath}\`;
+          location.href = \`\${origin}${removeEndingSlash(
+            base
+          )}\${matchedLocalePath}\`;
         }
         // default locale page
         else if (defaultBehavior === "defaultLocale" && defaultLink) {
@@ -134,7 +185,7 @@ ${
       location.href = defaultLink;
     }
     else {
-      location.href = \`\${origin}/404.html\`;
+      location.href = \`\${origin}${removeEndingSlash(base)}/404.html\`;
     }
   </script>
 </head>
@@ -153,8 +204,8 @@ export const getRedirectHTML = (redirectUrl: string): string => `<!DOCTYPE html>
   <link rel="canonical" href="${redirectUrl}">
   <title>Redirecting...</title>
   <script>
-    const anchor = window.location.hash.substr(1);
-    location.href = \`${redirectUrl}\${anchor?\`#\${anchor}\`:""}\`;
+    const anchor = window.location.hash.substring(1);
+    location.href = \`${redirectUrl}\${anchor? \`#\${anchor}\`: ""}\`;
   </script>
 </head>
 <body>

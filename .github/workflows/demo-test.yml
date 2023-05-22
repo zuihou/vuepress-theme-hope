@@ -31,7 +31,6 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 7
           run_install: true
 
       - name: Setup Node.js
@@ -51,9 +50,9 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - "14"
           - "16"
           - "18"
+          - "20"
         bundler:
           - vite
           - webpack
@@ -91,7 +90,6 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 7
           run_install: true
 
       - uses: actions/setup-node@v3
