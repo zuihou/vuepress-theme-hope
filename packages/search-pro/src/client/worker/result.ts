@@ -42,6 +42,8 @@ export interface Result {
   contents: MatchedItem[];
 }
 
+export type MiniSearchResult = Omit<SearchResult, "id"> & IndexItem;
+
 const getResultsWeight = (matchedItem: MatchedItem[]): number =>
   matchedItem.reduce<number>(
     (current, { type }) =>
@@ -66,12 +68,35 @@ export const getResults = (
     fuzzy: 0.2,
     prefix: true,
     boost: { header: 4, text: 2, title: 1 },
-  }) as unknown as (SearchResult & IndexItem)[];
+  }) as unknown as MiniSearchResult[];
 
   results.forEach((result) => {
-    const { terms } = result;
+    const { title, terms, id } = result;
 
-    if(result.header)
+    const titleContent = getMatchedContent(result.title, queryString);
+
+    if (titleContent)
+      suggestions[title] = [
+        ...(suggestions[title] || []),
+        {
+          type: "title",
+          id,
+          display: titleContent,
+        },
+      ];
+
+    if ("header" in result) {
+      const headerContent = getMatchedContent(result.header, queryString);
+      if (headerContent)
+        suggestions[result.title] = [
+          ...(suggestions[result.title] || []),
+          {
+            type: "heading",
+            path: result.id + (result.anchor ? `#${result.anchor}` : ""),
+            display: headerContent,
+          },
+        ];
+    }
   });
 
   for (const [path, pageIndex] of entries(results)) {
