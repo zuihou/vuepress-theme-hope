@@ -80,5 +80,8 @@
     "vuepress-webpack": {
       "optional": true
     }
+  },
+  "devDependencies": {
+    "vuepress-test-utils": "workspace:*"
   }
 }

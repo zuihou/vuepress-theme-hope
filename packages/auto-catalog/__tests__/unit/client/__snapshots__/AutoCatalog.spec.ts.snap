@@ -1,0 +1,26 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AutoCatalog > should render catalog with level2 1`] = `
+"<div class=\\"auto-catalog-wrapper\\">
+  <h2 class=\\"main-title\\">Catalog</h2>
+  <h3 id=\\"Title A\\" class=\\"child-title\\"><a href=\\"#Title A\\" class=\\"header-anchor\\">#</a>
+    <router-link class=\\"catalog-title\\" to=\\"/a.html\\"></router-link>
+  </h3>
+  <!---->
+  <h3 id=\\"Title B\\" class=\\"child-title\\"><a href=\\"#Title B\\" class=\\"header-anchor\\">#</a>
+    <router-link class=\\"catalog-title\\" to=\\"/b.html\\"></router-link>
+  </h3>
+  <!---->
+  <h3 id=\\"Title C\\" class=\\"child-title\\"><a href=\\"#Title C\\" class=\\"header-anchor\\">#</a>
+    <router-link class=\\"catalog-title\\" to=\\"/c.html\\"></router-link>
+  </h3>
+  <!---->
+</div>"
+`;
+
+exports[`AutoCatalog > should render empty hint 1`] = `
+"<div class=\\"auto-catalog-wrapper\\">
+  <h2 class=\\"main-title\\">Catalog</h2>
+  <p class=\\"empty-catalog\\">No catalog</p>
+</div>"
+`;
